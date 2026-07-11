@@ -1,0 +1,20 @@
+type Props = {
+  children: React.ReactNode;
+};
+
+export default function LAEXCard({ children }: Props) {
+  return (
+    <div
+      className="
+        rounded-2xl
+        border
+        border-slate-700
+        bg-slate-900
+        p-6
+        shadow-lg
+      "
+    >
+      {children}
+    </div>
+  );
+}
