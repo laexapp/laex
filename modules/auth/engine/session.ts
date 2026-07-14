@@ -1,26 +1,36 @@
-export interface UserSession {
-  id: string;
-  email: string;
-  username: string;
-  authenticated: boolean;
+import {
+  onAuthStateChanged,
+  type User,
+} from "firebase/auth";
+
+import { auth } from "@/src/lib/firebase";
+
+export class SessionEngine {
+
+  getCurrentUser(): User | null {
+
+    return auth.currentUser;
+
+  }
+
+  onChange(
+    callback: (user: User | null) => void
+  ) {
+
+    return onAuthStateChanged(
+      auth,
+      callback
+    );
+
+  }
+
+  isAuthenticated(): boolean {
+
+    return auth.currentUser !== null;
+
+  }
+
 }
 
-let currentSession: UserSession | null = null;
-
-export function getSession(): UserSession | null {
-  return currentSession;
-}
-
-export function setSession(
-  session: UserSession
-): void {
-  currentSession = session;
-}
-
-export function clearSession(): void {
-  currentSession = null;
-}
-
-export function isAuthenticated(): boolean {
-  return currentSession?.authenticated === true;
-}
+export const sessionEngine =
+  new SessionEngine();

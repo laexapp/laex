@@ -212,22 +212,37 @@ export default function Register() {
               : "cursor-not-allowed bg-slate-700 text-slate-400"
           }`}
         >
-          {register.loading ? "Creando cuenta..." : "Crear mi cuenta"}
+         {register.loading
+  ? "Creando identidad..."
+  : "Crear mi cuenta"}
         </button>
 
         {register.message && (
-          <div className="mt-5 rounded-2xl border border-cyan-500/20 bg-cyan-500/10 px-4 py-3 text-center text-sm text-cyan-300">
-            {register.message}
-          </div>
-        )}
+
+  <div
+    className={`mt-5 rounded-2xl px-4 py-3 text-center text-sm ${
+      register.message.startsWith("Cuenta")
+      || register.message.startsWith("✅")
+        ? "border border-emerald-500/30 bg-emerald-500/10 text-emerald-300"
+        : "border border-red-500/30 bg-red-500/10 text-red-300"
+    }`}
+  >
+    {register.message}
+  </div>
+
+)}
+        
 
         <p className="mt-8 text-center text-sm text-slate-500">
           ¿Ya tienes una cuenta?
         </p>
 
-        <button className="mt-3 w-full rounded-2xl border border-slate-700 py-4 text-white transition-all hover:border-cyan-400">
-          Iniciar sesión
-        </button>
+        <Link
+  href="/login"
+  className="mt-3 block w-full rounded-2xl border border-slate-700 py-4 text-center text-white transition-all hover:border-cyan-400"
+>
+  Iniciar sesión
+</Link>
 
       </div>
 

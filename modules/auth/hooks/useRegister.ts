@@ -13,15 +13,20 @@ const initialValues: RegisterFormData = {
 };
 
 export function useRegister() {
-  const [values, setValues] = useState<RegisterFormData>(initialValues);
+  const [values, setValues] =
+    useState<RegisterFormData>(initialValues);
 
-  const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] =
+    useState(false);
 
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] =
+    useState(false);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] =
+    useState(false);
 
-  const [message, setMessage] = useState("");
+  const [message, setMessage] =
+    useState("");
 
   function handleChange(
     field: keyof RegisterFormData,
@@ -37,43 +42,48 @@ export function useRegister() {
     setValues(initialValues);
     setAcceptedTerms(false);
     setShowPassword(false);
-    setMessage("");
   }
 
   async function submit() {
-    console.log("PASO 1");
 
     setMessage("");
 
     if (!acceptedTerms) {
-      setMessage("Debes aceptar los términos de uso.");
+      setMessage(
+        "Debes aceptar los términos de uso."
+      );
       return;
     }
-
-    console.log("PASO 2");
 
     setLoading(true);
 
     try {
-      console.log("PASO 3");
 
-      const response = await register(values);
+      const response =
+        await register(values);
 
-      console.log("PASO 4", response);
-
-      setMessage(response.message ?? "");
+      setMessage(response.message);
 
       if (response.success) {
         reset();
       }
-    } catch (error) {
-      console.error("ERROR EN SUBMIT:", error);
+
+    } catch {
+
+      setMessage(
+        "Ocurrió un error inesperado."
+      );
+
     } finally {
+
       setLoading(false);
+
     }
+
   }
 
   return {
+
     values,
 
     acceptedTerms,
@@ -91,5 +101,6 @@ export function useRegister() {
     reset,
 
     submit,
+
   };
 }

@@ -60,9 +60,12 @@ export default function Navigation() {
         Más
       </Link>
 
-      <button className="ml-2 rounded-xl bg-cyan-500 px-5 py-2 text-sm font-semibold text-white transition-all duration-300 hover:bg-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20">
-        Iniciar sesión
-      </button>
+      <Link
+  href="/login"
+  className="ml-2 rounded-xl bg-cyan-500 px-5 py-2 text-sm font-semibold text-white transition-all duration-300 hover:bg-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20"
+>
+  Iniciar sesión
+</Link>
 
     </nav>
   );

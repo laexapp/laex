@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { useRouter } from "next/navigation";
 import type { LoginFormData } from "../types/auth";
 
 import { authService } from "../services/auth.service";
@@ -11,6 +11,9 @@ const initialValues: LoginFormData = {
 };
 
 export function useLogin() {
+
+const router = useRouter();
+
   const [values, setValues] =
     useState<LoginFormData>(initialValues);
 
@@ -27,38 +30,73 @@ export function useLogin() {
     field: keyof LoginFormData,
     value: string
   ) {
+
     setValues((previous) => ({
       ...previous,
       [field]: value,
     }));
+
+  }
+
+  function reset() {
+
+    setValues(initialValues);
+
   }
 
   async function submit() {
+
     setMessage("");
 
-    const validation = validateLogin(values);
+    const validation =
+      validateLogin(values);
 
     if (!validation.success) {
+
       setMessage(validation.message);
+
       return;
+
     }
 
     setLoading(true);
 
     try {
+
       const response =
         await authService.login(
-          values.email,
+          values.email.trim(),
           values.password
         );
 
-      setMessage(response.message);
+      if (response.success) {
+
+  reset();
+
+  router.push("/");
+
+  return;
+
+}
+
+setMessage(response.message);
+
+    } catch {
+
+      setMessage(
+        "Ocurrió un error inesperado."
+      );
+
     } finally {
+
       setLoading(false);
+
     }
+
   }
 
   return {
+
     values,
 
     loading,
@@ -71,5 +109,9 @@ export function useLogin() {
     handleChange,
 
     submit,
+
+    reset,
+
   };
+
 }

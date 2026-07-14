@@ -2,12 +2,13 @@ import type { RegisterFormData } from "../types/auth";
 
 export interface ValidationResult {
   success: boolean;
-  message?: string;
+  message: string;
 }
 
 export function validateRegister(
   data: RegisterFormData
 ): ValidationResult {
+
   if (!data.fullName.trim()) {
     return {
       success: false,
@@ -32,18 +33,21 @@ export function validateRegister(
   if (!data.email.includes("@")) {
     return {
       success: false,
-      message: "Correo electrónico inválido.",
+      message: "El correo electrónico no es válido.",
     };
   }
 
   if (data.password.length < 8) {
     return {
       success: false,
-      message: "La contraseña debe tener al menos 8 caracteres.",
+      message:
+        "La contraseña debe tener al menos 8 caracteres.",
     };
   }
 
   return {
     success: true,
+    message: "",
   };
+
 }
