@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -13,9 +12,10 @@ import {
   EyeOff,
 } from "lucide-react";
 
+import { useRegister } from "../hooks/useRegister";
+
 export default function Register() {
-  const [acceptedTerms, setAcceptedTerms] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  const register = useRegister();
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#070B14] flex items-center justify-center px-6 py-16">
@@ -64,9 +64,14 @@ export default function Register() {
               size={18}
               className="absolute left-5 top-1/2 -translate-y-1/2 text-cyan-500"
             />
+
             <input
               type="text"
               placeholder="Nombre completo"
+              value={register.values.fullName}
+              onChange={(e) =>
+                register.handleChange("fullName", e.target.value)
+              }
               className="w-full rounded-2xl border border-slate-700 bg-[#0B1018] py-4 pl-14 pr-5 text-white outline-none transition-all focus:border-cyan-400"
             />
           </div>
@@ -77,9 +82,14 @@ export default function Register() {
               size={18}
               className="absolute left-5 top-1/2 -translate-y-1/2 text-cyan-500"
             />
+
             <input
               type="text"
               placeholder="Nombre de usuario"
+              value={register.values.username}
+              onChange={(e) =>
+                register.handleChange("username", e.target.value)
+              }
               className="w-full rounded-2xl border border-slate-700 bg-[#0B1018] py-4 pl-14 pr-5 text-white outline-none transition-all focus:border-cyan-400"
             />
           </div>
@@ -90,9 +100,14 @@ export default function Register() {
               size={18}
               className="absolute left-5 top-1/2 -translate-y-1/2 text-cyan-500"
             />
+
             <input
               type="email"
               placeholder="Correo electrónico"
+              value={register.values.email}
+              onChange={(e) =>
+                register.handleChange("email", e.target.value)
+              }
               className="w-full rounded-2xl border border-slate-700 bg-[#0B1018] py-4 pl-14 pr-5 text-white outline-none transition-all focus:border-cyan-400"
             />
           </div>
@@ -105,17 +120,23 @@ export default function Register() {
             />
 
             <input
-              type={showPassword ? "text" : "password"}
+              type={register.showPassword ? "text" : "password"}
               placeholder="Contraseña"
+              value={register.values.password}
+              onChange={(e) =>
+                register.handleChange("password", e.target.value)
+              }
               className="w-full rounded-2xl border border-slate-700 bg-[#0B1018] py-4 pl-14 pr-14 text-white outline-none transition-all focus:border-cyan-400"
             />
 
             <button
               type="button"
-              onClick={() => setShowPassword(!showPassword)}
+              onClick={() =>
+                register.setShowPassword(!register.showPassword)
+              }
               className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-cyan-400 transition-colors"
             >
-              {showPassword ? (
+              {register.showPassword ? (
                 <EyeOff size={20} />
               ) : (
                 <Eye size={20} />
@@ -129,9 +150,17 @@ export default function Register() {
               size={18}
               className="absolute left-5 top-1/2 -translate-y-1/2 text-emerald-500"
             />
+
             <input
               type="text"
               placeholder="Código de invitación (Opcional)"
+              value={register.values.invitationCode}
+              onChange={(e) =>
+                register.handleChange(
+                  "invitationCode",
+                  e.target.value
+                )
+              }
               className="w-full rounded-2xl border border-slate-700 bg-[#0B1018] py-4 pl-14 pr-5 text-white outline-none transition-all focus:border-cyan-400"
             />
           </div>
@@ -145,8 +174,10 @@ export default function Register() {
           <input
             id="terms"
             type="checkbox"
-            checked={acceptedTerms}
-            onChange={(e) => setAcceptedTerms(e.target.checked)}
+            checked={register.acceptedTerms}
+            onChange={(e) =>
+              register.setAcceptedTerms(e.target.checked)
+            }
             className="mt-1 h-4 w-4 accent-cyan-500"
           />
 
@@ -173,15 +204,22 @@ export default function Register() {
         </div>
 
         <button
-          disabled={!acceptedTerms}
+          onClick={register.submit}
+          disabled={!register.acceptedTerms || register.loading}
           className={`mt-8 w-full rounded-2xl py-4 text-lg font-bold transition-all ${
-            acceptedTerms
+            register.acceptedTerms
               ? "bg-cyan-500 text-white hover:bg-cyan-400"
               : "cursor-not-allowed bg-slate-700 text-slate-400"
           }`}
         >
-          Crear mi cuenta
+          {register.loading ? "Creando cuenta..." : "Crear mi cuenta"}
         </button>
+
+        {register.message && (
+          <div className="mt-5 rounded-2xl border border-cyan-500/20 bg-cyan-500/10 px-4 py-3 text-center text-sm text-cyan-300">
+            {register.message}
+          </div>
+        )}
 
         <p className="mt-8 text-center text-sm text-slate-500">
           ¿Ya tienes una cuenta?
