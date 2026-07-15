@@ -73,7 +73,7 @@ const router = useRouter();
 
   reset();
 
-  router.push("/");
+  router.push("/platform");
 
   return;
 
