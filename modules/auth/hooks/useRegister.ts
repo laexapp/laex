@@ -1,21 +1,29 @@
+"use client";
+
 import { useState } from "react";
 
-import type { RegisterFormData } from "../types/auth";
+import type {
+  RegisterFormData,
+} from "../types/auth";
 
 import { register } from "../engine/auth";
 
-const initialValues: RegisterFormData = {
-  fullName: "",
-  username: "",
-  email: "",
-  password: "",
-  referralCode: "",
-};
+export function useRegister(
+  initialReferralCode = ""
+) {
 
-export function useRegister() {
+  const initialValues: RegisterFormData = {
+    fullName: "",
+    username: "",
+    email: "",
+    password: "",
+    referralCode: initialReferralCode,
+  };
 
   const [values, setValues] =
-    useState<RegisterFormData>(initialValues);
+    useState<RegisterFormData>(
+      initialValues
+    );
 
   const [acceptedTerms, setAcceptedTerms] =
     useState(false);

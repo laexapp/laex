@@ -14,8 +14,18 @@ import {
 
 import { useRegister } from "../hooks/useRegister";
 
-export default function Register() {
-  const register = useRegister();
+interface RegisterProps {
+
+  referralCode?: string;
+
+}
+
+export default function Register({
+  referralCode = "",
+}: RegisterProps) {
+
+  const register =
+    useRegister(referralCode);
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#070B14] flex items-center justify-center px-6 py-16">
