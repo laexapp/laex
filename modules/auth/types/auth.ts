@@ -3,7 +3,7 @@ export interface RegisterFormData {
   username: string;
   email: string;
   password: string;
-  invitationCode: string;
+  referralCode: string;
 }
 
 export interface LoginFormData {
@@ -16,21 +16,30 @@ export interface AuthUser {
   fullName: string;
   username: string;
   email: string;
+
   referralCode: string;
+
   referredBy?: string;
+
   emailVerified: boolean;
+
   createdAt: Date;
 }
 
 export interface AuthSession {
   user: AuthUser;
+
   token: string;
+
   expiresAt: Date;
 }
 
 export interface AuthResult {
   success: boolean;
+
   message: string;
+
   user?: AuthUser;
+
   session?: AuthSession;
 }

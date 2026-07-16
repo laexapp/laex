@@ -154,12 +154,12 @@ export default function Register() {
             <input
               type="text"
               placeholder="Código de invitación (Opcional)"
-              value={register.values.invitationCode}
+              value={register.values.referralCode}
               onChange={(e) =>
                 register.handleChange(
-                  "invitationCode",
-                  e.target.value
-                )
+  "referralCode",
+  e.target.value
+)
               }
               className="w-full rounded-2xl border border-slate-700 bg-[#0B1018] py-4 pl-14 pr-5 text-white outline-none transition-all focus:border-cyan-400"
             />

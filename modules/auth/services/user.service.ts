@@ -6,32 +6,54 @@ import {
 
 import { db } from "@/src/lib/firebase";
 
+import {
+  generateReferralCode,
+  normalizeReferralCode,
+} from "../utils/referral";
+
 export interface CreateUserProfileData {
   uid: string;
   fullName: string;
   username: string;
   email: string;
-  invitationCode?: string;
+
+  referralCode?: string;
 }
 
 class UserService {
+
   async createProfile(
     data: CreateUserProfileData
   ): Promise<void> {
 
+    const userReferralCode =
+      generateReferralCode();
+
     await setDoc(
       doc(db, "users", data.uid),
       {
+
         uid: data.uid,
 
         fullName: data.fullName,
 
-        username: data.username.toLowerCase(),
+        username:
+          data.username.toLowerCase(),
 
-        email: data.email.toLowerCase(),
+        email:
+          data.email.toLowerCase(),
 
-        invitationCode:
-          data.invitationCode ?? "",
+        referralCode:
+          userReferralCode,
+
+        referredBy:
+          normalizeReferralCode(
+            data.referralCode ?? ""
+          ),
+
+        referredByUid: "",
+
+        directReferrals: 0,
 
         emailVerified: false,
 
@@ -45,13 +67,18 @@ class UserService {
 
         biography: "",
 
-        createdAt: serverTimestamp(),
+        createdAt:
+          serverTimestamp(),
 
-        updatedAt: serverTimestamp(),
+        updatedAt:
+          serverTimestamp(),
 
-        lastLoginAt: serverTimestamp(),
+        lastLoginAt:
+          serverTimestamp(),
+
       }
     );
+
   }
 
   async updateLastLogin(
@@ -61,7 +88,8 @@ class UserService {
     await setDoc(
       doc(db, "users", uid),
       {
-        lastLoginAt: serverTimestamp(),
+        lastLoginAt:
+          serverTimestamp(),
       },
       {
         merge: true,
@@ -101,6 +129,7 @@ class UserService {
     );
 
   }
+
 }
 
 export const userService =

@@ -42,7 +42,7 @@ await userService.createProfile({
   fullName: data.fullName,
   username: data.username,
   email: data.email,
-  invitationCode: data.invitationCode,
+  referralCode: data.referralCode,
 });
 
 await sendEmailVerification(

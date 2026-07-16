@@ -9,10 +9,11 @@ const initialValues: RegisterFormData = {
   username: "",
   email: "",
   password: "",
-  invitationCode: "",
+  referralCode: "",
 };
 
 export function useRegister() {
+
   const [values, setValues] =
     useState<RegisterFormData>(initialValues);
 
@@ -32,16 +33,22 @@ export function useRegister() {
     field: keyof RegisterFormData,
     value: string
   ) {
+
     setValues((previous) => ({
       ...previous,
       [field]: value,
     }));
+
   }
 
   function reset() {
+
     setValues(initialValues);
+
     setAcceptedTerms(false);
+
     setShowPassword(false);
+
   }
 
   async function submit() {
@@ -49,10 +56,13 @@ export function useRegister() {
     setMessage("");
 
     if (!acceptedTerms) {
+
       setMessage(
         "Debes aceptar los términos de uso."
       );
+
       return;
+
     }
 
     setLoading(true);
@@ -65,7 +75,9 @@ export function useRegister() {
       setMessage(response.message);
 
       if (response.success) {
+
         reset();
+
       }
 
     } catch {
@@ -103,4 +115,5 @@ export function useRegister() {
     submit,
 
   };
+
 }
