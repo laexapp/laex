@@ -8,7 +8,7 @@ import {
 } from "firebase/auth";
 
 import { auth } from "@/src/lib/firebase";
-
+import { networkService } from "./network.service";
 import { referralService } from "./referral.service";
 import { userService } from "./user.service";
 
@@ -54,6 +54,15 @@ class AuthService {
 
         referredByUid,
       });
+
+      if (referredByUid) {
+
+  await networkService.addDirectReferral(
+    referredByUid
+  );
+
+}
+      
 
       await sendEmailVerification(
         credential.user
