@@ -8,6 +8,8 @@ import {
 } from "firebase/auth";
 
 import { auth } from "@/src/lib/firebase";
+
+import { referralService } from "./referral.service";
 import { userService } from "./user.service";
 
 import type {
@@ -31,23 +33,31 @@ class AuthService {
         );
 
       await updateProfile(
-  credential.user,
-  {
-    displayName: data.fullName,
-  }
-);
+        credential.user,
+        {
+          displayName: data.fullName,
+        }
+      );
 
-await userService.createProfile({
-  uid: credential.user.uid,
-  fullName: data.fullName,
-  username: data.username,
-  email: data.email,
-  referralCode: data.referralCode,
-});
+      const referredByUid =
+        await referralService.findOwnerUid(
+          data.referralCode
+        );
 
-await sendEmailVerification(
-  credential.user
-);
+      await userService.createProfile({
+        uid: credential.user.uid,
+        fullName: data.fullName,
+        username: data.username,
+        email: data.email,
+
+        referralCode: data.referralCode,
+
+        referredByUid,
+      });
+
+      await sendEmailVerification(
+        credential.user
+      );
 
       return {
         success: true,
@@ -57,8 +67,8 @@ await sendEmailVerification(
 
     } catch (error: unknown) {
 
-        console.error("ERROR FIREBASE:");
-        console.error(error);
+      console.error("ERROR FIREBASE:");
+      console.error(error);
 
       if (
         typeof error === "object" &&

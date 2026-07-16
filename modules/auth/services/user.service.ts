@@ -12,12 +12,19 @@ import {
 } from "../utils/referral";
 
 export interface CreateUserProfileData {
+
   uid: string;
+
   fullName: string;
+
   username: string;
+
   email: string;
 
   referralCode?: string;
+
+  referredByUid: string;
+
 }
 
 class UserService {
@@ -35,7 +42,8 @@ class UserService {
 
         uid: data.uid,
 
-        fullName: data.fullName,
+        fullName:
+          data.fullName,
 
         username:
           data.username.toLowerCase(),
@@ -51,11 +59,18 @@ class UserService {
             data.referralCode ?? ""
           ),
 
-        referredByUid: "",
+        referredByUid:
+          data.referredByUid,
 
         directReferrals: 0,
 
+        secondLevelReferrals: 0,
+
+        totalNetwork: 0,
+
         emailVerified: false,
+        
+        networkActivated: false,
 
         role: "user",
 
