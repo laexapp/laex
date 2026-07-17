@@ -1,6 +1,58 @@
 "use client";
 
+import {
+  useEffect,
+  useState,
+} from "react";
+
+import {
+  useCurrentUser,
+} from "@/modules/auth/hooks/useCurrentUser";
+
+import LinkCard
+  from "../components/LinkCard";
+
+import NetworkStats
+  from "../components/NetworkStats";
+
+import ReferralCard
+  from "../components/ReferralCard";
+
+import {
+  networkService,
+  type NetworkData,
+} from "../services/network.service";
+
+import type {
+  ReferralUser,
+} from "../types/network";
+
 export default function NetworkPage() {
+
+  const currentUser =
+    useCurrentUser();
+
+  const [network, setNetwork] =
+    useState<NetworkData | null>(null);
+
+  const [referrals, setReferrals] =
+    useState<ReferralUser[]>([]);
+
+  useEffect(() => {
+
+    if (!currentUser) {
+      return;
+    }
+
+    networkService
+      .getNetwork(currentUser.uid)
+      .then(setNetwork);
+
+    networkService
+      .getDirectReferrals(currentUser.uid)
+      .then(setReferrals);
+
+  }, [currentUser]);
 
   return (
 
@@ -25,15 +77,36 @@ export default function NetworkPage() {
 
       <p
         className="
-          mt-4
+          mt-3
           text-slate-400
         "
       >
-        Bienvenido al centro de crecimiento
-        de tu comunidad en LAEX.
+        Centro de crecimiento
+        de tu comunidad.
       </p>
 
-      <div
+      <LinkCard
+        referralCode={
+          network?.referralCode ?? ""
+        }
+      />
+
+      <NetworkStats
+        referralCode={
+          network?.referralCode ?? "..."
+        }
+        directReferrals={
+          network?.directReferrals ?? 0
+        }
+        secondLevelReferrals={
+          network?.secondLevelReferrals ?? 0
+        }
+        totalNetwork={
+          network?.totalNetwork ?? 0
+        }
+      />
+
+      <section
         className="
           mt-10
           rounded-3xl
@@ -46,28 +119,49 @@ export default function NetworkPage() {
 
         <h2
           className="
-            text-xl
-            font-bold
+            text-2xl
+            font-black
           "
         >
-          Próximamente
+          👥 Invitados directos
         </h2>
 
-        <p
-          className="
-            mt-4
-            text-slate-400
-          "
-        >
-          Aquí aparecerán tu código de invitación,
-          tu enlace personal, tu líder,
-          tus invitados directos,
-          tu segundo nivel,
-          el tamaño total de tu red
-          y tus recompensas.
-        </p>
+        {referrals.length === 0 ? (
 
-      </div>
+          <p
+            className="
+              mt-6
+              text-slate-400
+            "
+          >
+            Todavía no tienes invitados directos.
+          </p>
+
+        ) : (
+
+          <div
+            className="
+              mt-6
+              space-y-4
+            "
+          >
+
+            {referrals.map(
+              (referral) => (
+
+                <ReferralCard
+                  key={referral.uid}
+                  referral={referral}
+                />
+
+              )
+            )}
+
+          </div>
+
+        )}
+
+      </section>
 
     </main>
 

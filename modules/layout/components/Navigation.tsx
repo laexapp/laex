@@ -1,7 +1,11 @@
 import Link from "next/link";
 
+import UserMenu from "./UserMenu";
+
 export default function Navigation() {
+
   return (
+
     <nav className="hidden items-center gap-6 xl:gap-8 md:flex">
 
       <Link
@@ -9,6 +13,13 @@ export default function Navigation() {
         className="text-[14px] font-medium text-slate-300 transition-all duration-300 hover:text-cyan-400"
       >
         Inicio
+      </Link>
+
+      <Link
+        href="/red"
+        className="text-[14px] font-medium text-slate-300 transition-all duration-300 hover:text-cyan-400"
+      >
+        🌳 Red
       </Link>
 
       <Link
@@ -60,13 +71,10 @@ export default function Navigation() {
         Más
       </Link>
 
-      <Link
-  href="/login"
-  className="ml-2 rounded-xl bg-cyan-500 px-5 py-2 text-sm font-semibold text-white transition-all duration-300 hover:bg-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20"
->
-  Iniciar sesión
-</Link>
+      <UserMenu />
 
     </nav>
+
   );
+
 }

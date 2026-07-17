@@ -1,11 +1,19 @@
 import {
+  collection,
   doc,
   getDoc,
+  getDocs,
   increment,
+  query,
   updateDoc,
+  where,
 } from "firebase/firestore";
 
 import { db } from "@/src/lib/firebase";
+
+import type {
+  ReferralUser,
+} from "../types/network";
 
 export interface NetworkUser {
 
@@ -14,6 +22,22 @@ export interface NetworkUser {
   referredByUid: string;
 
   networkActivated: boolean;
+
+}
+
+export interface NetworkData {
+
+  fullName: string;
+
+  referralCode: string;
+
+  referredBy: string;
+
+  directReferrals: number;
+
+  secondLevelReferrals: number;
+
+  totalNetwork: number;
 
 }
 
@@ -60,6 +84,78 @@ class NetworkService {
     }
 
     return snapshot.data() as NetworkUser;
+
+  }
+
+  async getNetwork(
+    uid: string
+  ): Promise<NetworkData | null> {
+
+    const snapshot =
+      await getDoc(
+        doc(db, "users", uid)
+      );
+
+    if (!snapshot.exists()) {
+      return null;
+    }
+
+    return snapshot.data() as NetworkData;
+
+  }
+
+  async getDirectReferrals(
+    uid: string
+  ): Promise<ReferralUser[]> {
+
+    const snapshot =
+      await getDocs(
+
+        query(
+
+          collection(
+            db,
+            "users"
+          ),
+
+          where(
+            "referredByUid",
+            "==",
+            uid
+          )
+
+        )
+
+      );
+
+    return snapshot.docs.map(
+      (document) => {
+
+        const data =
+          document.data();
+
+        return {
+
+          uid:
+            document.id,
+
+          fullName:
+            data.fullName,
+
+          username:
+            data.username,
+
+          email:
+            data.email,
+
+          createdAt:
+            data.createdAt ?? null,
+
+        };
+
+      }
+
+    );
 
   }
 
