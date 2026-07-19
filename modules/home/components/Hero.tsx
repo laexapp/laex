@@ -1,24 +1,34 @@
 import Link from "next/link";
 import HeroSpotlight from "./HeroSpotlight";
 
+import {
+  GlowButton,
+  GradientTitle,
+} from "@/modules/ui";
+
 export default function Hero() {
   return (
-    <section className="w-full py-24">
-      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 overflow-visible px-6 lg:grid-cols-[1fr_1.15fr]">
+    <section className="relative w-full py-24">
 
-        {/* Columna izquierda */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-cyan-500/5 via-transparent to-transparent" />
+
+      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-14 px-6 lg:grid-cols-[1fr_1.15fr]">
 
         <div>
 
-          <p className="font-semibold uppercase tracking-[0.3em] text-cyan-400">
+          <p className="font-semibold uppercase tracking-[0.35em] text-cyan-400">
             LAEX Identity 1.0
           </p>
 
-          <h1 className="mt-6 text-5xl font-black leading-tight md:text-7xl">
-            The Intelligence
-            <br />
-            Operating System
-          </h1>
+          <div className="mt-6">
+
+            <GradientTitle>
+              The Intelligence
+              <br />
+              Operating System
+            </GradientTitle>
+
+          </div>
 
           <p className="mt-8 max-w-2xl text-xl leading-9 text-gray-400">
             Understand projects.
@@ -26,32 +36,36 @@ export default function Hero() {
             Make informed decisions.
           </p>
 
-          <div className="mt-14 flex flex-wrap gap-4">
+          <div className="mt-14 flex flex-wrap gap-5">
 
-            <Link
-  href="/ia"
-  className="rounded-2xl bg-cyan-500 px-8 py-4 font-semibold transition-all hover:bg-cyan-400"
->
-  Ask LAEX
-</Link>
+            <GlowButton asChild size="lg">
+              <Link href="/ia">
+                Ask LAEX
+              </Link>
+            </GlowButton>
 
-           <Link
-  href="/proyectos"
-  className="rounded-2xl border border-gray-700 px-8 py-4 transition-all hover:border-cyan-400"
->
-  Explore Projects
-</Link>
+            <GlowButton
+              asChild
+              variant="secondary"
+              size="lg"
+            >
+              <Link href="/proyectos">
+                Explore Projects
+              </Link>
+            </GlowButton>
 
           </div>
 
         </div>
 
-        {/* Columna derecha */}
-
         <div className="relative flex justify-end">
-  <HeroSpotlight />
-</div>
+
+          <HeroSpotlight />
+
+        </div>
+
       </div>
+
     </section>
   );
 }

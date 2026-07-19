@@ -9,6 +9,8 @@ import SpotlightOverlay from "./spotlight/SpotlightOverlay";
 import SpotlightButton from "./spotlight/SpotlightButton";
 import SpotlightIndicators from "./spotlight/SpotlightIndicators";
 
+import { GlassCard } from "@/modules/ui";
+
 export default function HeroSpotlight() {
   const [index, setIndex] = useState(0);
 
@@ -23,36 +25,39 @@ export default function HeroSpotlight() {
   const project = featuredProjects[index];
 
   return (
-    <div className="relative w-full overflow-visible transition-all duration-700 lg:translate-x-24">
+    <div className="relative w-full overflow-visible transition-all duration-700 lg:translate-x-20">
 
-      {/* Glow de fondo */}
-      <div className="absolute left-1/2 top-1/2 -z-10 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-500/10 blur-[140px]" />
+      {/* Glow principal */}
+      <div className="absolute left-1/2 top-1/2 -z-20 h-[560px] w-[560px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-400/10 blur-[180px]" />
 
-      {/* Banner principal */}
-      <SpotlightBanner
-        banner={project.banner}
-        name={project.name}
-      />
+      {/* Glow secundario */}
+      <div className="absolute right-10 top-16 -z-20 h-40 w-40 rounded-full bg-blue-500/20 blur-[100px]" />
 
-      {/* Información */}
-      <SpotlightOverlay
-        badge={project.badge}
-        name={project.name}
-      />
+      <GlassCard className="overflow-hidden rounded-[34px]">
 
-      {/* Botón inteligente */}
-      <div className="absolute bottom-6 right-8">
-        <SpotlightButton
-          action={project.action}
-          url={project.url}
+        <SpotlightBanner
+          banner={project.banner}
+          name={project.name}
         />
-      </div>
 
-      {/* Indicadores */}
-      <SpotlightIndicators
-        total={featuredProjects.length}
-        current={index}
-      />
+        <SpotlightOverlay
+          badge={project.badge}
+          name={project.name}
+        />
+
+        <div className="absolute bottom-6 right-8 z-20">
+          <SpotlightButton
+            action={project.action}
+            url={project.url}
+          />
+        </div>
+
+        <SpotlightIndicators
+          total={featuredProjects.length}
+          current={index}
+        />
+
+      </GlassCard>
 
     </div>
   );

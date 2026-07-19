@@ -2,6 +2,8 @@ import { projects } from "@/core/projects/projects";
 
 import KnowledgeCard from "./KnowledgeCard";
 
+import { ProjectCarousel } from "@/modules/ui";
+
 export default function FeaturedProjects() {
   return (
     <section className="py-20">
@@ -16,21 +18,22 @@ export default function FeaturedProjects() {
           Explore the first ecosystems available inside LAEX.
         </p>
 
-        <div className="grid lg:grid-cols-3 gap-8 mt-12">
+        <div className="mt-12">
 
-          {projects.map((project) => (
+  <ProjectCarousel>
 
-            <KnowledgeCard
-              key={project.id}
-              category={project.category}
-              title={project.name}
-              description={project.description}
-              status={project.status}
-            />
+    {projects.map((project) => (
 
-          ))}
+      <KnowledgeCard
+  key={project.id}
+  project={project}
+/>
 
-        </div>
+    ))}
+
+  </ProjectCarousel>
+
+</div>
 
       </div>
 

@@ -31,9 +31,9 @@ export const projects: Project[] = [
 
     youtube: "",
 
-    logo: "/images/projects/onemillionminers/logo.png",
+   logo: "/projects/onemillionminers/logo.png",
 
-    banner: "/images/projects/onemillionminers/banner.jpg",
+banner: "/projects/onemillionminers/banner.png",
 
     trustIndex: 0,
 
@@ -93,9 +93,9 @@ export const projects: Project[] = [
 
     youtube: "",
 
-    logo: "/images/projects/omd/logo.png",
+    logo: "/projects/omd/coin.png",
 
-    banner: "/images/projects/omd/banner.jpg",
+banner: "/projects/omd/banner.png",
 
     trustIndex: 0,
 
@@ -142,9 +142,9 @@ export const projects: Project[] = [
 
     youtube: "",
 
-    logo: "/images/projects/omdb/logo.png",
+    logo: "/projects/omdb/coin.png",
 
-    banner: "/images/projects/omdb/banner.jpg",
+banner: "/projects/omdb/banner.png",
 
     trustIndex: 0,
 

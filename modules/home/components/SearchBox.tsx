@@ -1,35 +1,35 @@
+import { GlassCard } from "@/modules/ui";
+
 export default function SearchBox() {
   return (
-    <div className="w-full max-w-4xl">
+    <div className="mx-auto w-full max-w-5xl">
 
-      <div
-        className="
-          rounded-3xl
-          border
-          border-gray-800
-          bg-[#111827]
-          px-6
-          py-5
-          transition-all
-          hover:border-cyan-400
-          focus-within:border-cyan-400
-        "
-      >
-        <input
-          type="text"
-          placeholder="Ask LAEX... What project do you want to understand today?"
-          className="
-            w-full
-            bg-transparent
-            outline-none
-            text-lg
-            text-white
-            placeholder:text-gray-500
-          "
-        />
-      </div>
+      <GlassCard className="rounded-[32px] p-2">
 
-      <div className="mt-5 flex flex-wrap gap-3">
+        <div className="flex items-center gap-4 rounded-[28px] px-6 py-5">
+
+          <div className="text-2xl opacity-80">
+            🔍
+          </div>
+
+          <input
+            type="text"
+            placeholder="Ask LAEX... What project do you want to understand today?"
+            className="
+              w-full
+              bg-transparent
+              text-lg
+              text-white
+              outline-none
+              placeholder:text-gray-500
+            "
+          />
+
+        </div>
+
+      </GlassCard>
+
+      <div className="mt-6 flex flex-wrap gap-3">
 
         <Suggestion text="🚀 OneMillionMiners" />
 
@@ -53,14 +53,18 @@ function Suggestion({ text }: SuggestionProps) {
       className="
         rounded-full
         border
-        border-gray-700
+        border-white/10
+        bg-white/5
         px-4
         py-2
         text-sm
         text-gray-300
-        hover:border-cyan-400
-        hover:text-white
+        backdrop-blur-xl
         transition-all
+        duration-300
+        hover:border-cyan-400/50
+        hover:bg-cyan-500/10
+        hover:text-white
       "
     >
       {text}
