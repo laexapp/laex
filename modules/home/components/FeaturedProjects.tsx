@@ -1,15 +1,19 @@
-import { projects } from "@/core/projects/projects";
+import { Project } from "@/core/types/project";
 
 import KnowledgeCard from "./KnowledgeCard";
 
 import { ProjectCarousel } from "@/modules/ui";
 
-export default function FeaturedProjects() {
+type FeaturedProjectsProps = {
+  projects: Project[];
+};
+
+export default function FeaturedProjects({
+  projects,
+}: FeaturedProjectsProps) {
   return (
     <section className="py-20">
-
       <div className="max-w-7xl mx-auto px-6">
-
         <h2 className="text-4xl font-bold">
           Featured Intelligence
         </h2>
@@ -19,24 +23,16 @@ export default function FeaturedProjects() {
         </p>
 
         <div className="mt-12">
-
-  <ProjectCarousel>
-
-    {projects.map((project) => (
-
-      <KnowledgeCard
-  key={project.id}
-  project={project}
-/>
-
-    ))}
-
-  </ProjectCarousel>
-
-</div>
-
+          <ProjectCarousel>
+            {projects.map((project) => (
+              <KnowledgeCard
+                key={project.id}
+                project={project}
+              />
+            ))}
+          </ProjectCarousel>
+        </div>
       </div>
-
     </section>
   );
 }

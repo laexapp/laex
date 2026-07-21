@@ -50,6 +50,8 @@ export type Project = {
 
   riskLevel: number;
 
+  highlights: string[];
+
   tags: string[];
 
   timeline: TimelineItem[];

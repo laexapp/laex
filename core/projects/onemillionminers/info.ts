@@ -42,6 +42,12 @@ export const info: Project = {
 
   aiScore: 0,
 
+  highlights: [
+    "Minería digital automatizada",
+    "Análisis mediante IA de LAEX",
+    "Tecnología Blockchain",
+  ],
+
   tags: [
     "Minería",
     "Blockchain",

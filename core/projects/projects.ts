@@ -31,9 +31,9 @@ export const projects: Project[] = [
 
     youtube: "",
 
-   logo: "/projects/onemillionminers/logo.png",
+    logo: "/projects/onemillionminers/logo.png",
 
-banner: "/projects/onemillionminers/banner.png",
+    banner: "/projects/onemillionminers/banner.png",
 
     trustIndex: 0,
 
@@ -43,7 +43,18 @@ banner: "/projects/onemillionminers/banner.png",
 
     aiScore: 0,
 
-    tags: ["Minería", "Blockchain", "Web3", "IA"],
+    highlights: [
+      "Minería digital automatizada",
+      "Análisis mediante IA de LAEX",
+      "Tecnología Blockchain",
+    ],
+
+    tags: [
+      "Minería",
+      "Blockchain",
+      "Web3",
+      "IA",
+    ],
 
     timeline: [
       {
@@ -95,7 +106,7 @@ banner: "/projects/onemillionminers/banner.png",
 
     logo: "/projects/omd/coin.png",
 
-banner: "/projects/omd/banner.png",
+    banner: "/projects/omd/banner.png",
 
     trustIndex: 0,
 
@@ -105,7 +116,16 @@ banner: "/projects/omd/banner.png",
 
     aiScore: 0,
 
-    tags: ["Pool", "Staking"],
+    highlights: [
+      "Pool inteligente",
+      "Staking automatizado",
+      "Integración con el ecosistema OMD",
+    ],
+
+    tags: [
+      "Pool",
+      "Staking",
+    ],
 
     timeline: [],
 
@@ -144,7 +164,7 @@ banner: "/projects/omd/banner.png",
 
     logo: "/projects/omdb/coin.png",
 
-banner: "/projects/omdb/banner.png",
+    banner: "/projects/omdb/banner.png",
 
     trustIndex: 0,
 
@@ -154,7 +174,15 @@ banner: "/projects/omdb/banner.png",
 
     aiScore: 0,
 
-    tags: ["Blockchain"],
+    highlights: [
+      "Blockchain propia",
+      "Infraestructura descentralizada",
+      "Integración con el ecosistema LAEX",
+    ],
+
+    tags: [
+      "Blockchain",
+    ],
 
     timeline: [],
 

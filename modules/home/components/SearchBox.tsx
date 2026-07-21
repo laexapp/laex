@@ -1,20 +1,29 @@
 import { GlassCard } from "@/modules/ui";
 
-export default function SearchBox() {
+type SearchBoxProps = {
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+};
+
+export default function SearchBox({
+  value,
+  onChange,
+  placeholder = "Ask LAEX... What project do you want to understand today?",
+}: SearchBoxProps) {
   return (
     <div className="mx-auto w-full max-w-5xl">
-
       <GlassCard className="rounded-[32px] p-2">
-
         <div className="flex items-center gap-4 rounded-[28px] px-6 py-5">
-
           <div className="text-2xl opacity-80">
             🔍
           </div>
 
           <input
             type="text"
-            placeholder="Ask LAEX... What project do you want to understand today?"
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder={placeholder}
             className="
               w-full
               bg-transparent
@@ -24,32 +33,41 @@ export default function SearchBox() {
               placeholder:text-gray-500
             "
           />
-
         </div>
-
       </GlassCard>
 
       <div className="mt-6 flex flex-wrap gap-3">
+        <Suggestion
+          text="🚀 OneMillionMiners"
+          onClick={() => onChange("OneMillionMiners")}
+        />
 
-        <Suggestion text="🚀 OneMillionMiners" />
+        <Suggestion
+          text="💎 OMDB"
+          onClick={() => onChange("OMDB")}
+        />
 
-        <Suggestion text="💎 OMDB" />
-
-        <Suggestion text="🟦 OMD" />
-
+        <Suggestion
+          text="🟦 OMD"
+          onClick={() => onChange("OMD")}
+        />
       </div>
-
     </div>
   );
 }
 
 type SuggestionProps = {
   text: string;
+  onClick: () => void;
 };
 
-function Suggestion({ text }: SuggestionProps) {
+function Suggestion({
+  text,
+  onClick,
+}: SuggestionProps) {
   return (
     <button
+      onClick={onClick}
       className="
         rounded-full
         border
