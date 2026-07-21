@@ -10,11 +10,13 @@ export default function HomeLayout() {
 
       <div className="mx-auto max-w-7xl px-6">
         <Hero />
-
-        <EcosystemShowcase />
       </div>
 
       <FeaturedProjectsSection />
+
+      <div className="mx-auto max-w-7xl px-6">
+        <EcosystemShowcase />
+      </div>
     </main>
   );
 }
