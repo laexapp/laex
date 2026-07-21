@@ -1,8 +1,7 @@
 import { projects } from "@/core/projects/projects";
 
-import ProjectBanner from "../ProjectBanner/ProjectBanner";
-import ProjectHeader from "../ProjectHeader/ProjectHeader";
-import ProjectOverview from "../ProjectOverview/ProjectOverview";
+import ProjectHero from "../ProjectHero/ProjectHero";
+import ProjectExecutiveSummary from "../ProjectExecutiveSummary/ProjectExecutiveSummary";
 import ProjectStats from "../ProjectStats/ProjectStats";
 import ProjectAI from "../ProjectAI";
 import ProjectGallery from "../components/ProjectGallery";
@@ -12,7 +11,9 @@ type Props = {
   projectId?: string;
 };
 
-export default function ProjectPage({ projectId }: Props) {
+export default function ProjectPage({
+  projectId,
+}: Props) {
   const project =
     projects.find((p) => p.id === projectId) ??
     projects[0];
@@ -20,26 +21,12 @@ export default function ProjectPage({ projectId }: Props) {
   return (
     <section className="max-w-7xl mx-auto px-6 py-20 space-y-12">
 
-      <ProjectBanner
-        banner={project.banner}
-        logo={project.logo}
-        name={project.name}
-        category={project.category}
+      <ProjectHero
+        project={project}
       />
 
-      <ProjectHeader
-        name={project.name}
-        category={project.category}
-        status={project.status}
-        launch={project.launchDate}
-      />
-
-      <ProjectOverview
-        name={project.name}
-        category={project.category}
-        status={project.status}
-        launchDate={project.launchDate}
-        description={project.description}
+      <ProjectExecutiveSummary
+        project={project}
       />
 
       <ProjectStats
@@ -49,7 +36,6 @@ export default function ProjectPage({ projectId }: Props) {
         riskLevel={project.riskLevel}
       />
 
-      {/* NUEVO MÓDULO DE IA */}
       <ProjectAI
         projectId={project.id}
       />
