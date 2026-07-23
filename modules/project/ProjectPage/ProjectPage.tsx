@@ -4,6 +4,7 @@ import ProjectHero from "../ProjectHero/ProjectHero";
 import ProjectExecutiveSummary from "../ProjectExecutiveSummary/ProjectExecutiveSummary";
 import ProjectStats from "../ProjectStats/ProjectStats";
 import ProjectAI from "../ProjectAI";
+import ProjectMedia from "../ProjectMedia";
 import ProjectGallery from "../components/ProjectGallery";
 import ProjectTimeline from "../ProjectTimeline/ProjectTimeline";
 
@@ -39,6 +40,8 @@ export default function ProjectPage({
       <ProjectAI
         projectId={project.id}
       />
+
+      <ProjectMedia />
 
       <ProjectTimeline
         timeline={project.timeline}
