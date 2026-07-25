@@ -1,0 +1,58 @@
+import type { ProjectIdentityRegistry } from "./types";
+
+export const projectIdentity: ProjectIdentityRegistry = {
+  oneMillionMiners: {
+    identity: {
+      id: "one-million-miners",
+      name: "OneMillionMiners",
+      slug: "one-million-miners",
+    },
+
+    social: {
+      youtube: {
+        channelHandle: "@onemillionminersspanish",
+        channelUrl:
+          "https://www.youtube.com/@onemillionminersspanish",
+
+        featuredVideos: [
+          "https://youtu.be/JkaRmGY0cbo",
+        ],
+      },
+    },
+  },
+
+  omdBlockchain: {
+    identity: {
+      id: "omd-blockchain",
+      name: "OMDBlockchain",
+      slug: "omd-blockchain",
+    },
+
+    social: {
+      youtube: {
+        channelHandle: "@OMDBlockchainOMDB",
+        channelUrl:
+          "https://www.youtube.com/@OMDBlockchainOMDB/videos",
+
+        featuredVideos: [],
+      },
+    },
+  },
+
+  oneMillionDollar: {
+    identity: {
+      id: "one-million-dollar",
+      name: "OneMillionDollar",
+      slug: "one-million-dollar",
+    },
+
+    social: {
+      youtube: {
+        channelUrl:
+          "https://www.youtube.com/channel/UCuDXXETbxXAUUIaabeGtqWg",
+
+        featuredVideos: [],
+      },
+    },
+  },
+};

@@ -1,19 +1,23 @@
-import type { MediaItem } from "@/src/core/media/types";
-import { youtubeMediaService } from "@/src/core/media/services/youtube";
-import { projectMedia } from "@/src/core/projects/media/projectMedia";
+import ProjectVideoPlayer from "../ProjectVideoPlayer";
+
+import { mediaRepository } from "@/src/core/media";
+import type { MediaItem } from "@/src/core/media";
+import { projectRepository } from "@/src/core/projects/identity";
 
 type ProjectMediaProps = {
   items?: MediaItem[];
 };
 
-const configuredItems: MediaItem[] = [
-  youtubeMediaService.mapVideo({
-    title: `${projectMedia.oneMillionMiners.name} - Video destacado`,
-    url: projectMedia.oneMillionMiners.youtube.featuredVideo,
-    description:
-      "Contenido oficial sincronizado desde la configuración multimedia del proyecto.",
-  }),
-].filter((item): item is MediaItem => item !== null);
+const project =
+  projectRepository.getBySlug("one-million-miners");
+
+const configuredItems =
+  project?.social.youtube
+    ? mediaRepository.getFeaturedVideos(
+        project.social.youtube.featuredVideos,
+        project.identity.name
+      )
+    : [];
 
 export default function ProjectMedia({
   items = configuredItems,
@@ -43,10 +47,9 @@ export default function ProjectMedia({
             key={item.id}
             className="overflow-hidden rounded-3xl border border-slate-800 bg-[#0D1422] transition-all duration-300 hover:-translate-y-2 hover:border-cyan-500/40 hover:shadow-[0_0_40px_rgba(0,212,255,.12)]"
           >
-            <img
-              src={item.thumbnail}
-              alt={item.title}
-              className="aspect-video w-full object-cover"
+            <ProjectVideoPlayer
+              videoUrl={item.source.url}
+              title={item.title}
             />
 
             <div className="p-5">

@@ -10,8 +10,9 @@ export const projectMedia = {
       channelUrl:
         "https://www.youtube.com/@onemillionminersspanish",
 
-      featuredVideo:
+      featuredVideos: [
         "https://youtu.be/JkaRmGY0cbo",
+      ],
     },
   },
 } as const;

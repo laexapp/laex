@@ -1,7 +1,9 @@
-export { isYouTubeUrl, getYouTubeVideoId } from "./urls";
+export { youtubeRepository } from "./repository";
 
-export { getYouTubeThumbnail } from "./thumbnails";
+export type { YouTubeChannel } from "./types";
 
-export type { YouTubeVideoInput } from "./mapper";
+export * from "./urls";
 
-export { mapYouTubeVideo } from "./mapper";
+export * from "./mapper";
+
+export * from "./thumbnails";
