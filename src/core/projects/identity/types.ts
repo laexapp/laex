@@ -6,7 +6,18 @@ export interface ProjectIdentityInfo {
 
 export interface ProjectYouTube {
   channelHandle?: string;
+
   channelUrl: string;
+
+  /**
+   * Video principal mostrado
+   * en la página del proyecto.
+   */
+  featuredVideo?: string;
+
+  /**
+   * Lista de videos destacados.
+   */
   featuredVideos: string[];
 }
 

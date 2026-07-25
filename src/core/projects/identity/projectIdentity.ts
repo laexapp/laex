@@ -10,9 +10,14 @@ export const projectIdentity: ProjectIdentityRegistry = {
 
     social: {
       youtube: {
-        channelHandle: "@onemillionminersspanish",
+        channelHandle:
+          "@onemillionminersspanish",
+
         channelUrl:
           "https://www.youtube.com/@onemillionminersspanish",
+
+        featuredVideo:
+          "https://youtu.be/JkaRmGY0cbo",
 
         featuredVideos: [
           "https://youtu.be/JkaRmGY0cbo",
@@ -30,7 +35,9 @@ export const projectIdentity: ProjectIdentityRegistry = {
 
     social: {
       youtube: {
-        channelHandle: "@OMDBlockchainOMDB",
+        channelHandle:
+          "@OMDBlockchainOMDB",
+
         channelUrl:
           "https://www.youtube.com/@OMDBlockchainOMDB/videos",
 
