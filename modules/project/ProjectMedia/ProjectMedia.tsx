@@ -11,13 +11,9 @@ type ProjectMediaProps = {
 const project =
   projectRepository.getBySlug("one-million-miners");
 
-const configuredItems =
-  project?.social.youtube
-    ? mediaRepository.getFeaturedVideos(
-        project.social.youtube.featuredVideos,
-        project.identity.name
-      )
-    : [];
+const configuredItems = project
+  ? mediaRepository.getFeaturedVideos(project.identity.slug)
+  : [];
 
 export default function ProjectMedia({
   items = configuredItems,
@@ -65,14 +61,27 @@ export default function ProjectMedia({
                 {item.description}
               </p>
 
-              <a
-                href={item.source.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-6 inline-flex text-cyan-400 hover:text-cyan-300"
-              >
-                Ver en YouTube →
-              </a>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <a
+                  href={item.source.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-cyan-400"
+                >
+                  ▶ Ver video
+                </a>
+
+                {item.source.channelUrl && (
+                  <a
+                    href={item.source.channelUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex rounded-lg border border-slate-600 px-4 py-2 text-sm font-semibold text-slate-300 transition hover:border-cyan-400 hover:text-cyan-400"
+                  >
+                    📺 Ver canal oficial
+                  </a>
+                )}
+              </div>
             </div>
           </article>
         ))}

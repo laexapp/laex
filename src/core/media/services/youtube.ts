@@ -29,8 +29,8 @@ export class DefaultYouTubeMediaService
     handle: string
   ): Promise<YouTubeChannel | null> {
     /**
-     * Próximamente aquí consultaremos
-     * la API de YouTube.
+     * Próximamente:
+     * API / RSS de YouTube.
      */
 
     return {

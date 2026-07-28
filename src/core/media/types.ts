@@ -16,6 +16,11 @@ export interface MediaSource {
   provider: MediaProvider;
   url: string;
   id: string;
+
+  /**
+   * Canal oficial del contenido.
+   */
+  channelUrl?: string;
 }
 
 export interface MediaItem {

@@ -7,3 +7,7 @@ export type {
 export type {
   SyncResult,
 } from "./types";
+
+export type {
+  YouTubeSyncConfig,
+} from "./contracts";

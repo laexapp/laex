@@ -5,6 +5,7 @@ import { getYouTubeVideoId } from "./urls";
 export interface YouTubeVideoInput {
   title: string;
   url: string;
+  channelUrl?: string;
   description?: string;
   publishedAt?: string;
   duration?: string;
@@ -31,6 +32,7 @@ export function mapYouTubeVideo(
       provider: "youtube",
       id,
       url: video.url,
+      channelUrl: video.channelUrl,
     },
   };
 }

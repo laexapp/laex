@@ -1,5 +1,7 @@
 import { projectRepository } from "@/src/core/projects/identity";
+
 import type { SyncResult } from "./types";
+import type { YouTubeSyncConfig } from "./contracts";
 
 export interface YouTubeSyncData {
   channelUrl: string;
@@ -19,13 +21,15 @@ class YouTubeSync {
       };
     }
 
+    const config: YouTubeSyncConfig = {
+      channelUrl: project.social.youtube.channelUrl,
+      featuredVideo: project.social.youtube.featuredVideo,
+      featuredVideos: project.social.youtube.featuredVideos,
+    };
+
     return {
       success: true,
-      data: {
-        channelUrl: project.social.youtube.channelUrl,
-        featuredVideo: project.social.youtube.featuredVideo,
-        featuredVideos: project.social.youtube.featuredVideos,
-      },
+      data: config,
     };
   }
 }
