@@ -20,45 +20,73 @@ export default function ProjectPage({
     projects[0];
 
   return (
-    <section className="py-20">
+    <main className="relative overflow-hidden bg-[#02050B]">
 
-      <div className="mx-auto max-w-7xl space-y-12 px-6">
+      {/* Fondo global */}
+      <div className="pointer-events-none absolute inset-0">
 
-        <ProjectHero
-          project={project}
-        />
+        <div className="absolute left-1/2 top-0 h-[900px] w-[900px] -translate-x-1/2 rounded-full bg-cyan-500/10 blur-[220px]" />
 
-        <ProjectExecutiveSummary
-          project={project}
-        />
+        <div className="absolute -left-60 top-[900px] h-[700px] w-[700px] rounded-full bg-blue-600/10 blur-[220px]" />
 
-        <ProjectStats
-          trustIndex={project.trustIndex}
-          communityScore={project.communityScore}
-          aiScore={project.aiScore}
-          riskLevel={project.riskLevel}
-        />
+        <div className="absolute -right-60 top-[1800px] h-[700px] w-[700px] rounded-full bg-cyan-400/10 blur-[220px]" />
 
-        <ProjectAI
-          projectId={project.id}
-        />
-
-      </div>
-
-      <ProjectMedia />
-
-      <div className="mx-auto mt-12 max-w-7xl space-y-12 px-6">
-
-        <ProjectTimeline
-          timeline={project.timeline}
-        />
-
-        <ProjectGallery
-          projectId={project.id}
+        <div
+          className="absolute inset-0 opacity-[0.035]"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px)
+            `,
+            backgroundSize: "60px 60px",
+          }}
         />
 
       </div>
 
-    </section>
+      <div className="relative z-10">
+
+        <div className="mx-auto max-w-7xl space-y-10 px-6 py-20">
+
+          <ProjectHero
+            project={project}
+          />
+
+          <ProjectExecutiveSummary
+            project={project}
+          />
+
+          <ProjectStats
+            trustIndex={project.trustIndex}
+            communityScore={project.communityScore}
+            aiScore={project.aiScore}
+            riskLevel={project.riskLevel}
+          />
+
+          <ProjectAI
+            projectId={project.id}
+          />
+
+        </div>
+
+        <div className="mt-8">
+          <ProjectMedia />
+        </div>
+
+        <div className="mx-auto mt-10 max-w-7xl space-y-10 px-6 pb-24">
+
+          <ProjectTimeline
+            timeline={project.timeline}
+          />
+
+          <ProjectGallery
+            projectId={project.id}
+          />
+
+        </div>
+
+      </div>
+
+    </main>
   );
 }
