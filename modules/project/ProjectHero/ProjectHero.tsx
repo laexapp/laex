@@ -11,103 +11,88 @@ export default function ProjectHero({
   project,
 }: Props) {
   return (
-    <section className="overflow-hidden rounded-3xl border border-cyan-900 bg-[#0d1523]">
+    <section className="relative left-1/2 right-1/2 w-screen -translate-x-1/2 overflow-hidden">
 
-      <div className="relative">
+      <div className="relative h-[80vh] min-h-[700px]">
 
         <Image
           src={project.banner}
           alt={project.name}
-          width={1600}
-          height={700}
+          fill
           priority
-          className="h-[520px] w-full object-cover"
+          className="object-cover object-center"
         />
 
-        <div className="absolute inset-0 bg-gradient-to-r from-[#08111d]/95 via-[#08111d]/70 to-[#08111d]/35" />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/40 via-slate-950/70 to-slate-950/95" />
 
-        <div className="absolute inset-0 flex items-end">
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-950/45 to-transparent" />
 
-          <div className="w-full p-8 md:p-12">
+        <div className="relative z-10 mx-auto flex h-full max-w-7xl items-end px-6 pb-20">
 
-            <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-4xl">
 
-              <div className="flex flex-col gap-6 lg:flex-row lg:items-center">
+            <Image
+              src={project.logo}
+              alt={project.name}
+              width={150}
+              height={150}
+              className="rounded-[32px] border border-cyan-400/30 bg-slate-950/60 p-4 shadow-[0_0_60px_rgba(34,211,238,.35)]"
+            />
 
-                <Image
-                  src={project.logo}
-                  alt={project.name}
-                  width={120}
-                  height={120}
-                  className="rounded-3xl border border-cyan-700 bg-slate-900 p-3 shadow-2xl"
-                />
+            <span className="mt-8 inline-flex rounded-full border border-cyan-400/30 bg-cyan-500/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.35em] text-cyan-300">
+              {project.category}
+            </span>
 
-                <div>
+            <h1 className="mt-6 text-5xl font-black text-white md:text-7xl">
+              {project.name}
+            </h1>
 
-                  <span className="rounded-full border border-cyan-500/40 bg-cyan-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-cyan-300">
-                    {project.category}
-                  </span>
+            <p className="mt-8 max-w-3xl text-xl leading-9 text-slate-300">
+              {project.description}
+            </p>
 
-                  <h1 className="mt-4 text-4xl font-black text-white md:text-6xl">
-                    {project.name}
-                  </h1>
+            <div className="mt-8 flex flex-wrap gap-3">
 
-                  <div className="mt-4 flex flex-wrap items-center gap-3">
+              <span className="rounded-full bg-emerald-500/20 px-5 py-2 text-sm font-bold text-emerald-300">
+                🟢 {project.status}
+              </span>
 
-                    <span className="rounded-full bg-emerald-500/15 px-4 py-2 text-sm font-semibold text-emerald-300">
-                      🟢 {project.status}
-                    </span>
+              <span className="rounded-full border border-white/10 bg-white/10 px-5 py-2 text-sm text-slate-200">
+                🚀 {project.launchDate}
+              </span>
 
-                    <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-300">
-                      🚀 {project.launchDate}
-                    </span>
+            </div>
 
-                  </div>
+            <div className="mt-10 flex flex-wrap gap-3">
 
-                  <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-300">
-                    {project.description}
-                  </p>
+              <HeroButton
+                href={project.website}
+                label="🌐 Sitio Web"
+              />
 
-                </div>
+              <HeroButton
+                href={project.whitepaper}
+                label="📄 Whitepaper"
+              />
 
-              </div>
+              <HeroButton
+                href={project.telegram}
+                label="💬 Telegram"
+              />
+
+              <HeroButton
+                href={project.twitter}
+                label="✖ X"
+              />
+
+              <HeroButton
+                href={project.youtube}
+                label="▶ YouTube"
+              />
 
             </div>
 
           </div>
-
-        </div>
-
-      </div>
-
-      <div className="border-t border-white/10 bg-slate-950/60 p-6">
-
-        <div className="flex flex-wrap gap-3">
-
-          <HeroButton
-            href={project.website}
-            label="🌐 Sitio Web"
-          />
-
-          <HeroButton
-            href={project.whitepaper}
-            label="📄 Whitepaper"
-          />
-
-          <HeroButton
-            href={project.telegram}
-            label="💬 Telegram"
-          />
-
-          <HeroButton
-            href={project.twitter}
-            label="✖ X"
-          />
-
-          <HeroButton
-            href={project.youtube}
-            label="▶ YouTube"
-          />
 
         </div>
 
@@ -138,17 +123,18 @@ function HeroButton({
       className="
         rounded-xl
         border
-        border-cyan-500/20
-        bg-cyan-500/10
-        px-5
+        border-cyan-400/30
+        bg-slate-950/40
+        px-6
         py-3
         text-sm
-        font-semibold
+        font-bold
         text-cyan-300
+        backdrop-blur-md
         transition-all
         duration-300
-        hover:border-cyan-400
-        hover:bg-cyan-500
+        hover:border-cyan-300
+        hover:bg-cyan-400
         hover:text-slate-950
       "
     >

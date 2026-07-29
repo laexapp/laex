@@ -3,5 +3,19 @@ export interface YouTubeChannel {
 
   url: string;
 
+  featuredVideo?: string;
+
   featuredVideos: string[];
+}
+
+export interface YouTubeVideoInput {
+  title: string;
+
+  url: string;
+
+  description?: string;
+
+  channelHandle?: string;
+
+  channelUrl?: string;
 }

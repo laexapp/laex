@@ -20,36 +20,44 @@ export default function ProjectPage({
     projects[0];
 
   return (
-    <section className="max-w-7xl mx-auto px-6 py-20 space-y-12">
+    <section className="py-20">
 
-      <ProjectHero
-        project={project}
-      />
+      <div className="mx-auto max-w-7xl space-y-12 px-6">
 
-      <ProjectExecutiveSummary
-        project={project}
-      />
+        <ProjectHero
+          project={project}
+        />
 
-      <ProjectStats
-        trustIndex={project.trustIndex}
-        communityScore={project.communityScore}
-        aiScore={project.aiScore}
-        riskLevel={project.riskLevel}
-      />
+        <ProjectExecutiveSummary
+          project={project}
+        />
 
-      <ProjectAI
-        projectId={project.id}
-      />
+        <ProjectStats
+          trustIndex={project.trustIndex}
+          communityScore={project.communityScore}
+          aiScore={project.aiScore}
+          riskLevel={project.riskLevel}
+        />
+
+        <ProjectAI
+          projectId={project.id}
+        />
+
+      </div>
 
       <ProjectMedia />
 
-      <ProjectTimeline
-        timeline={project.timeline}
-      />
+      <div className="mx-auto mt-12 max-w-7xl space-y-12 px-6">
 
-      <ProjectGallery
-        projectId={project.id}
-      />
+        <ProjectTimeline
+          timeline={project.timeline}
+        />
+
+        <ProjectGallery
+          projectId={project.id}
+        />
+
+      </div>
 
     </section>
   );

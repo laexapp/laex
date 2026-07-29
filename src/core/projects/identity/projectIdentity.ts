@@ -23,6 +23,9 @@ export const projectIdentity: ProjectIdentityRegistry = {
           "https://youtu.be/JkaRmGY0cbo",
         ],
       },
+
+      whatsapp:
+        "https://chat.whatsapp.com/HZMa95USZvnBITd7NI4Ot5",
     },
   },
 

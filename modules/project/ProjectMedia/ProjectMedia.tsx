@@ -1,3 +1,4 @@
+import ProjectSocialLinks from "../ProjectSocialLinks";
 import ProjectVideoPlayer from "../ProjectVideoPlayer";
 
 import { mediaRepository } from "@/src/core/media";
@@ -18,73 +19,85 @@ const configuredItems = project
 export default function ProjectMedia({
   items = configuredItems,
 }: ProjectMediaProps) {
+  const featuredVideo = items[0];
+
+  if (!featuredVideo) {
+    return null;
+  }
+
   return (
-    <section className="mt-12">
-      <div className="mb-8 flex items-end justify-between">
-        <div>
-          <span className="text-xs font-bold uppercase tracking-[0.35em] text-cyan-400">
-            Multimedia
-          </span>
+    <section className="relative left-1/2 right-1/2 w-screen -translate-x-1/2 overflow-hidden">
+      <div
+        className="relative"
+        style={{
+          backgroundImage:
+            "url('/images/projects/one-million-miners/laex-media-bg.webp')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="absolute inset-0 bg-slate-950/85 backdrop-blur-sm" />
 
-          <h2 className="mt-2 text-3xl font-black text-white">
-            Videos oficiales
-          </h2>
+        <div className="relative z-10 py-24">
+          <div className="mx-auto max-w-[1400px] px-6 text-center">
 
-          <p className="mt-2 max-w-3xl text-slate-400">
-            Este contenido proviene de la configuración oficial registrada para
-            el proyecto dentro de LAEX.
-          </p>
-        </div>
-      </div>
+            <span className="text-xs font-bold uppercase tracking-[0.45em] text-cyan-400">
+              Multimedia
+            </span>
 
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-        {items.map((item) => (
-          <article
-            key={item.id}
-            className="overflow-hidden rounded-3xl border border-slate-800 bg-[#0D1422] transition-all duration-300 hover:-translate-y-2 hover:border-cyan-500/40 hover:shadow-[0_0_40px_rgba(0,212,255,.12)]"
-          >
-            <ProjectVideoPlayer
-              videoUrl={item.source.url}
-              title={item.title}
-            />
+            <h2 className="mt-5 text-5xl font-black text-white md:text-6xl xl:text-7xl">
+              Conoce OneMillionMiners
+            </h2>
 
-            <div className="p-5">
-              <span className="text-xs font-bold uppercase tracking-widest text-cyan-400">
-                {item.source.provider}
+            <p className="mx-auto mt-6 max-w-4xl text-xl leading-9 text-slate-300">
+              Antes de invertir, descubre cómo funciona el proyecto y conoce su
+              visión directamente desde sus creadores.
+            </p>
+
+            <div className="mx-auto mt-16 max-w-6xl rounded-[32px] border border-cyan-400/20 bg-slate-950/40 p-5 shadow-[0_0_100px_rgba(34,211,238,.25)]">
+              <ProjectVideoPlayer
+                videoUrl={featuredVideo.source.url}
+                title={featuredVideo.title}
+              />
+            </div>
+
+            <div className="mx-auto mt-12 max-w-5xl">
+
+              <span className="text-xs font-bold uppercase tracking-[0.35em] text-cyan-400">
+                {featuredVideo.source.provider}
               </span>
 
-              <h3 className="mt-3 text-xl font-black text-white">
-                {item.title}
+              <h3 className="mt-5 text-4xl font-black text-white">
+                {featuredVideo.title}
               </h3>
 
-              <p className="mt-3 text-sm leading-6 text-slate-400">
-                {item.description}
+              <p className="mt-6 text-lg leading-8 text-slate-300">
+                {featuredVideo.description}
               </p>
 
-              <div className="mt-6 flex flex-wrap gap-3">
+              <div className="mt-10">
                 <a
-                  href={item.source.url}
+                  href={featuredVideo.source.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-cyan-400"
+                  className="inline-flex items-center rounded-xl bg-cyan-500 px-8 py-4 text-base font-bold text-white transition hover:bg-cyan-400"
                 >
                   ▶ Ver video
                 </a>
+              </div>
 
-                {item.source.channelUrl && (
-                  <a
-                    href={item.source.channelUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex rounded-lg border border-slate-600 px-4 py-2 text-sm font-semibold text-slate-300 transition hover:border-cyan-400 hover:text-cyan-400"
-                  >
-                    📺 Ver canal oficial
-                  </a>
+              <div className="mt-8 flex justify-center">
+                {project && (
+                  <ProjectSocialLinks
+                    social={project.social}
+                  />
                 )}
               </div>
+
             </div>
-          </article>
-        ))}
+
+          </div>
+        </div>
       </div>
     </section>
   );
