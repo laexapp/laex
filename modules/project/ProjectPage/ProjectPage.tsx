@@ -7,6 +7,7 @@ import ProjectAI from "../ProjectAI";
 import ProjectMedia from "../ProjectMedia";
 import ProjectGallery from "../components/ProjectGallery";
 import ProjectTimeline from "../ProjectTimeline/ProjectTimeline";
+import Header from "@/modules/layout/components/Header";
 
 type Props = {
   project: Project;
@@ -16,7 +17,8 @@ export default function ProjectPage({
   project,
 }: Props) {
   return (
-    <main className="relative overflow-hidden bg-[#02050B]">
+    <main className="laex-canvas relative overflow-hidden text-white">
+      <Header />
 
       {/* Fondo global */}
       <div className="pointer-events-none absolute inset-0">
@@ -42,7 +44,7 @@ export default function ProjectPage({
 
       <div className="relative z-10">
 
-        <div className="mx-auto max-w-7xl space-y-10 px-6 py-20">
+        <div className="mx-auto w-[min(100%-2rem,92rem)] space-y-8 py-12 md:py-16">
 
           <ProjectHero
             project={project}
@@ -69,7 +71,7 @@ export default function ProjectPage({
           <ProjectMedia project={project} />
         </div>
 
-        <div className="mx-auto mt-10 max-w-7xl space-y-10 px-6 pb-24">
+        <div className="mx-auto mt-10 w-[min(100%-2rem,92rem)] space-y-10 pb-24">
 
           <ProjectTimeline
             timeline={project.timeline}
