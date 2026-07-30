@@ -27,8 +27,11 @@ export default function KnowledgeCard({ project, index }: Props) {
         <h3 className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-white">{project.name}</h3>
         <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-500">{project.description}</p>
       </div>
-      <Link href={`/proyectos/${project.id}`} className="absolute inset-x-5 bottom-5 z-10 flex items-center justify-between border-t border-white/[0.07] pt-4 text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400 transition group-hover:text-white">
-        Explorar <ArrowRight size={16} className="text-[color:var(--project-accent)] transition group-hover:translate-x-1" />
+      <Link href={`/proyectos/${project.id}`} aria-label={`Explorar ${project.name}`} className="absolute inset-x-5 bottom-4 z-20 flex min-h-14 items-center justify-between border-t border-white/[0.07] pt-3 text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400 transition hover:text-white focus-visible:rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/70">
+        Explorar proyecto
+        <span className="grid h-9 w-9 place-items-center rounded-full border border-white/10 bg-white/[0.035] text-[color:var(--project-accent)] transition group-hover:border-cyan-300/25 group-hover:bg-cyan-300/[0.07]">
+          <ArrowRight size={16} className="transition group-hover:translate-x-0.5" />
+        </span>
       </Link>
     </article>
   );

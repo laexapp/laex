@@ -78,6 +78,7 @@ export default function FeaturedProjectsSection() {
 
               <Link
                 href={`/proyectos/${assistant.project.id}`}
+                aria-label={`Explorar ${assistant.project.name}`}
                 className="
                   inline-flex
                   items-center
@@ -94,6 +95,9 @@ export default function FeaturedProjectsSection() {
                   duration-300
                   hover:bg-cyan-300
                   hover:text-slate-950
+                  focus-visible:outline-none
+                  focus-visible:ring-2
+                  focus-visible:ring-cyan-300
                 "
               >
                 Explorar proyecto →
