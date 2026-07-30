@@ -8,13 +8,13 @@ export default function HomeLayout() {
     <main className="laex-canvas min-h-screen text-white">
       <Header />
 
-      <div className="relative mx-auto max-w-7xl px-6">
+      <div className="relative mx-auto w-[min(100%-2rem,92rem)]">
         <Hero />
       </div>
 
       <FeaturedProjectsSection />
 
-      <div className="relative mx-auto max-w-7xl px-6">
+      <div className="relative mx-auto w-[min(100%-2rem,92rem)]">
         <EcosystemShowcase />
       </div>
     </main>
