@@ -8,6 +8,8 @@ import ProjectMedia from "../ProjectMedia";
 import ProjectGallery from "../components/ProjectGallery";
 import ProjectTimeline from "../ProjectTimeline/ProjectTimeline";
 import Header from "@/modules/layout/components/Header";
+import CommunityConnect from "@/modules/ui/components/CommunityConnect";
+import { getProjectCommunityChannels } from "../communityChannels";
 
 type Props = {
   project: Project;
@@ -16,6 +18,8 @@ type Props = {
 export default function ProjectPage({
   project,
 }: Props) {
+  const communityChannels = getProjectCommunityChannels(project);
+
   return (
     <main className="laex-canvas relative overflow-hidden text-white">
       <Header />
@@ -63,6 +67,14 @@ export default function ProjectPage({
 
           <ProjectAI
             projectId={project.id}
+          />
+
+          <CommunityConnect
+            channels={communityChannels}
+            variant="panel"
+            title={`Conecta con ${project.name}`}
+            description="Continúa la experiencia en los espacios oficiales de este proyecto."
+            routingContext={`project:${project.id}:analysis-end`}
           />
 
         </div>

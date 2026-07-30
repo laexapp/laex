@@ -97,7 +97,7 @@ export default function ProjectMedia({
 
               <div className="mt-8 flex justify-center">
                 {projectIdentity && (
-                  <ProjectSocialLinks social={projectIdentity.social} />
+                  <ProjectSocialLinks social={projectIdentity.social} routingContext={`project:${project.id}:media`} />
                 )}
               </div>
             </div>
