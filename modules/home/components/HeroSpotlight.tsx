@@ -25,7 +25,7 @@ export default function HeroSpotlight() {
   const project = featuredProjects[index];
 
   return (
-    <div className="relative w-full overflow-visible transition-all duration-700 lg:translate-x-20">
+    <div className="relative w-full overflow-visible transition-all duration-700 ease-laex-emphasized lg:translate-x-16">
 
       {/* Glow principal */}
       <div className="absolute left-1/2 top-1/2 -z-20 h-[560px] w-[560px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-400/10 blur-[180px]" />
@@ -33,7 +33,7 @@ export default function HeroSpotlight() {
       {/* Glow secundario */}
       <div className="absolute right-10 top-16 -z-20 h-40 w-40 rounded-full bg-blue-500/20 blur-[100px]" />
 
-      <GlassCard className="overflow-hidden rounded-[34px]">
+      <GlassCard className="overflow-hidden rounded-[34px] border-white/15 shadow-[0_36px_100px_rgba(2,4,10,.62),0_0_70px_rgba(55,216,238,.08)]">
 
         <SpotlightBanner
           banner={project.banner}

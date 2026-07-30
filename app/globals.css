@@ -1,26 +1,253 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: dark;
+
+  /* LAEX Signal — core color roles */
+  --laex-canvas: #05070d;
+  --laex-canvas-deep: #02040a;
+  --laex-surface: #09111e;
+  --laex-surface-raised: #0e1a2b;
+  --laex-surface-overlay: rgba(14, 26, 43, 0.72);
+  --laex-surface-soft: rgba(9, 17, 30, 0.58);
+  --laex-glass: rgba(255, 255, 255, 0.055);
+  --laex-glass-strong: rgba(255, 255, 255, 0.09);
+  --laex-border: rgba(148, 163, 184, 0.16);
+  --laex-border-strong: rgba(103, 232, 249, 0.38);
+  --laex-border-highlight: rgba(255, 255, 255, 0.12);
+
+  --laex-signal: #37d8ee;
+  --laex-signal-strong: #22c7e6;
+  --laex-aurora: #5e8cff;
+  --laex-quantum: #a78bfa;
+  --laex-gold: #f6c65b;
+  --laex-success: #4ade80;
+  --laex-warning: #fbbf24;
+  --laex-danger: #fb7185;
+
+  --laex-text: #f8fafc;
+  --laex-text-muted: #94a3b8;
+  --laex-text-subtle: #64748b;
+
+  /* Geometry and elevation */
+  --laex-radius-sm: 0.75rem;
+  --laex-radius-md: 1rem;
+  --laex-radius-lg: 1.5rem;
+  --laex-radius-xl: 2rem;
+  --laex-radius-2xl: 2.5rem;
+
+  --laex-shadow-panel: 0 20px 60px rgba(2, 4, 10, 0.42);
+  --laex-shadow-float: 0 28px 90px rgba(2, 4, 10, 0.58);
+  --laex-shadow-card: 0 12px 36px rgba(2, 4, 10, 0.3);
+  --laex-shadow-card-hover: 0 24px 72px rgba(2, 4, 10, 0.52);
+  --laex-shadow-signal: 0 0 0 1px rgba(55, 216, 238, 0.1),
+    0 18px 56px rgba(34, 199, 230, 0.16);
+  --laex-glow-signal: 0 0 44px rgba(55, 216, 238, 0.22);
+  --laex-glow-aurora: 0 0 64px rgba(94, 140, 255, 0.18);
+
+  /* Motion */
+  --laex-duration-fast: 160ms;
+  --laex-duration-base: 240ms;
+  --laex-duration-slow: 420ms;
+  --laex-duration-page: 560ms;
+  --laex-ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --laex-ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --background: var(--laex-canvas);
+  --foreground: var(--laex-text);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-laex-canvas: var(--laex-canvas);
+  --color-laex-surface: var(--laex-surface);
+  --color-laex-surface-raised: var(--laex-surface-raised);
+  --color-laex-surface-soft: var(--laex-surface-soft);
+  --color-laex-signal: var(--laex-signal);
+  --color-laex-aurora: var(--laex-aurora);
+  --color-laex-quantum: var(--laex-quantum);
+  --color-laex-gold: var(--laex-gold);
+  --color-laex-success: var(--laex-success);
+  --color-laex-warning: var(--laex-warning);
+  --color-laex-danger: var(--laex-danger);
+  --color-laex-text-muted: var(--laex-text-muted);
+  --color-laex-text-subtle: var(--laex-text-subtle);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --radius-laex-sm: var(--laex-radius-sm);
+  --radius-laex-md: var(--laex-radius-md);
+  --radius-laex-lg: var(--laex-radius-lg);
+  --radius-laex-xl: var(--laex-radius-xl);
+  --shadow-laex-panel: var(--laex-shadow-panel);
+  --shadow-laex-float: var(--laex-shadow-float);
+  --shadow-laex-card: var(--laex-shadow-card);
+  --shadow-laex-signal: var(--laex-shadow-signal);
+  --ease-laex-standard: var(--laex-ease-standard);
+  --ease-laex-emphasized: var(--laex-ease-emphasized);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  border-color: var(--laex-border);
+}
+
+html {
+  min-height: 100%;
+  background: var(--laex-canvas-deep);
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  position: relative;
+  isolation: isolate;
+  min-height: 100%;
+  background:
+    radial-gradient(circle at 12% -8%, rgba(55, 216, 238, 0.11), transparent 34rem),
+    radial-gradient(circle at 88% 10%, rgba(94, 140, 255, 0.1), transparent 38rem),
+    radial-gradient(circle at 50% 105%, rgba(167, 139, 250, 0.06), transparent 40rem),
+    linear-gradient(180deg, rgba(5, 7, 13, 0.18), rgba(2, 4, 10, 0.72)),
+    var(--laex-canvas);
+  background-attachment: fixed;
+  color: var(--laex-text);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+body::before,
+body::after {
+  position: fixed;
+  z-index: -1;
+  border-radius: 999px;
+  content: "";
+  pointer-events: none;
+  filter: blur(120px);
+  opacity: 0.7;
+}
+
+body::before {
+  top: 18%;
+  left: -14rem;
+  width: 28rem;
+  height: 28rem;
+  background: rgba(55, 216, 238, 0.065);
+  animation: laex-ambient-drift 18s var(--laex-ease-standard) infinite alternate;
+}
+
+body::after {
+  right: -16rem;
+  bottom: 8%;
+  width: 34rem;
+  height: 34rem;
+  background: rgba(94, 140, 255, 0.065);
+  animation: laex-ambient-drift 22s var(--laex-ease-standard) infinite alternate-reverse;
+}
+
+body > :not(script):not(style) {
+  animation: laex-page-enter var(--laex-duration-page) var(--laex-ease-emphasized) both;
+}
+
+::selection {
+  background: rgba(55, 216, 238, 0.28);
+  color: var(--laex-text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--laex-signal);
+  outline-offset: 3px;
+}
+
+@layer components {
+  .laex-canvas {
+    position: relative;
+    isolation: isolate;
+    background:
+      radial-gradient(circle at 12% 0%, rgba(55, 216, 238, 0.1), transparent 32rem),
+      radial-gradient(circle at 92% 18%, rgba(94, 140, 255, 0.09), transparent 36rem),
+      linear-gradient(180deg, rgba(5, 7, 13, 0.28), rgba(2, 4, 10, 0.58));
+  }
+
+  .laex-surface {
+    border: 1px solid var(--laex-border);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.055), transparent 36%), var(--laex-surface-overlay);
+    box-shadow: inset 0 1px 0 var(--laex-border-highlight), var(--laex-shadow-panel);
+    backdrop-filter: blur(24px) saturate(125%);
+  }
+
+  .laex-surface-raised {
+    border: 1px solid var(--laex-border);
+    background: radial-gradient(circle at 85% 0%, rgba(94, 140, 255, 0.09), transparent 20rem), linear-gradient(145deg, rgba(14, 26, 43, 0.96), rgba(5, 7, 13, 0.96));
+    box-shadow: inset 0 1px 0 var(--laex-border-highlight), var(--laex-shadow-float);
+  }
+
+  .laex-card {
+    border: 1px solid var(--laex-border);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.035), transparent 45%), var(--laex-surface-soft);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.055), var(--laex-shadow-card);
+    backdrop-filter: blur(18px) saturate(120%);
+    transition: transform var(--laex-duration-slow) var(--laex-ease-emphasized), border-color var(--laex-duration-base) var(--laex-ease-standard), box-shadow var(--laex-duration-slow) var(--laex-ease-standard);
+  }
+
+  .laex-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(103, 232, 249, 0.28);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), var(--laex-shadow-card-hover), 0 0 48px rgba(55, 216, 238, 0.075);
+  }
+
+  .laex-section {
+    position: relative;
+    width: 100%;
+    padding-block: clamp(4.5rem, 8vw, 7rem);
+  }
+
+  .laex-section-inner {
+    width: min(100% - 3rem, 80rem);
+    margin-inline: auto;
+  }
+
+  .laex-eyebrow {
+    color: var(--laex-signal);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+}
+
+@keyframes laex-page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes laex-ambient-drift {
+  from {
+    transform: translate3d(0, -2%, 0) scale(0.96);
+  }
+
+  to {
+    transform: translate3d(7%, 5%, 0) scale(1.04);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  body::before,
+  body::after {
+    animation: none;
+  }
 }

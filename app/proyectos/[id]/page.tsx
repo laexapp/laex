@@ -1,3 +1,6 @@
+import { notFound } from "next/navigation";
+
+import { getProject } from "@/core/projects";
 import ProjectPage from "@/modules/project/ProjectPage";
 
 type Props = {
@@ -8,6 +11,11 @@ type Props = {
 
 export default async function Page({ params }: Props) {
   const { id } = await params;
+  const project = getProject(id);
 
-  return <ProjectPage projectId={id} />;
+  if (!project) {
+    notFound();
+  }
+
+  return <ProjectPage project={project} />;
 }

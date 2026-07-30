@@ -11,10 +11,8 @@ export default function SectionContainer({
 }: SectionContainerProps) {
   return (
     <section
-      className={`relative overflow-hidden rounded-[40px]
-      border border-cyan-500/15
-      bg-[#050914]
-      px-8 py-12 md:px-12 md:py-16
+      className={`laex-surface-raised relative overflow-hidden rounded-[40px]
+      px-6 py-12 sm:px-8 md:px-12 md:py-16 lg:py-20
       ${className}`}
     >
       {/* Aurora superior */}

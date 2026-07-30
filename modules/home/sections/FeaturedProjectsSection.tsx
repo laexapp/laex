@@ -40,7 +40,7 @@ export default function FeaturedProjectsSection() {
     filteredProjects.length === 0;
 
   return (
-    <section className="space-y-8">
+    <section id="assistant" className="space-y-8">
       <div className="mx-auto max-w-7xl px-6">
         <SearchBox
           value={query}
@@ -141,7 +141,7 @@ export default function FeaturedProjectsSection() {
             <p className="mt-3 text-gray-400">
               No existe ningún proyecto que coincida con{" "}
               <span className="font-semibold text-white">
-                "{query}"
+                &quot;{query}&quot;
               </span>.
             </p>
 

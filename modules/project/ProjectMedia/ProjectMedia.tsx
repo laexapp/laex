@@ -1,25 +1,36 @@
 import ProjectSocialLinks from "../ProjectSocialLinks";
 import ProjectVideoPlayer from "../ProjectVideoPlayer";
 
+import type { Project } from "@/core/types/project";
 import { mediaRepository } from "@/src/core/media";
 import type { MediaItem } from "@/src/core/media";
 import { projectRepository } from "@/src/core/projects/identity";
 
 type ProjectMediaProps = {
+  project: Project;
   items?: MediaItem[];
 };
 
-const project =
-  projectRepository.getBySlug("one-million-miners");
-
-const configuredItems = project
-  ? mediaRepository.getFeaturedVideos(project.identity.slug)
-  : [];
+const projectIdentitySlugs: Record<string, string> = {
+  onemillionminers: "one-million-miners",
+  omdb: "omd-blockchain",
+  omd: "one-million-dollar",
+};
 
 export default function ProjectMedia({
-  items = configuredItems,
+  project,
+  items,
 }: ProjectMediaProps) {
-  const featuredVideo = items[0];
+  const projectIdentity = projectIdentitySlugs[project.id]
+    ? projectRepository.getBySlug(projectIdentitySlugs[project.id])
+    : null;
+
+  const configuredItems = projectIdentity
+    ? mediaRepository.getFeaturedVideos(projectIdentity.identity.slug)
+    : [];
+
+  const mediaItems = items ?? configuredItems;
+  const featuredVideo = mediaItems[0];
 
   if (!featuredVideo) {
     return null;
@@ -40,13 +51,12 @@ export default function ProjectMedia({
 
         <div className="relative z-10 py-24">
           <div className="mx-auto max-w-[1400px] px-6 text-center">
-
             <span className="text-xs font-bold uppercase tracking-[0.45em] text-cyan-400">
               Multimedia
             </span>
 
             <h2 className="mt-5 text-5xl font-black text-white md:text-6xl xl:text-7xl">
-              Conoce OneMillionMiners
+              Conoce {project.name}
             </h2>
 
             <p className="mx-auto mt-6 max-w-4xl text-xl leading-9 text-slate-300">
@@ -62,7 +72,6 @@ export default function ProjectMedia({
             </div>
 
             <div className="mx-auto mt-12 max-w-5xl">
-
               <span className="text-xs font-bold uppercase tracking-[0.35em] text-cyan-400">
                 {featuredVideo.source.provider}
               </span>
@@ -87,15 +96,11 @@ export default function ProjectMedia({
               </div>
 
               <div className="mt-8 flex justify-center">
-                {project && (
-                  <ProjectSocialLinks
-                    social={project.social}
-                  />
+                {projectIdentity && (
+                  <ProjectSocialLinks social={projectIdentity.social} />
                 )}
               </div>
-
             </div>
-
           </div>
         </div>
       </div>

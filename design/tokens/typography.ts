@@ -1,26 +1,28 @@
 export const TYPOGRAPHY = {
-  fontFamily: "Inter, sans-serif",
+  fontFamily: "var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif",
+  monoFamily: "var(--font-geist-mono), ui-monospace, monospace",
 
   size: {
-    xs: "12px",
-    sm: "14px",
-    md: "16px",
-    lg: "20px",
-    xl: "28px",
-    xxl: "40px",
-    display: "56px",
+    label: "11px",
+    caption: "12px",
+    body: "16px",
+    lead: "18px",
+    title: "32px",
+    section: "48px",
+    display: "72px",
   },
 
   weight: {
-    light: 300,
     regular: 400,
     medium: 500,
     semibold: 600,
     bold: 700,
+    black: 900,
   },
 
   lineHeight: {
-    normal: 1.5,
-    heading: 1.2,
+    body: 1.6,
+    title: 1.15,
+    display: 1.02,
   },
 } as const;

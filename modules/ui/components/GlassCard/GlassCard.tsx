@@ -13,18 +13,13 @@ export default function GlassCard({
   return (
     <div
       className={clsx(
-        "relative overflow-hidden rounded-3xl",
-        "border border-white/10",
-        "bg-white/5",
-        "backdrop-blur-2xl",
-        "shadow-[0_0_60px_rgba(0,255,255,0.08)]",
-        "transition-all duration-300",
-        "hover:border-cyan-400/40",
-        "hover:shadow-[0_0_80px_rgba(34,211,238,0.20)]",
+        "laex-card group relative overflow-hidden rounded-3xl",
         className
       )}
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/5 via-transparent to-blue-500/5 pointer-events-none" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/[0.055] via-transparent to-blue-500/[0.055] opacity-80 transition-opacity duration-500 group-hover:opacity-100" />
+      <div className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-cyan-200/45 to-transparent" />
+      <div className="pointer-events-none absolute -right-24 -top-24 h-52 w-52 rounded-full bg-cyan-400/[0.075] blur-3xl transition-transform duration-700 group-hover:-translate-x-4 group-hover:translate-y-4" />
 
       <div className="relative z-10">
         {children}

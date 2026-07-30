@@ -9,7 +9,7 @@ export default function Navigation() {
     <nav className="hidden items-center gap-6 xl:gap-8 md:flex">
 
       <Link
-        href="/"
+        href="/platform"
         className="text-[14px] font-medium text-slate-300 transition-all duration-300 hover:text-cyan-400"
       >
         Inicio
@@ -44,7 +44,7 @@ export default function Navigation() {
       </Link>
 
       <Link
-        href="/ia"
+        href="/platform#assistant"
         className="text-[14px] font-medium text-slate-300 transition-all duration-300 hover:text-cyan-400"
       >
         IA

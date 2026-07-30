@@ -3,13 +3,13 @@ import type { Module } from "./Module";
 export class ModuleManager {
   private modules: Module[] = [];
 
-  register(module: Module) {
-    this.modules.push(module);
+  register(registeredModule: Module) {
+    this.modules.push(registeredModule);
   }
 
   async initializeAll() {
-    for (const module of this.modules) {
-      await module.initialize();
+    for (const registeredModule of this.modules) {
+      await registeredModule.initialize();
     }
   }
 

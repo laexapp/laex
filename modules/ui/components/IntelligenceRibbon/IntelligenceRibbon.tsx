@@ -4,7 +4,28 @@ type IntelligenceRibbonProps = {
   communityScore: number;
   riskLevel: number;
 };
+type MetricProps = {
+  label: string;
+  value: number;
+  color: string;
+};
 
+function Metric({ label, value, color }: MetricProps) {
+  return (
+    <div className="space-y-1">
+      <div className="flex items-center justify-between text-xs">
+        <span className="text-slate-400">{label}</span>
+        <span className="font-bold text-white">{value}</span>
+      </div>
+      <div className="h-2 overflow-hidden rounded-full bg-white/10">
+        <div
+          className={`h-full rounded-full transition-all duration-700 ${color}`}
+          style={{ width: `${value}%` }}
+        />
+      </div>
+    </div>
+  );
+}
 export default function IntelligenceRibbon({
   trustIndex,
   aiScore,
@@ -37,32 +58,6 @@ export default function IntelligenceRibbon({
 
   const risk = getRisk();
 
-  const Metric = ({
-    label,
-    value,
-    color,
-  }: {
-    label: string;
-    value: number;
-    color: string;
-  }) => (
-    <div className="space-y-1">
-      <div className="flex items-center justify-between text-xs">
-        <span className="text-slate-400">{label}</span>
-
-        <span className="font-bold text-white">
-          {value}
-        </span>
-      </div>
-
-      <div className="h-2 overflow-hidden rounded-full bg-white/10">
-        <div
-          className={`h-full rounded-full transition-all duration-700 ${color}`}
-          style={{ width: `${value}%` }}
-        />
-      </div>
-    </div>
-  );
 
   return (
     <div

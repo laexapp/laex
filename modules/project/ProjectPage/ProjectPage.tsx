@@ -1,4 +1,4 @@
-import { projects } from "@/core/projects/projects";
+import type { Project } from "@/core/types/project";
 
 import ProjectHero from "../ProjectHero/ProjectHero";
 import ProjectExecutiveSummary from "../ProjectExecutiveSummary/ProjectExecutiveSummary";
@@ -9,16 +9,12 @@ import ProjectGallery from "../components/ProjectGallery";
 import ProjectTimeline from "../ProjectTimeline/ProjectTimeline";
 
 type Props = {
-  projectId?: string;
+  project: Project;
 };
 
 export default function ProjectPage({
-  projectId,
+  project,
 }: Props) {
-  const project =
-    projects.find((p) => p.id === projectId) ??
-    projects[0];
-
   return (
     <main className="relative overflow-hidden bg-[#02050B]">
 
@@ -70,7 +66,7 @@ export default function ProjectPage({
         </div>
 
         <div className="mt-8">
-          <ProjectMedia />
+          <ProjectMedia project={project} />
         </div>
 
         <div className="mx-auto mt-10 max-w-7xl space-y-10 px-6 pb-24">

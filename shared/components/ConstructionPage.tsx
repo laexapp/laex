@@ -54,7 +54,7 @@ export default function ConstructionPage({
             </Link>
 
             <Link
-              href="/ia"
+              href="/platform#assistant"
               className="rounded-xl border border-cyan-500 px-6 py-3 font-semibold transition hover:bg-cyan-500/10"
             >
               Ir a LAEX AI

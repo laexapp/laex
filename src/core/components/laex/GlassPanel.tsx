@@ -17,14 +17,12 @@ export default function GlassPanel({
         relative
         overflow-hidden
         rounded-3xl
-        border border-white/10
-        bg-white/[0.045]
-        backdrop-blur-xl
+        laex-card
         transition-all
         duration-500
         ${
           hover
-            ? "hover:-translate-y-1 hover:border-cyan-400/30 hover:bg-white/[0.07]"
+            ? "hover:-translate-y-1 hover:border-cyan-400/30"
             : ""
         }
         ${className}

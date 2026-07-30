@@ -8,12 +8,14 @@ import {
 
 export default function Hero() {
   return (
-    <section className="relative w-full py-24">
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-cyan-500/5 via-transparent to-transparent" />
+    <section className="relative w-full overflow-hidden py-20 md:py-28 lg:py-32">
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_22%_38%,rgba(55,216,238,.10),transparent_28rem)]" />
+      <div className="pointer-events-none absolute left-[8%] top-20 -z-10 h-40 w-px bg-gradient-to-b from-transparent via-cyan-300/25 to-transparent" />
 
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-14 px-6 lg:grid-cols-[1fr_1.15fr]">
-        <div>
-          <p className="font-semibold uppercase tracking-[0.35em] text-cyan-400">
+        <div className="relative z-10">
+          <p className="laex-eyebrow inline-flex items-center gap-3">
+            <span className="h-px w-8 bg-gradient-to-r from-cyan-300 to-transparent" />
             LAEX Identity 1.0
           </p>
 
@@ -25,15 +27,15 @@ export default function Hero() {
             </GradientTitle>
           </div>
 
-          <p className="mt-8 max-w-2xl text-xl leading-9 text-gray-400">
+          <p className="mt-8 max-w-xl text-lg leading-8 text-slate-300/80 md:text-xl md:leading-9">
             Understand projects.
             Discover opportunities.
             Make informed decisions.
           </p>
 
-          <div className="mt-14 flex flex-wrap gap-5">
+          <div className="mt-12 flex flex-wrap gap-4 md:mt-14 md:gap-5">
             <GlowButton asChild size="lg">
-              <Link href="/ia">
+              <Link href="/platform#assistant">
                 Ask LAEX
               </Link>
             </GlowButton>

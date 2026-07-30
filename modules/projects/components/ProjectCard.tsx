@@ -7,7 +7,7 @@ type Props = {
 
 export default function ProjectCard({ project }: Props) {
   return (
-    <div className="rounded-3xl border border-slate-800 bg-[#0D1422] p-6 transition-all duration-300 hover:border-cyan-500/40 hover:shadow-[0_0_40px_rgba(0,212,255,.12)]">
+    <div className="laex-card group rounded-3xl p-6">
 
       <span className="text-xs font-bold uppercase tracking-[0.35em] text-cyan-400">
         {project.category}
@@ -29,7 +29,7 @@ export default function ProjectCard({ project }: Props) {
 
         <Link
           href={`/proyectos/${project.id}`}
-          className="rounded-xl border border-slate-700 px-5 py-2 text-sm font-semibold text-white transition hover:border-cyan-400 hover:text-cyan-300"
+          className="rounded-xl border border-white/10 bg-white/[0.035] px-5 py-2 text-sm font-semibold text-white transition-all duration-300 hover:border-cyan-300/40 hover:bg-cyan-400/10 hover:text-cyan-200 group-hover:translate-x-0.5"
         >
           Ver proyecto →
         </Link>

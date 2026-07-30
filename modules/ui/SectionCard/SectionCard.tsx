@@ -15,7 +15,7 @@ export default function SectionCard({
 }: Props) {
   return (
     <section
-      className={`rounded-3xl border border-white/10 bg-[#0d1523] p-8 md:p-10 ${className}`}
+      className={`laex-card rounded-3xl p-8 md:p-10 ${className}`}
     >
       <header className="mb-8">
         <h2 className="text-3xl font-black text-white">

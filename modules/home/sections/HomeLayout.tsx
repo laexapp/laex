@@ -5,16 +5,16 @@ import FeaturedProjectsSection from "./FeaturedProjectsSection";
 
 export default function HomeLayout() {
   return (
-    <main className="min-h-screen bg-[#0B1018] text-white">
+    <main className="laex-canvas min-h-screen text-white">
       <Header />
 
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="relative mx-auto max-w-7xl px-6">
         <Hero />
       </div>
 
       <FeaturedProjectsSection />
 
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="relative mx-auto max-w-7xl px-6">
         <EcosystemShowcase />
       </div>
     </main>
