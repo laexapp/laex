@@ -1,157 +1,39 @@
 "use client";
 
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { ReactNode, useRef } from "react";
 
-type ProjectCarouselProps = {
-  children: ReactNode;
-};
+type Props = { children: ReactNode };
 
-export default function ProjectCarousel({
-  children,
-}: ProjectCarouselProps) {
+export default function ProjectCarousel({ children }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
-
   const isDragging = useRef(false);
   const startX = useRef(0);
   const scrollLeft = useRef(0);
 
-  const scroll = (direction: "left" | "right") => {
+  const scroll = (direction: "left" | "right") => containerRef.current?.scrollBy({ left: direction === "right" ? 380 : -380, behavior: "smooth" });
+  const handleMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
-
-    containerRef.current.scrollBy({
-      left: direction === "right" ? 420 : -420,
-      behavior: "smooth",
-    });
-  };
-
-  const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
-    if (!containerRef.current) return;
-
-    e.preventDefault();
-
-    containerRef.current.scrollLeft += e.deltaY;
-  };
-
-  const handleMouseDown = (
-    e: React.MouseEvent<HTMLDivElement>
-  ) => {
-    if (!containerRef.current) return;
-
     isDragging.current = true;
-
-    startX.current =
-      e.pageX - containerRef.current.offsetLeft;
-
-    scrollLeft.current =
-      containerRef.current.scrollLeft;
+    startX.current = event.pageX - containerRef.current.offsetLeft;
+    scrollLeft.current = containerRef.current.scrollLeft;
+  };
+  const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (!isDragging.current || !containerRef.current) return;
+    event.preventDefault();
+    const x = event.pageX - containerRef.current.offsetLeft;
+    containerRef.current.scrollLeft = scrollLeft.current - (x - startX.current) * 1.3;
   };
 
-  const handleMouseLeave = () => {
-    isDragging.current = false;
-  };
-
-  const handleMouseUp = () => {
-    isDragging.current = false;
-  };
-
-  const handleMouseMove = (
-    e: React.MouseEvent<HTMLDivElement>
-  ) => {
-    if (!isDragging.current) return;
-
-    if (!containerRef.current) return;
-
-    e.preventDefault();
-
-    const x =
-      e.pageX - containerRef.current.offsetLeft;
-
-    const walk = (x - startX.current) * 1.4;
-
-    containerRef.current.scrollLeft =
-      scrollLeft.current - walk;
-  };
+  const controlClass = "absolute top-1/2 z-30 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-white/10 bg-[#071018]/85 text-slate-300 shadow-xl backdrop-blur-xl transition hover:border-cyan-300/35 hover:text-cyan-200";
 
   return (
-    <div className="group relative">
-
-      <button
-        onClick={() => scroll("left")}
-        className="
-          absolute
-          left-0
-          top-1/2
-          z-30
-          -translate-y-1/2
-          rounded-full
-          border
-          border-cyan-400/20
-          bg-[#0A101A]/70
-          p-3
-          text-white
-          opacity-0
-          backdrop-blur-xl
-          transition-all
-          duration-300
-          group-hover:opacity-100
-          hover:scale-110
-          hover:border-cyan-400
-          hover:shadow-[0_0_25px_rgba(6,182,212,.35)]
-        "
-      >
-        ←
-      </button>
-
-      <div
-        ref={containerRef}
-        onWheel={handleWheel}
-        onMouseDown={handleMouseDown}
-        onMouseLeave={handleMouseLeave}
-        onMouseUp={handleMouseUp}
-        onMouseMove={handleMouseMove}
-        className="
-          flex
-          gap-6
-          overflow-x-auto
-          scroll-smooth
-          px-14
-          pb-4
-          scrollbar-hide
-          cursor-grab
-          active:cursor-grabbing
-          select-none
-        "
-      >
+    <div className="group relative -mx-3 px-3">
+      <button type="button" aria-label="Ver proyectos anteriores" onClick={() => scroll("left")} className={`${controlClass} left-2`}><ArrowLeft size={18} /></button>
+      <div ref={containerRef} onMouseDown={handleMouseDown} onMouseLeave={() => { isDragging.current = false; }} onMouseUp={() => { isDragging.current = false; }} onMouseMove={handleMouseMove} className="scrollbar-hide flex cursor-grab snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth px-12 pb-7 pt-3 active:cursor-grabbing md:px-14">
         {children}
       </div>
-
-      <button
-        onClick={() => scroll("right")}
-        className="
-          absolute
-          right-0
-          top-1/2
-          z-30
-          -translate-y-1/2
-          rounded-full
-          border
-          border-cyan-400/20
-          bg-[#0A101A]/70
-          p-3
-          text-white
-          opacity-0
-          backdrop-blur-xl
-          transition-all
-          duration-300
-          group-hover:opacity-100
-          hover:scale-110
-          hover:border-cyan-400
-          hover:shadow-[0_0_25px_rgba(6,182,212,.35)]
-        "
-      >
-        →
-      </button>
-
+      <button type="button" aria-label="Ver proyectos siguientes" onClick={() => scroll("right")} className={`${controlClass} right-2`}><ArrowRight size={18} /></button>
     </div>
   );
 }

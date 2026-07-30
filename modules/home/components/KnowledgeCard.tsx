@@ -1,158 +1,35 @@
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-
+import type { CSSProperties } from "react";
 import { Project } from "@/core/types/project";
-import {
-  GlassCard,
-} from "@/modules/ui";
 
-type KnowledgeCardProps = {
-  project: Project;
-};
+type Props = { project: Project; index: number };
+const accents: Record<string, string> = { onemillionminers: "#F6C65B", omdb: "#37D8EE", omd: "#A78BFA" };
 
-export default function KnowledgeCard({
-  project,
-}: KnowledgeCardProps) {
+export default function KnowledgeCard({ project, index }: Props) {
+  const style = { "--project-accent": accents[project.id] ?? "#37D8EE" } as CSSProperties;
   return (
-    <div className="w-[320px] shrink-0 py-5">
-      <GlassCard
-        className="
-          group
-          relative
-          overflow-hidden
-          rounded-[36px]
-          border
-          border-white/10
-          bg-gradient-to-b
-          from-slate-900/80
-          to-[#05070D]
-          transition-all
-          duration-500
-          hover:-translate-y-3
-          hover:border-cyan-400/40
-          hover:shadow-[0_20px_70px_rgba(6,182,212,.18)]
-        "
-      >
-        {/* Glow */}
-        <div className="pointer-events-none absolute -top-24 left-1/2 h-60 w-60 -translate-x-1/2 rounded-full bg-cyan-500/10 blur-[80px] opacity-0 transition duration-500 group-hover:opacity-100" />
-
-        {/* Banner */}
-        <div className="relative h-[220px] overflow-hidden">
-          <Image
-            src={project.banner}
-            alt={project.name}
-            fill
-            className="
-              object-cover
-              transition-transform
-              duration-700
-              group-hover:scale-105
-            "
-          />
-
-          <div className="absolute inset-0 bg-black/25" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#05070D] via-transparent to-transparent" />
+    <article style={style} className="group relative min-h-[480px] w-[min(82vw,340px)] shrink-0 snap-start overflow-hidden rounded-[28px] border border-white/[0.09] bg-[#071018]/78 p-5 shadow-[0_20px_55px_rgba(2,4,10,.32)] transition duration-500 ease-laex-emphasized hover:-translate-y-2 hover:border-cyan-300/30 hover:shadow-[0_30px_75px_rgba(2,4,10,.5)]">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_15%,color-mix(in_srgb,var(--project-accent)_11%,transparent),transparent_15rem)]" />
+      <div className="relative z-10 flex items-center justify-between text-[9px] font-bold uppercase tracking-[0.16em] text-slate-600">
+        <span>{String(index + 1).padStart(2, "0")}</span><span className="text-[color:var(--project-accent)]">{project.status}</span>
+      </div>
+      <div className="relative z-10 mx-auto mt-5 grid h-48 place-items-center overflow-hidden rounded-2xl border border-white/[0.07] bg-black/20">
+        <Image src={project.banner} alt="" fill sizes="340px" className="object-cover opacity-55 transition duration-700 group-hover:scale-105 group-hover:opacity-70" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#071018] via-transparent to-transparent" />
+        <div className="relative grid h-20 w-20 rotate-45 place-items-center rounded-[22px] border border-white/15 bg-[#071018]/70 p-3 backdrop-blur-xl">
+          <Image src={project.logo} alt={project.name} width={58} height={58} className="-rotate-45 rounded-xl" />
         </div>
-
-        {/* Logo */}
-        <div className="absolute left-6 top-[175px] z-20">
-          <div
-            className="
-              rounded-2xl
-              border
-              border-white/20
-              bg-white/10
-              p-2
-              backdrop-blur-xl
-            "
-          >
-            <Image
-              src={project.logo}
-              alt={project.name}
-              width={56}
-              height={56}
-              className="rounded-xl"
-            />
-          </div>
-        </div>
-
-        {/* Contenido */}
-        <div className="px-6 pb-6 pt-12">
-
-          <span className="text-xs font-bold uppercase tracking-[0.35em] text-cyan-300">
-            {project.category}
-          </span>
-
-          <h3 className="mt-3 text-2xl font-black text-white">
-            {project.name}
-          </h3>
-
-          <div className="mt-4 inline-flex rounded-full border border-red-500/30 bg-red-500/10 px-3 py-1 text-xs font-semibold text-red-400">
-            {project.status}
-          </div>
-
-          <p className="mt-5 line-clamp-3 text-sm leading-7 text-slate-400">
-            {project.description}
-          </p>
-
-          <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-4">
-
-            <div className="flex justify-between">
-
-              <div>
-
-                <p className="text-[10px] uppercase tracking-[0.3em] text-slate-500">
-                  Lanzamiento
-                </p>
-
-                <p className="mt-2 text-sm font-semibold text-white">
-                  {project.launchDate}
-                </p>
-
-              </div>
-
-              <div className="text-right">
-
-                <p className="text-[10px] uppercase tracking-[0.3em] text-slate-500">
-                  Actualización
-                </p>
-
-                <p className="mt-2 text-sm font-semibold text-cyan-400">
-                  {project.lastUpdate}
-                </p>
-
-              </div>
-
-            </div>
-
-          </div>
-
-          <Link
-            href={`/proyectos/${project.id}`}
-            className="
-              mt-6
-              flex
-              h-12
-              items-center
-              justify-center
-              rounded-2xl
-              border
-              border-cyan-500/40
-              bg-cyan-500/10
-              font-semibold
-              text-cyan-300
-              transition-all
-              duration-300
-              hover:bg-cyan-500
-              hover:text-slate-950
-            "
-          >
-            Ver análisis →
-          </Link>
-
-        </div>
-
-      </GlassCard>
-    </div>
+      </div>
+      <div className="relative z-10 mt-7">
+        <span className="text-[9px] font-bold uppercase tracking-[0.19em] text-[color:var(--project-accent)]">{project.category}</span>
+        <h3 className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-white">{project.name}</h3>
+        <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-500">{project.description}</p>
+      </div>
+      <Link href={`/proyectos/${project.id}`} className="absolute inset-x-5 bottom-5 z-10 flex items-center justify-between border-t border-white/[0.07] pt-4 text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400 transition group-hover:text-white">
+        Explorar <ArrowRight size={16} className="text-[color:var(--project-accent)] transition group-hover:translate-x-1" />
+      </Link>
+    </article>
   );
 }
