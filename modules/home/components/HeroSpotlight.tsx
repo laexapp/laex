@@ -1,15 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { ArrowRight, Radio } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState, type CSSProperties } from "react";
 
 import { featuredProjects } from "@/core/data/featuredProjects";
-
-import SpotlightBanner from "./spotlight/SpotlightBanner";
-import SpotlightOverlay from "./spotlight/SpotlightOverlay";
-import SpotlightButton from "./spotlight/SpotlightButton";
-import SpotlightIndicators from "./spotlight/SpotlightIndicators";
-
-import { GlassCard } from "@/modules/ui";
 
 export default function HeroSpotlight() {
   const [index, setIndex] = useState(0);
@@ -23,42 +19,65 @@ export default function HeroSpotlight() {
   }, []);
 
   const project = featuredProjects[index];
+  const accentStyle = { "--spotlight-accent": project.color } as CSSProperties;
 
   return (
-    <div className="relative w-full overflow-visible transition-all duration-700 ease-laex-emphasized lg:translate-x-16">
+    <article
+      className="group relative min-h-[560px] overflow-hidden rounded-[32px] border border-white/[0.11] bg-[#071018]/85 shadow-[0_42px_110px_rgba(2,4,10,.62)] backdrop-blur-2xl sm:min-h-[640px]"
+      style={accentStyle}
+    >
+      <Image
+        key={project.banner}
+        src={project.banner}
+        alt=""
+        fill
+        priority
+        sizes="(max-width: 1024px) 100vw, 54vw"
+        className="object-cover opacity-50 transition duration-1000 ease-laex-emphasized group-hover:scale-[1.025] group-hover:opacity-60"
+      />
 
-      {/* Glow principal */}
-      <div className="absolute left-1/2 top-1/2 -z-20 h-[560px] w-[560px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-400/10 blur-[180px]" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,7,11,.08),rgba(3,7,11,.25)_40%,#03070B_94%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_60%_28%,color-mix(in_srgb,var(--spotlight-accent)_22%,transparent),transparent_18rem)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(125,222,238,.04)_1px,transparent_1px),linear-gradient(90deg,rgba(125,222,238,.04)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:linear-gradient(to_bottom,black,transparent_75%)]" />
 
-      {/* Glow secundario */}
-      <div className="absolute right-10 top-16 -z-20 h-40 w-40 rounded-full bg-blue-500/20 blur-[100px]" />
+      <div className="absolute left-7 top-7 z-10 flex items-center gap-2 rounded-full border border-white/10 bg-black/20 px-3 py-2 backdrop-blur-xl">
+        <Radio size={13} className="text-cyan-300" aria-hidden="true" />
+        <span className="text-[9px] font-bold uppercase tracking-[0.18em] text-slate-300">Featured signal</span>
+      </div>
 
-      <GlassCard className="overflow-hidden rounded-[34px] border-white/15 shadow-[0_36px_100px_rgba(2,4,10,.62),0_0_70px_rgba(55,216,238,.08)]">
+      <div className="absolute right-7 top-7 z-10 text-right">
+        <span className="block text-[9px] uppercase tracking-[0.16em] text-slate-500">Ecosystem</span>
+        <strong className="mt-1 block text-[10px] uppercase tracking-[0.16em] text-cyan-200">Online</strong>
+      </div>
 
-        <SpotlightBanner
-          banner={project.banner}
-          name={project.name}
-        />
+      <div className="absolute inset-x-7 bottom-7 z-10 sm:inset-x-9 sm:bottom-9">
+        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-cyan-300">{project.badge}</span>
+        <h2 className="laex-display mt-4 text-4xl text-white sm:text-6xl">{project.name}</h2>
+        <p className="mt-4 max-w-lg text-sm leading-6 text-slate-400 sm:text-base">{project.slogan}</p>
 
-        <SpotlightOverlay
-          badge={project.badge}
-          name={project.name}
-        />
+        <div className="mt-7 flex items-end justify-between gap-5 border-t border-white/[0.08] pt-6">
+          <div className="flex gap-2" aria-label={`Proyecto ${index + 1} de ${featuredProjects.length}`}>
+            {featuredProjects.map((item, itemIndex) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => setIndex(itemIndex)}
+                className={`h-0.5 transition-all duration-300 ${itemIndex === index ? "w-9 bg-cyan-300" : "w-4 bg-white/20 hover:bg-white/40"}`}
+                aria-label={`Mostrar ${item.name}`}
+                aria-current={itemIndex === index}
+              />
+            ))}
+          </div>
 
-        <div className="absolute bottom-6 right-8 z-20">
-          <SpotlightButton
-            action={project.action}
-            url={project.url}
-          />
+          <Link
+            href={project.url}
+            className="grid h-14 w-14 shrink-0 place-items-center rounded-full border border-cyan-300/30 bg-cyan-300/[0.08] text-cyan-200 transition hover:-translate-y-1 hover:bg-cyan-300 hover:text-[#031016]"
+            aria-label={`${project.action}: ${project.name}`}
+          >
+            <ArrowRight size={19} />
+          </Link>
         </div>
-
-        <SpotlightIndicators
-          total={featuredProjects.length}
-          current={index}
-        />
-
-      </GlassCard>
-
-    </div>
+      </div>
+    </article>
   );
 }
