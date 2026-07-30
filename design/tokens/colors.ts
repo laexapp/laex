@@ -7,6 +7,7 @@ export const COLORS = {
   glass: "rgba(255, 255, 255, 0.055)",
   border: "rgba(148, 163, 184, 0.16)",
   borderHighlight: "rgba(255, 255, 255, 0.12)",
+  grid: "rgba(125, 222, 238, 0.045)",
 
   signal: "#37D8EE",
   aurora: "#5E8CFF",

@@ -44,6 +44,7 @@
     0 18px 56px rgba(34, 199, 230, 0.16);
   --laex-glow-signal: 0 0 44px rgba(55, 216, 238, 0.22);
   --laex-glow-aurora: 0 0 64px rgba(94, 140, 255, 0.18);
+  --laex-grid: rgba(125, 222, 238, 0.045);
 
   /* Motion */
   --laex-duration-fast: 160ms;
@@ -111,6 +112,7 @@ body {
   color: var(--laex-text);
   font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 body::before,
@@ -166,6 +168,19 @@ body > :not(script):not(style) {
       linear-gradient(180deg, rgba(5, 7, 13, 0.28), rgba(2, 4, 10, 0.58));
   }
 
+  .laex-canvas::before {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image:
+      linear-gradient(var(--laex-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--laex-grid) 1px, transparent 1px);
+    background-size: 80px 80px;
+    content: "";
+    pointer-events: none;
+    mask-image: radial-gradient(circle at 50% 12%, black, transparent 72%);
+  }
+
   .laex-surface {
     border: 1px solid var(--laex-border);
     background: linear-gradient(145deg, rgba(255, 255, 255, 0.055), transparent 36%), var(--laex-surface-overlay);
@@ -204,6 +219,20 @@ body > :not(script):not(style) {
     margin-inline: auto;
   }
 
+  .laex-instrument {
+    border: 1px solid var(--laex-border);
+    background: linear-gradient(110deg, rgba(55, 216, 238, 0.045), transparent 38%), rgba(6, 16, 25, 0.78);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.055), 0 24px 80px rgba(2, 4, 10, 0.36);
+    backdrop-filter: blur(24px) saturate(125%);
+  }
+
+  .laex-display {
+    font-weight: 650;
+    letter-spacing: -0.065em;
+    line-height: 0.94;
+    text-wrap: balance;
+  }
+
   .laex-eyebrow {
     color: var(--laex-signal);
     font-size: 0.6875rem;
@@ -212,6 +241,14 @@ body > :not(script):not(style) {
     line-height: 1.2;
     text-transform: uppercase;
   }
+}
+
+.scrollbar-hide {
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
 @keyframes laex-page-enter {

@@ -10,6 +10,7 @@ export const TYPOGRAPHY = {
     title: "32px",
     section: "48px",
     display: "72px",
+    hero: "clamp(64px, 8vw, 128px)",
   },
 
   weight: {
@@ -24,5 +25,6 @@ export const TYPOGRAPHY = {
     body: 1.6,
     title: 1.15,
     display: 1.02,
+    hero: 0.94,
   },
 } as const;
