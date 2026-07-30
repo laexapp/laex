@@ -40,8 +40,8 @@ export default function FeaturedProjectsSection() {
     filteredProjects.length === 0;
 
   return (
-    <section id="assistant" className="space-y-8">
-      <div className="mx-auto max-w-7xl px-6">
+    <section id="assistant" className="laex-section space-y-8 border-t border-white/[0.06]">
+      <div className="laex-section-inner">
         <SearchBox
           value={query}
           onChange={setQuery}
@@ -52,15 +52,9 @@ export default function FeaturedProjectsSection() {
             className="
               mt-8
               overflow-hidden
+              laex-instrument
               rounded-3xl
-              border
-              border-cyan-500/30
-              bg-gradient-to-br
-              from-cyan-500/10
-              via-slate-900
-              to-slate-950
               p-8
-              shadow-[0_20px_60px_rgba(6,182,212,.15)]
             "
           >
             <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
@@ -88,17 +82,17 @@ export default function FeaturedProjectsSection() {
                   inline-flex
                   items-center
                   justify-center
-                  rounded-2xl
+                  rounded-xl
                   border
                   border-cyan-500/40
-                  bg-cyan-500/10
+                  bg-cyan-300/10
                   px-8
                   py-4
                   font-semibold
                   text-cyan-300
                   transition-all
                   duration-300
-                  hover:bg-cyan-500
+                  hover:bg-cyan-300
                   hover:text-slate-950
                 "
               >
