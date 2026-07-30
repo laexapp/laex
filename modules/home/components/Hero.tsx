@@ -15,10 +15,10 @@ export default function Hero() {
           LAEX Intelligence OS
         </p>
 
-        <h1 className="laex-display mt-8 text-[clamp(4rem,8vw,8rem)] text-white">
-          Understand the
+        <h1 className="laex-display mt-8 text-[clamp(3.7rem,7.5vw,7.6rem)] text-white">
+          Comprenda la
           <span className="block bg-gradient-to-br from-white via-cyan-100 to-cyan-500 bg-clip-text text-transparent drop-shadow-[0_12px_48px_rgba(55,216,238,.13)]">
-            signal.
+            señal.
           </span>
         </h1>
 

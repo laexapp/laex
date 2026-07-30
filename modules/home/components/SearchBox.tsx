@@ -1,4 +1,5 @@
-import { ArrowUpRight, BrainCircuit, Orbit, Sparkles } from "lucide-react";
+import { ArrowUpRight, Orbit, Sparkles } from "lucide-react";
+import Image from "next/image";
 
 type SearchBoxProps = {
   value: string;
@@ -30,9 +31,9 @@ export default function SearchBox({
         <div className="pointer-events-none absolute -inset-px rounded-[30px] bg-gradient-to-r from-cyan-300/30 via-white/10 to-violet-400/20 opacity-60" />
 
         <div className="laex-instrument relative grid min-h-28 grid-cols-[auto_1fr] items-center gap-4 overflow-hidden rounded-[29px] p-4 shadow-[0_32px_90px_rgba(0,0,0,.52),inset_0_1px_0_rgba(255,255,255,.08)] transition duration-500 group-focus-within:-translate-y-0.5 group-focus-within:border-cyan-300/30 group-focus-within:shadow-[0_38px_110px_rgba(0,0,0,.62),0_0_55px_rgba(50,210,232,.1)] sm:grid-cols-[auto_1fr_auto] sm:gap-6 sm:p-5">
-          <div className="relative grid h-16 w-16 place-items-center rounded-[20px] border border-cyan-300/25 bg-cyan-300/[0.07] text-cyan-100 shadow-[inset_0_1px_0_rgba(255,255,255,.1),0_0_30px_rgba(50,210,232,.08)]">
-            <span className="absolute inset-2 animate-pulse rounded-full border border-cyan-300/10 motion-reduce:animate-none" />
-            <BrainCircuit size={24} strokeWidth={1.45} aria-hidden="true" />
+          <div className="relative grid h-16 w-16 place-items-center overflow-hidden rounded-[20px] border border-cyan-300/20 bg-gradient-to-br from-cyan-300/[0.075] to-violet-400/[0.035] shadow-[inset_0_1px_0_rgba(255,255,255,.1),0_0_30px_rgba(50,210,232,.07)]">
+            <span className="absolute inset-2 rounded-full border border-cyan-300/[0.07]" />
+            <Image src="/brand/logo/logo-mark.png" alt="" width={36} height={36} className="relative h-9 w-9 object-contain opacity-85 drop-shadow-[0_0_12px_rgba(103,232,249,.18)]" aria-hidden="true" />
           </div>
 
           <div className="min-w-0">
