@@ -18,13 +18,17 @@ export default function KnowledgeCard({ project, index }: Props) {
       <div className="relative z-10 mx-auto mt-5 grid h-48 place-items-center overflow-hidden rounded-2xl border border-white/[0.07] bg-black/20">
         <Image src={project.banner} alt="" fill sizes="340px" className="object-cover opacity-55 transition duration-700 group-hover:scale-105 group-hover:opacity-70" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#071018] via-transparent to-transparent" />
-        <div className="relative grid h-20 w-20 rotate-45 place-items-center rounded-[22px] border border-white/15 bg-[#071018]/70 p-3 backdrop-blur-xl">
-          <Image src={project.logo} alt={project.name} width={58} height={58} className="-rotate-45 rounded-xl" />
-        </div>
       </div>
-      <div className="relative z-10 mt-7">
-        <span className="text-[9px] font-bold uppercase tracking-[0.19em] text-[color:var(--project-accent)]">{project.category}</span>
-        <h3 className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-white">{project.name}</h3>
+      <div className="relative z-10 mt-5">
+        <div className="flex items-center gap-3">
+          <div className="grid h-11 w-11 shrink-0 place-items-center overflow-hidden rounded-xl border border-white/10 bg-[#0A141D] p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,.06)]">
+            <Image src={project.logo} alt={`Logo de ${project.name}`} width={38} height={38} className="h-full w-full rounded-lg object-contain" />
+          </div>
+          <div className="min-w-0">
+            <span className="text-[9px] font-bold uppercase tracking-[0.19em] text-[color:var(--project-accent)]">{project.category}</span>
+            <h3 className="mt-1 truncate text-xl font-semibold tracking-[-0.035em] text-white">{project.name}</h3>
+          </div>
+        </div>
         <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-500">{project.description}</p>
       </div>
       <Link href={`/proyectos/${project.id}`} aria-label={`Explorar ${project.name}`} className="absolute inset-x-5 bottom-4 z-20 flex min-h-14 items-center justify-between border-t border-white/[0.07] pt-3 text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400 transition hover:text-white focus-visible:rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/70">
