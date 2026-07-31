@@ -58,6 +58,8 @@ export default function ProjectPage({
             project={project}
           />
 
+          <CommunityConnect channels={communityChannels} variant='inline' routingContext={`project:${project.id}:summary-end`} />
+
           <ProjectStats
             trustIndex={project.trustIndex}
             communityScore={project.communityScore}
@@ -92,6 +94,8 @@ export default function ProjectPage({
           <ProjectGallery
             projectId={project.id}
           />
+
+          <CommunityConnect channels={communityChannels} variant='panel' title={`La comunidad de ${project.name} sigue activa`} description='Continua la conversacion, comparte el proyecto o invita a otra persona.' routingContext={`project:${project.id}:footer`} actions={['open', 'copy', 'share', 'invite', 'join']} />
 
         </div>
 

@@ -10,6 +10,8 @@ import IdentityShell from "../components/IdentityShell";
 import Input from "../components/Input";
 import PasswordInput from "../components/PasswordInput";
 import { useLogin } from "../hooks/useLogin";
+import CommunityConnect from '@/modules/ui/components/CommunityConnect';
+import { laexCommunityChannels } from '@/modules/project/communityChannels';
 
 export default function Login() {
   const login = useLogin();
@@ -40,6 +42,7 @@ export default function Login() {
       <IdentityDivider label="Nueva identidad" />
       <p className="mb-3 text-center text-xs text-slate-600">¿Todavía no tienes una cuenta?</p>
       <Link href="/register" className={identitySecondaryClass}>Crear identidad digital</Link>
+      <div className='mt-6 flex justify-center'><CommunityConnect channels={laexCommunityChannels} variant='compact' actions={['open']} routingContext='login:invite' /></div>
     </IdentityShell>
   );
 }

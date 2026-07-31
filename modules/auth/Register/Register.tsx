@@ -11,6 +11,8 @@ import IdentityShell from "../components/IdentityShell";
 import Input from "../components/Input";
 import PasswordInput from "../components/PasswordInput";
 import { useRegister } from "../hooks/useRegister";
+import CommunityConnect from '@/modules/ui/components/CommunityConnect';
+import { laexCommunityChannels } from '@/modules/project/communityChannels';
 
 interface RegisterProps { referralCode?: string; }
 
@@ -38,6 +40,11 @@ export default function Register({ referralCode = "" }: RegisterProps) {
         <Checkbox id="terms" checked={register.acceptedTerms} onChange={register.setAcceptedTerms}>
           He leído y acepto los <Link href="/terms" className="text-cyan-300 transition hover:text-cyan-100">Términos de Uso</Link> y la <Link href="/privacy" className="text-cyan-300 transition hover:text-cyan-100">Política de Privacidad</Link>.
         </Checkbox>
+      </div>
+
+      <div className='mt-6 rounded-2xl border border-cyan-300/10 bg-cyan-300/[0.035] p-4'>
+        <p className='mb-3 text-xs leading-5 text-slate-500'>Al crear tu identidad digital tambien formas parte de una comunidad conectada a los proyectos que sigues.</p>
+        <CommunityConnect channels={laexCommunityChannels} variant='compact' actions={['open']} routingContext='register:identity-community' />
       </div>
 
       <div className="mt-7">

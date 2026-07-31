@@ -5,6 +5,8 @@ import type { Project } from "@/core/types/project";
 import { mediaRepository } from "@/src/core/media";
 import type { MediaItem } from "@/src/core/media";
 import { projectRepository } from "@/src/core/projects/identity";
+import CommunityConnect from '@/modules/ui/components/CommunityConnect';
+import { getProjectCommunityChannels } from '../communityChannels';
 
 type ProjectMediaProps = {
   project: Project;
@@ -69,6 +71,10 @@ export default function ProjectMedia({
                 videoUrl={featuredVideo.source.url}
                 title={featuredVideo.title}
               />
+            </div>
+
+            <div className='mx-auto mt-8 flex max-w-6xl justify-center'>
+              <CommunityConnect channels={getProjectCommunityChannels(project)} routingContext={`project:${project.id}:below-video`} />
             </div>
 
             <div className="mx-auto mt-12 max-w-5xl">

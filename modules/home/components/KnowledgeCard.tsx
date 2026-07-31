@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { Project } from "@/core/types/project";
+import CommunityConnect from '@/modules/ui/components/CommunityConnect';
+import { getProjectCommunityChannels } from '@/modules/project/communityChannels';
 
 type Props = { project: Project; index: number };
 const accents: Record<string, string> = { onemillionminers: "#F6C65B", omdb: "#37D8EE", omd: "#A78BFA" };
@@ -30,6 +32,7 @@ export default function KnowledgeCard({ project, index }: Props) {
           </div>
         </div>
         <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-500">{project.description}</p>
+        <CommunityConnect channels={getProjectCommunityChannels(project)} variant='compact' actions={['open']} routingContext={`home:project-card:${project.id}`} className='mt-4' />
       </div>
       <Link href={`/proyectos/${project.id}`} aria-label={`Explorar ${project.name}`} className="absolute inset-x-5 bottom-4 z-20 flex min-h-14 items-center justify-between border-t border-white/[0.07] pt-3 text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400 transition hover:text-white focus-visible:rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/70">
         Explorar proyecto

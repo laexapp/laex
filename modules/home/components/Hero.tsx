@@ -3,6 +3,8 @@ import Link from "next/link";
 
 import { GlowButton } from "@/modules/ui";
 import HeroSpotlight from "./HeroSpotlight";
+import CommunityConnect from '@/modules/ui/components/CommunityConnect';
+import { laexCommunityChannels } from '@/modules/project/communityChannels';
 
 export default function Hero() {
   return (
@@ -38,6 +40,8 @@ export default function Hero() {
             <Link href="/proyectos">Explorar ecosistema</Link>
           </GlowButton>
         </div>
+
+        <CommunityConnect channels={laexCommunityChannels} variant='compact' routingContext='home:hero' className='mt-6' />
 
         <div className="mt-16 grid max-w-xl grid-cols-3 gap-5 border-t border-white/[0.07] pt-6">
           <Metric value="03" label="Ecosistemas" />
