@@ -1,0 +1,5 @@
+{
+  "extends":"./tsconfig.json",
+  "compilerOptions":{"noEmit":false,"incremental":false,"module":"commonjs","moduleResolution":"node","outDir":".tmp-market-tests","rootDir":"."},
+  "include":["modules/market-intelligence/domain/**/*.ts","modules/market-intelligence/application/MarketDataOrchestrator.ts","modules/market-intelligence/application/MarketNarrative.ts","tests/market-intelligence/**/*.ts"]
+}

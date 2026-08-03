@@ -10,7 +10,7 @@ const links = [
   { label: "Inicio", href: "/platform", icon: House },
   { label: "Red", href: "/red", icon: Orbit },
   { label: "Proyectos", href: "/proyectos", icon: Boxes },
-  { label: "Mercados", href: "/mercado", icon: ChartNoAxesCombined },
+  { label: "Market IA", href: "/market", icon: ChartNoAxesCombined },
   { label: "Academia", href: "/academia", icon: BookOpen },
   { label: "IA", href: "/platform#assistant", icon: Bot },
   { label: "Noticias", href: "/noticias", icon: Newspaper },
@@ -32,7 +32,7 @@ export default function Navigation({ className = "", mobile = false, onNavigate 
     <nav aria-label="Navegación principal" className={`${mobile ? "items-stretch gap-1.5" : "items-center gap-1 rounded-2xl border border-white/[0.07] bg-white/[0.025] p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,.045)]"} ${className}`}>
       {links.map(({ label, href, icon: Icon }) => {
         const route = href.split("#")[0];
-        const active = !href.includes("#") && (pathname === route || (route === "/proyectos" && pathname.startsWith("/proyectos/")));
+        const active = !href.includes("#") && (pathname === route || ((route === "/proyectos" || route === "/market") && pathname.startsWith(`${route}/`)));
 
         return (
           <Link
