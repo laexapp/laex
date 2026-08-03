@@ -1,0 +1,4 @@
+import { NextResponse } from "next/server";
+import { createDevelopmentSession, MEDIA_SESSION_COOKIE } from "@/modules/media-intelligence/server/development-session";
+export async function POST() { if (process.env.NODE_ENV === "production") return NextResponse.json({ error: "not_available" }, { status: 404 }); const response = NextResponse.json({ ok: true, mode: "controlled-development" }); response.cookies.set(MEDIA_SESSION_COOKIE, createDevelopmentSession({ userId: "dev_user", name: "Arquitecta LAEX" }), { httpOnly: true, sameSite: "lax", secure: false, path: "/", maxAge: 8 * 60 * 60 }); return response; }
+export async function DELETE() { const response = NextResponse.json({ ok: true }); response.cookies.set(MEDIA_SESSION_COOKIE, "", { httpOnly: true, sameSite: "lax", secure: process.env.NODE_ENV === "production", path: "/", maxAge: 0 }); return response; }

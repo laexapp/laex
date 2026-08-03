@@ -7,6 +7,8 @@ export const ROUTES = {
 
   AI: "/ai",
 
+  MEDIA_INTELLIGENCE: "/media-intelligence",
+
   COMMUNITY: "/community",
 
   ABOUT: "/about",

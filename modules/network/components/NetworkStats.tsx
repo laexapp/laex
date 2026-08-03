@@ -1,159 +1,18 @@
-interface NetworkStatsProps {
+import { Hash, Layers3, Network, UserPlus } from "lucide-react";
 
-  referralCode: string;
+interface NetworkStatsProps { referralCode: string; directReferrals: number; secondLevelReferrals: number; totalNetwork: number; }
 
-  directReferrals: number;
-
-  secondLevelReferrals: number;
-
-  totalNetwork: number;
-
-}
-
-export default function NetworkStats({
-  referralCode,
-  directReferrals,
-  secondLevelReferrals,
-  totalNetwork,
-}: NetworkStatsProps) {
-
-  return (
-
-    <div
-      className="
-        mt-10
-        grid
-        gap-6
-        md:grid-cols-2
-        xl:grid-cols-4
-      "
-    >
-
-      <div
-        className="
-          rounded-3xl
-          border
-          border-cyan-500/20
-          bg-[#111827]
-          p-6
-        "
-      >
-
-        <p
-          className="
-            text-slate-400
-          "
-        >
-          Código
-        </p>
-
-        <h2
-          className="
-            mt-3
-            text-2xl
-            font-black
-          "
-        >
-          {referralCode}
-        </h2>
-
-      </div>
-
-      <div
-        className="
-          rounded-3xl
-          border
-          border-cyan-500/20
-          bg-[#111827]
-          p-6
-        "
-      >
-
-        <p
-          className="
-            text-slate-400
-          "
-        >
-          Directos
-        </p>
-
-        <h2
-          className="
-            mt-3
-            text-5xl
-            font-black
-            text-cyan-400
-          "
-        >
-          {directReferrals}
-        </h2>
-
-      </div>
-
-      <div
-        className="
-          rounded-3xl
-          border
-          border-cyan-500/20
-          bg-[#111827]
-          p-6
-        "
-      >
-
-        <p
-          className="
-            text-slate-400
-          "
-        >
-          Segundo nivel
-        </p>
-
-        <h2
-          className="
-            mt-3
-            text-5xl
-            font-black
-            text-cyan-400
-          "
-        >
-          {secondLevelReferrals}
-        </h2>
-
-      </div>
-
-      <div
-        className="
-          rounded-3xl
-          border
-          border-cyan-500/20
-          bg-[#111827]
-          p-6
-        "
-      >
-
-        <p
-          className="
-            text-slate-400
-          "
-        >
-          Red total
-        </p>
-
-        <h2
-          className="
-            mt-3
-            text-5xl
-            font-black
-            text-cyan-400
-          "
-        >
-          {totalNetwork}
-        </h2>
-
-      </div>
-
-    </div>
-
-  );
-
+export default function NetworkStats({ referralCode, directReferrals, secondLevelReferrals, totalNetwork }: NetworkStatsProps) {
+  const metrics = [
+    { label: "Código personal", value: referralCode, icon: Hash, accent: "text-cyan-200", valueClass: "text-xl font-semibold tracking-[-.02em]" },
+    { label: "Invitados directos", value: directReferrals, icon: UserPlus, accent: "text-cyan-200", valueClass: "text-4xl font-semibold tracking-[-.055em]" },
+    { label: "Segundo nivel", value: secondLevelReferrals, icon: Layers3, accent: "text-violet-300", valueClass: "text-4xl font-semibold tracking-[-.055em]" },
+    { label: "Red total", value: totalNetwork, icon: Network, accent: "text-emerald-300", valueClass: "text-4xl font-semibold tracking-[-.055em]" },
+  ];
+  return <div className="grid h-full gap-3 sm:grid-cols-2">{metrics.map(({ label, value, icon: Icon, accent, valueClass }) => (
+    <article key={label} className="laex-card group rounded-3xl p-5 sm:p-6">
+      <div className="flex items-start justify-between gap-4"><span className="text-[10px] font-bold uppercase tracking-[.17em] text-slate-500">{label}</span><span className={`grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-white/[0.07] bg-white/[0.035] ${accent}`}><Icon size={16} aria-hidden="true" /></span></div>
+      <strong className={`mt-5 block break-all text-slate-100 ${valueClass}`}>{value}</strong><span className="mt-4 block h-px w-9 bg-gradient-to-r from-cyan-300/70 to-transparent transition-all duration-300 group-hover:w-16" />
+    </article>
+  ))}</div>;
 }

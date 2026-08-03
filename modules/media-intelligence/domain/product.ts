@@ -1,0 +1,13 @@
+import type { Capability, WorkspaceRole } from "./permissions";
+import type { ChannelPlatform, WorkspaceKind } from "./types";
+
+export type EditorialStatus = "draft" | "queued" | "analyzing" | "analyzed" | "analysis_error" | "generating" | "generated" | "generation_error" | "in_review" | "changes_requested" | "approved" | "rejected" | "scheduled" | "simulated_publishing" | "simulated_published" | "simulated_partial" | "simulated_publish_error" | "cancelled" | "archived";
+export interface ProductMember { id: string; name: string; email: string; role: WorkspaceRole; status: "active" | "suspended" | "removed"; overrides: Partial<Record<Capability, boolean>>; }
+export interface ProductInvitation { id: string; email: string; role: Exclude<WorkspaceRole, "owner">; status: "pending" | "accepted" | "revoked" | "expired"; expiresAt: string; }
+export interface ContentVersion { number: number; title: string; body: string; author: string; createdAt: string; note: string; }
+export interface ProductContent { id: string; title: string; description: string; sourceType: "video" | "audio" | "article" | "event" | "document" | "manual"; status: EditorialStatus; authorId: string; confidence: number; risks: string[]; keywords: string[]; categories: string[]; versions: ContentVersion[]; approvedVersion: number | null; reviewReason: string | null; updatedAt: string; }
+export interface ProductCampaign { id: string; title: string; objective: string; audience: string; contentIds: string[]; platforms: ChannelPlatform[]; status: "draft" | "in_review" | "approved" | "rejected" | "scheduled" | "cancelled" | "archived"; scheduledAt: string | null; publicationStatus: "idle" | "queued" | "success" | "partial" | "failed" | "cancelled"; idempotencyKey: string | null; }
+export interface ProductChannel { id: string; platform: ChannelPlatform; status: "available" | "disconnected" | "simulated" | "pending" | "error" | "suspended"; label: string; lastSyncAt: string | null; }
+export interface AuditRecord { id: string; workspaceId: string; actorId: string; action: string; resource: string; outcome: "success" | "denied" | "failed"; at: string; detail?: string; }
+export interface ProductWorkspace { id: string; name: string; description: string; kind: WorkspaceKind; color: string; audience: string; objectives: string[]; tone: string; locale: string; timezone: string; status: "active" | "archived"; members: ProductMember[]; invitations: ProductInvitation[]; contents: ProductContent[]; campaigns: ProductCampaign[]; channels: ProductChannel[]; audit: AuditRecord[]; }
+export interface MediaProductState { revision: number; activeWorkspaceId: string; workspaces: ProductWorkspace[]; }

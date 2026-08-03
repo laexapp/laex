@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:media": "tsc -p tsconfig.media-tests.json && node --test --test-isolation=none .tmp-media-tests/tests/media-intelligence/*.test.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",

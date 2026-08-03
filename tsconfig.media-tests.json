@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "incremental": false,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": ".tmp-media-tests",
+    "rootDir": "."
+  },
+  "include": [
+    "modules/media-intelligence/domain/**/*.ts",
+    "modules/media-intelligence/application/WorkspaceAccessService.ts",
+    "modules/media-intelligence/infrastructure/memory/**/*.ts",
+    "tests/media-intelligence/**/*.ts"
+  ]
+}

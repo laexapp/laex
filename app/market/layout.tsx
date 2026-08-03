@@ -1,0 +1,5 @@
+import type { Metadata } from "next";
+import { MarketHeader } from "@/modules/market-intelligence/components";
+
+export const metadata: Metadata = { title:"LAEX Market Intelligence | Mercado, riesgo y transparencia", description:"Explora activos, liquidez, riesgos y análisis independientes con una separación clara entre datos, información del proyecto y promoción pagada.", alternates:{canonical:"/market"}, openGraph:{title:"LAEX Market Intelligence",description:"La gráfica es la base. La inteligencia, la transparencia y la confianza son el producto.",type:"website",url:"/market"} };
+export default function MarketLayout({children}:{children:React.ReactNode}) { return <div className="laex-canvas min-h-screen bg-[#05070d] text-white"><MarketHeader />{children}<footer className="border-t border-white/[.06] py-10"><div className="mx-auto flex w-[min(100%-2rem,92rem)] flex-col gap-4 text-xs text-slate-600 sm:flex-row sm:justify-between"><p>© 2026 LAEX · Inteligencia informativa y educativa.</p><p>No constituye asesoría financiera ni ejecuta operaciones.</p></div></footer></div>; }

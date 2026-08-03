@@ -1,6 +1,6 @@
 "use client";
 
-import { BookOpen, Bot, Boxes, ChartNoAxesCombined, CircleEllipsis, House, Newspaper, Orbit, Users } from "lucide-react";
+import { BookOpen, Bot, Boxes, ChartNoAxesCombined, CircleEllipsis, House, Newspaper, Orbit, Sparkles, Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -14,6 +14,7 @@ const links = [
   { label: "Academia", href: "/academia", icon: BookOpen },
   { label: "IA", href: "/platform#assistant", icon: Bot },
   { label: "Noticias", href: "/noticias", icon: Newspaper },
+  { label: "Media", href: "/media-intelligence", icon: Sparkles },
   { label: "Comunidad", href: "/comunidad", icon: Users },
   { label: "Más", href: "/mas", icon: CircleEllipsis },
 ] as const;

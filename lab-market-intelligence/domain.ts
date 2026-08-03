@@ -1,0 +1,18 @@
+export type AssetPresence = "public-coverage" | "claimed" | "verified" | "sponsored-listing";
+export type EvidenceKind = "market-data" | "independent-analysis" | "project-information" | "sponsored-content" | "community-opinion";
+export type Blockchain = "Bitcoin" | "Ethereum" | "BNB Smart Chain" | "Polygon" | "LAEX Network (planned)";
+
+export interface MarketMetric { price: number; change1h: number; change24h: number; change7d: number; high24h: number; low24h: number; volume24h: number; marketCap: number | null; liquidity: number; circulatingSupply: number | null; totalSupply: number | null; updatedAt: string; source: string; simulated: true; }
+export interface ScoreFactor { label: string; value: number; explanation: string; source: string; }
+export interface IntelligenceScore { value: number; interpretation: string; confidence: number; factors: ScoreFactor[]; limitations: string[]; assessedAt: string; methodologyVersion: string; }
+export interface ConflictDisclosure { ecosystemLinked: boolean; laexHoldsAsset: boolean; activeCampaign: boolean; analystRelationship: boolean; statement: string; }
+export interface MarketAsset { assetId: string; slug: string; symbol: string; name: string; blockchain: Blockchain; contractAddress: string | null; providerId: string; pairs: string[]; markets: string[]; verification: "unverified" | "identity-verified" | "contract-verified"; listingStatus: "covered" | "listed" | "review"; coverage: "essential" | "standard" | "continuous"; presence: AssetPresence; sponsored: boolean; summary: string; metric: MarketMetric; trust: IntelligenceScore; risk: IntelligenceScore; liquidityScore: IntelligenceScore; conflicts: ConflictDisclosure; chart: number[]; }
+
+export interface ListingApplication { id: string; applicantTenantId: string; subjectType: "token" | "blockchain-project" | "company" | "product" | "academy" | "community" | "personal-brand" | "service"; status: "draft" | "submitted" | "identity-review" | "document-review" | "analysis" | "decision" | "closed"; requestedPackageId: string | null; evidenceIds: string[]; createdAt: string; }
+export interface VerificationCase { id: string; applicationId: string; reviewerId: string | null; checks: string[]; status: "pending" | "verified" | "rejected" | "more-information"; }
+export interface AnalysisReport { id: string; assetId: string; methodologyVersion: string; analystRole: "analyst"; factors: ScoreFactor[]; score: number; confidence: number; limitations: string[]; commercialOrderId?: never; }
+export interface PromotionPackage { id: string; name: string; category: "evaluation" | "verification" | "monitoring" | "promotion" | "distribution" | "production" | "launch"; currency: string | null; taxPolicy: string | null; duration: string | null; scope: string[]; exclusions: string[]; configurable: true; }
+export interface CommercialOrder { id: string; tenantId: string; packageId: string; currency: string; tax: string; duration: string; deliverables: string[]; status: "draft" | "approved" | "active" | "closed"; analysisReportId?: never; }
+export interface SponsorshipDisclosure { id: string; campaignId: string; sponsorName: string; label: "Contenido patrocinado" | "Publicidad" | "Promoción pagada"; startsAt: string; endsAt: string; approvedBy: [string, string]; }
+export interface EditorialDecision { id: string; reportId: string; analystId: string; decision: string; evidenceIds: string[]; version: number; at: string; commercialActorId?: never; }
+export interface Appeal { id: string; reportId: string; requesterId: string; reason: "objective-error" | "identity" | "contract" | "outdated-data"; evidenceIds: string[]; status: "submitted" | "review" | "accepted" | "rejected"; auditTrail: string[]; }
