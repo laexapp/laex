@@ -1,0 +1,15 @@
+.news-intelligence {
+  --news-support: #aebbd0;
+  --news-muted: #8d9bb1;
+}
+
+.news-intelligence :where(.text-slate-400) { color: var(--news-support); }
+.news-intelligence :where(.text-slate-500) { color: var(--news-muted); }
+.news-intelligence :where(.text-slate-600) { color: #77869e; }
+.news-intelligence :where(.text-xs) { font-size: 0.8125rem; line-height: 1.3rem; }
+.news-intelligence :where(.text-sm) { font-size: 0.9375rem; line-height: 1.65rem; }
+.news-intelligence :where(.text-\[10px\]) { font-size: 0.75rem; line-height: 1.1rem; }
+
+@media (max-width: 639px) {
+  .news-intelligence :where(.text-sm) { font-size: 0.9rem; line-height: 1.55rem; }
+}

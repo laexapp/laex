@@ -1,29 +1,5 @@
-export default function ComunidadPage() {
-  return (
-    <main className="min-h-screen bg-[#070B14] text-white">
-      <section className="mx-auto max-w-7xl px-6 py-20 text-center">
-
-        <span className="text-sm font-bold uppercase tracking-[0.35em] text-cyan-400">
-          LAEX
-        </span>
-
-        <h1 className="mt-6 text-5xl font-black">
-          Academia
-        </h1>
-
-        <p className="mt-8 mx-auto max-w-2xl text-lg leading-8 text-slate-300">
-          Estamos construyendo el espacio donde líderes, usuarios y desarrolladores podrán interactuar dentro de LAEX.
-        </p>
-
-        <div className="mt-14 rounded-3xl border border-cyan-500/20 bg-[#0D1422] p-10">
-          <h2 className="text-2xl font-bold">🚧 Módulo en desarrollo</h2>
-
-          <p className="mt-6 text-slate-400">
-            Muy pronto encontrarás todo el contenido Comunidad de LAEX.
-          </p>
-        </div>
-
-      </section>
-    </main>
-  );
-}
+import { Activity,BrainCircuit,Clock3,Link2,Network,ShieldCheck,Sparkles } from "lucide-react";
+import { CommunityRadar } from "@/modules/community-intelligence/components/CommunityRadar";
+import { LegalNeutrality } from "@/modules/community-intelligence/components/LegalNeutrality";
+import { communityDigest,knowledgeItems } from "@/modules/community-intelligence/infrastructure/demo-data";
+export default function ComunidadPage(){return <main><section className="mx-auto w-[min(100%-2rem,92rem)] pb-16 pt-12 lg:pt-18"><div className="grid gap-8 xl:grid-cols-[1fr_23rem]"><div><div className="flex items-center gap-3 text-[12px] font-bold uppercase tracking-[.24em] text-cyan-300"><BrainCircuit size={16}/> Inteligencia colaborativa · Activa</div><h1 className="laex-display mt-7 max-w-5xl text-5xl sm:text-7xl lg:text-[5.6rem]">El conocimiento crece cuando <span className="bg-gradient-to-r from-cyan-300 via-blue-400 to-violet-400 bg-clip-text text-transparent">todo se conecta.</span></h1><p className="mt-7 max-w-3xl text-lg leading-8 text-slate-300">LAEX organiza preguntas, evidencia y aprendizajes del ecosistema. La IA reduce el ruido; las personas aportan experiencia y criterio.</p></div><aside className="laex-instrument rounded-3xl p-6"><div className="flex items-center justify-between"><span className="text-[12px] font-bold uppercase tracking-[.17em] text-slate-300">Pulso IA</span><span className="flex items-center gap-2 text-[11px] font-bold text-emerald-300"><span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-300"/>EN VIVO</span></div><div className="mt-7 grid grid-cols-2 gap-5">{[[communityDigest.topicsDetected,"Temas detectados"],[communityDigest.duplicatesGrouped,"Duplicados unidos"],[communityDigest.answersOrganized,"Respuestas ordenadas"],[communityDigest.connectionsCreated,"Conexiones"]].map(([v,l])=><div key={l}><strong className="font-mono text-2xl">{v}</strong><p className="mt-1 text-[12px] leading-5 text-slate-400">{l}</p></div>)}</div><div className="mt-6 rounded-2xl bg-black/20 p-4"><p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[.16em] text-violet-200"><Sparkles size={13}/> Resumen diario</p><p className="mt-3 text-[13px] leading-6 text-slate-300">{communityDigest.highlights[0]}</p><p className="mt-3 flex items-center gap-2 text-[11px] text-slate-400"><Clock3 size={12}/>Actualizado 14:30 CLT</p></div></aside></div><CommunityRadar items={knowledgeItems}/></section><section className="border-y border-white/[.06] bg-black/20"><div className="mx-auto grid w-[min(100%-2rem,92rem)] gap-5 py-12 md:grid-cols-3">{[[Network,"Conecta el ecosistema","Noticias, mercados, proyectos, lecciones y medios comparten contexto sin mezclar responsabilidades."],[Activity,"Organización automática","La IA agrupa duplicados, resume debates y relaciona recursos; no publica ni decide por las personas."],[ShieldCheck,"Independencia visible","Proyecto, análisis, comunidad, opinión, promoción y publicidad conservan fronteras explícitas."]].map(([Icon,t,d])=><article key={t as string} className="rounded-2xl border border-white/[.07] bg-white/[.025] p-6"><Icon className="text-cyan-300" size={21}/><h2 className="mt-5 text-lg font-semibold">{t as string}</h2><p className="mt-3 text-[15px] leading-7 text-slate-300">{d as string}</p></article>)}</div></section><section className="mx-auto grid w-[min(100%-2rem,92rem)] gap-6 py-14 lg:grid-cols-[1fr_.8fr]"><LegalNeutrality/><article className="rounded-3xl border border-violet-300/15 bg-violet-300/[.04] p-6"><Link2 className="text-violet-300"/><h2 className="mt-5 text-xl font-semibold">Una conversación, múltiples caminos</h2><p className="mt-3 text-[15px] leading-7 text-slate-300">El conocimiento validado puede convertirse en una lección, un brief o una colaboración conservando autoría, fuentes y contexto.</p><p className="mt-5 text-[12px] uppercase tracking-[.17em] text-violet-200">MEMORIA VIVA · PROCEDENCIA · CONTEXTO</p></article></section></main>}

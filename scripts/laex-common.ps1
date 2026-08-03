@@ -2,7 +2,6 @@ $ErrorActionPreference = "Stop"
 Set-StrictMode -Version Latest
 
 $script:LaexRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
-$script:LaexPorts = @(3000, 3100)
 
 function Write-LaexStep([string]$Message) {
   Write-Host "`n[LAEX] $Message" -ForegroundColor Cyan
@@ -11,9 +10,7 @@ function Write-LaexStep([string]$Message) {
 function Invoke-LaexCommand([string]$Label, [string]$Command, [string[]]$Arguments) {
   Write-LaexStep $Label
   & $Command @Arguments
-  if ($LASTEXITCODE -ne 0) {
-    throw "$Label fall?? con c??digo $LASTEXITCODE."
-  }
+  if ($LASTEXITCODE -ne 0) { throw "$Label fallo con codigo $LASTEXITCODE." }
 }
 
 function Get-LaexNextProcesses {
@@ -22,11 +19,11 @@ function Get-LaexNextProcesses {
     return @(Get-CimInstance Win32_Process -ErrorAction Stop | Where-Object {
       $_.Name -match '^(node|node\.exe|npm|npm\.cmd)$' -and
       $_.CommandLine -and
-      $_.CommandLine -match 'next' -and
+      $_.CommandLine -match '(next(\.exe|\.cmd)?\s+dev|next[/\\]dist)' -and
       $_.CommandLine -match $escapedRoot
     })
   } catch {
-    Write-Warning "No se pudo inspeccionar la l??nea de comandos de los procesos: $($_.Exception.Message)"
+    Write-Warning "No se pudo inspeccionar la linea de comandos: $($_.Exception.Message)"
     return @()
   }
 }
@@ -39,26 +36,23 @@ function Get-LaexPortOwners([int]$Port) {
 }
 
 function Stop-LaexDevelopmentProcesses {
-  Write-LaexStep "Buscando servidores Next.js de este repositorio"
-  $nextProcesses = @(Get-LaexNextProcesses)
-  foreach ($process in $nextProcesses) {
-    Write-Host "Deteniendo Next.js PID $($process.ProcessId)..." -ForegroundColor Yellow
-    Stop-Process -Id $process.ProcessId -Force -ErrorAction Stop
+  Write-LaexStep "Cerrando instancias anteriores de este repositorio"
+  $processes = @(Get-LaexNextProcesses)
+  foreach ($item in ($processes | Sort-Object ProcessId -Descending)) {
+    Write-Host "Deteniendo instancia LAEX (PID $($item.ProcessId))..." -ForegroundColor Yellow
+    Stop-Process -Id $item.ProcessId -Force -ErrorAction SilentlyContinue
   }
+  Start-Sleep -Milliseconds 800
 
-  Start-Sleep -Milliseconds 400
-  foreach ($port in $script:LaexPorts) {
-    foreach ($processId in @(Get-LaexPortOwners $port)) {
-      $known = $nextProcesses | Where-Object { $_.ProcessId -eq $processId }
-      if ($known) {
-        Stop-Process -Id $processId -Force -ErrorAction SilentlyContinue
-        continue
-      }
-      $process = Get-Process -Id $processId -ErrorAction SilentlyContinue
-      throw "El puerto $port est?? ocupado por un proceso ajeno a este Next.js (PID $processId, $($process.ProcessName)). No se detuvo por seguridad."
+  $owners = @(Get-LaexPortOwners 3000)
+  if ($owners.Count -gt 0) {
+    $details = $owners | ForEach-Object {
+      $process = Get-Process -Id $_ -ErrorAction SilentlyContinue
+      "PID $_ ($($process.ProcessName))"
     }
+    throw "El puerto 3000 esta ocupado por un proceso ajeno a este repositorio: $($details -join ', '). No se detuvo por seguridad."
   }
-  Write-Host "Puertos LAEX disponibles." -ForegroundColor Green
+  Write-Host "Puerto 3000 libre y verificado." -ForegroundColor Green
 }
 
 function Test-LaexDependencies {
@@ -71,16 +65,3 @@ function Test-LaexDependencies {
   }
   Write-Host "Dependencias correctas." -ForegroundColor Green
 }
-
-function Show-LaexRoutes([int]$Port = 3000) {
-  Write-Host "`nLAEX esta listo:" -ForegroundColor Green
-  @(
-    "/",
-    "/media-intelligence",
-    "/media-intelligence/operations",
-    "/media-intelligence/operations/flow"
-  ) | ForEach-Object { Write-Host "  http://localhost:$Port$_" -ForegroundColor White }
-}
-
-
-

@@ -1,0 +1,1 @@
+import type{LearningPath}from"../domain/types";export function filterPaths(paths:LearningPath[],query:string,level:string){const q=query.trim().toLocaleLowerCase("es");return paths.filter(p=>(level==="Todos"||p.level===level)&&(!q||[p.title,p.description,...p.skills].join(" ").toLocaleLowerCase("es").includes(q)));}

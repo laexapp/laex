@@ -1,29 +1,4 @@
-export default function noticiasPage() {
-  return (
-    <main className="min-h-screen bg-[#070B14] text-white">
-      <section className="mx-auto max-w-7xl px-6 py-20 text-center">
-
-        <span className="text-sm font-bold uppercase tracking-[0.35em] text-cyan-400">
-          LAEX
-        </span>
-
-        <h1 className="mt-6 text-5xl font-black">
-          Academia
-        </h1>
-
-        <p className="mt-8 mx-auto max-w-2xl text-lg leading-8 text-slate-300">
-          Estamos preparando un centro de noticias oficiales, actualizaciones y eventos del ecosistema LAEX.
-        </p>
-
-        <div className="mt-14 rounded-3xl border border-cyan-500/20 bg-[#0D1422] p-10">
-          <h2 className="text-2xl font-bold">🚧 Módulo en desarrollo</h2>
-
-          <p className="mt-6 text-slate-400">
-            Muy pronto encontrarás todo el contenido noticias de LAEX.
-          </p>
-        </div>
-
-      </section>
-    </main>
-  );
-}
+import { BrainCircuit, Radio, ShieldCheck, TrendingUp } from "lucide-react";
+import { NewsExplorer } from "@/modules/news-intelligence/components/NewsExplorer";
+import { newsEvents } from "@/modules/news-intelligence/infrastructure/demo-events";
+export default function NewsPage(){return <main><section className="mx-auto w-[min(100%-2rem,92rem)] pb-16 pt-12 lg:pt-18"><div className="grid gap-8 xl:grid-cols-[1fr_22rem]"><div><div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[.28em] text-cyan-300"><Radio size={14} className="animate-pulse"/> Centro de inteligencia · En vivo</div><h1 className="laex-display mt-7 max-w-5xl text-5xl sm:text-7xl lg:text-[5.8rem]">Comprende el mercado <span className="bg-gradient-to-r from-cyan-300 via-blue-400 to-violet-400 bg-clip-text text-transparent">antes de decidir.</span></h1><p className="mt-7 max-w-3xl text-base leading-8 text-slate-400 sm:text-lg">Eventos agrupados, contexto verificable y conexiones automáticas con activos, proyectos y el ecosistema LAEX.</p></div><aside className="laex-instrument rounded-3xl p-6"><div className="flex justify-between text-xs font-bold uppercase tracking-[.18em] text-slate-400"><span>Estado de red</span><span className="text-emerald-300">OPERATIVO</span></div><div className="mt-8 grid grid-cols-2 gap-6">{[[newsEvents.length,"Eventos"],[11,"Fuentes"],["< 2m","Latencia"],["24/7","Monitoreo"]].map(([v,l])=><div key={l}><strong className="font-mono text-2xl">{v}</strong><p className="mt-1 text-xs text-slate-500">{l}</p></div>)}</div><div className="mt-8 flex h-14 items-end gap-1 rounded-xl bg-black/20 p-3">{[24,48,32,70,50,88,64,92,55,80].map((h,i)=><span key={i} className="flex-1 rounded-t bg-cyan-300/70" style={{height:`${h}%`}}/>)}</div></aside></div><NewsExplorer events={newsEvents}/></section><section className="border-y border-white/[.06] bg-black/20"><div className="mx-auto grid w-[min(100%-2rem,92rem)] gap-5 py-12 md:grid-cols-3">{[[BrainCircuit,"Inteligencia explicable","Hechos, interpretación y opinión de IA diferenciados."],[TrendingUp,"Contexto de mercado","Precio y volumen conectados con Market Intelligence."],[ShieldCheck,"Procedencia visible","Coberturas duplicadas agrupadas sin ocultar fuentes."]].map(([Icon,title,text])=><article key={title as string} className="rounded-2xl border border-white/[.07] bg-white/[.025] p-6"><Icon className="text-cyan-300" size={20}/><h2 className="mt-5 font-semibold">{title as string}</h2><p className="mt-2 text-sm leading-6 text-slate-500">{text as string}</p></article>)}</div></section></main>}
