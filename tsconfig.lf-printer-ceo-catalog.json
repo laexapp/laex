@@ -1,0 +1,5 @@
+{
+  "extends":"./tsconfig.json",
+  "compilerOptions":{"noEmit":false,"incremental":false,"module":"commonjs","moduleResolution":"node","outDir":".tmp-lf-printer-ceo-catalog","rootDir":"."},
+  "include":["modules/business-engine/**/*.ts","scripts/business-platform/publish-lf-printer-ceo-catalog.ts","scripts/business-platform/curate-lf-printer-public-catalog.ts","scripts/business-platform/refresh-lf-printer-transparent-commerce-media.ts"]
+}

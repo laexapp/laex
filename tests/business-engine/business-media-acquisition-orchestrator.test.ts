@@ -1,0 +1,25 @@
+import assert from "node:assert/strict";
+import { mkdtempSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+import path from "node:path";
+import { after, before, describe, it } from "node:test";
+import type { AcquisitionRecord, OfficialAssetCandidate } from "../../modules/asset-intelligence/domain/types";
+import { BusinessMediaAcquisitionOrchestrator, type BusinessAssetIntelligenceGateway } from "../../modules/business-engine/media/BusinessMediaAcquisitionOrchestrator";
+import { SqliteChapterTwoStore } from "../../modules/business-engine/infrastructure/sqlite/SqliteChapterTwoStore";
+import type { ActorContext, CompanyId, TenantId, UserId } from "../../modules/business-engine/domain/types";
+
+const root=mkdtempSync(path.join(tmpdir(),"laex-media-queue-")),tenant="tenant-media-queue" as TenantId,company="company-media-queue" as CompanyId;
+const actor:ActorContext={tenantId:tenant,companyId:company,userId:"media-worker" as UserId,traceId:"media-queue",capabilities:[]};
+const candidate:OfficialAssetCandidate={id:"official-wf4833",providerId:"epson-partner",manufacturer:"Epson",model:"WF-4833",assetKind:"product-image",owner:"Epson",sourceKind:"partner-portal",sourcePageUrl:"https://partner.epson.example/wf-4833",originalUrl:"https://partner.epson.example/wf-4833.png",format:"image/png",dimensions:{width:2400,height:2200},license:{name:"Partner media",summary:"Authorized",legalStatus:"manufacturer-authorized",allowsCommercialUse:true,allowsModification:true,requiresWrittenAuthorization:false},access:"authorized-account",discoveredAt:"2026-08-15T00:00:00Z",metadata:{}};
+const record=(status:AcquisitionRecord["status"]):AcquisitionRecord=>({id:"lf-printer:wf-4833:v1",projectId:"lf-printer",logicalAssetId:"wf-4833",manufacturer:"Epson",model:"WF-4833",assetKind:"product-image",owner:"Epson",providerId:"epson-partner",sourceKind:"partner-portal",sourcePageUrl:candidate.sourcePageUrl,originalUrl:candidate.originalUrl,license:candidate.license,legalStatus:candidate.license.legalStatus,requiresWrittenAuthorization:false,dimensions:candidate.dimensions,format:candidate.format,status,version:1,providerMetadata:{},history:[]});
+
+let store:SqliteChapterTwoStore;
+async function seed(){await store.transact(state=>{state.products.push({id:"p",tenantId:tenant,companyId:company,sku:"EP-WF-4833",name:"Epson WorkForce Pro WF-4833",brand:"Epson",model:"WF-4833",priceMinor:1,status:"active"});state.mediaAcquisitionRequests.push({id:"r",tenantId:tenant,companyId:company,productId:"p",manufacturer:"Epson",model:"WF-4833",assetKind:"product-image",status:"queued",createdAt:"2026",updatedAt:"2026"})})}
+
+describe("Business media acquisition queue",()=>{
+  before(async()=>{store=new SqliteChapterTwoStore(path.join(root,"queue.sqlite"));await seed()});
+  after(()=>{store.close();rmSync(root,{recursive:true,force:true})});
+  it("marks an exact public candidate for rights review without downloading it",async()=>{let acquired=false;const gateway:BusinessAssetIntelligenceGateway={async discover(){return[{...candidate,providerId:"epson-public",sourceKind:"manufacturer-product-page",access:"public",license:{...candidate.license,legalStatus:"permission-required",allowsCommercialUse:null,allowsModification:null,requiresWrittenAuthorization:true}}]},async registerCandidate(){return{...record("rights-review"),providerId:"epson-public",requiresWrittenAuthorization:true,legalStatus:"permission-required"}},async acquire(){acquired=true;return record("acquired")},async submitForProcessing(){return record("review-required")}};await new BusinessMediaAcquisitionOrchestrator(store,gateway).processOne(actor,"r");const request=(await store.snapshot()).mediaAcquisitionRequests[0];assert.equal(request.status,"rights-review");assert.equal(acquired,false)});
+  it("runs authorized exact media only as far as human review",async()=>{await store.transact(state=>{state.mediaAcquisitionRequests[0].status="queued"});const calls:string[]=[];const gateway:BusinessAssetIntelligenceGateway={async discover(){calls.push("discover");return[candidate]},async registerCandidate(){calls.push("register");return record("acquisition-authorized")},async acquire(){calls.push("acquire");return record("acquired")},async submitForProcessing(){calls.push("pipeline");return record("review-required")}};await new BusinessMediaAcquisitionOrchestrator(store,gateway).processQueued(actor);assert.deepEqual(calls,["discover","register","acquire","pipeline"]);assert.equal((await store.snapshot()).mediaAcquisitionRequests[0].status,"review-required")});
+  it("never guesses when no exact official source exists",async()=>{await store.transact(state=>{state.mediaAcquisitionRequests[0].status="queued"});const gateway:BusinessAssetIntelligenceGateway={async discover(){return[]},async registerCandidate(){throw new Error("not called")},async acquire(){throw new Error("not called")},async submitForProcessing(){throw new Error("not called")}};await new BusinessMediaAcquisitionOrchestrator(store,gateway).processOne(actor,"r");assert.equal((await store.snapshot()).mediaAcquisitionRequests[0].status,"official-source-required")});
+});

@@ -7,6 +7,7 @@ import { useState } from "react";
 
 import { useCurrentUser } from "@/modules/auth/hooks/useCurrentUser";
 import { authService } from "@/modules/auth/services/auth.service";
+import { PUBLIC_ORIGINS } from "@/core/config/public-origins";
 
 import UserDropdown from "./UserDropdown";
 
@@ -24,7 +25,7 @@ export default function UserMenu() {
   async function copyLink() {
     if (!user) return;
 
-    const link = `https://laex.vercel.app/register?ref=${user.referralCode}`;
+    const link = `${PUBLIC_ORIGINS.laex}/register?ref=${user.referralCode}`;
     await navigator.clipboard.writeText(link);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);

@@ -1,0 +1,4 @@
+import { NextRequest } from "next/server";import { CompanyResolver } from "@/modules/business-engine/platform/CompanyResolver";import { getBusinessRuntime } from "@/modules/business-engine/server/runtime";import { businessCommandResponse,businessSnapshotResponse } from "@/modules/business-engine/server/BusinessRequestHandlers";
+export const runtime="nodejs";async function company(slug:string){return new CompanyResolver(getBusinessRuntime().store).bySlugOrHost(slug)}
+export async function GET(request:NextRequest,{params}:{params:Promise<{company:string}>}){const c=await company((await params).company);return businessSnapshotResponse(request,c.id)}
+export async function POST(request:NextRequest,{params}:{params:Promise<{company:string}>}){const c=await company((await params).company);return businessCommandResponse(request,c.id)}

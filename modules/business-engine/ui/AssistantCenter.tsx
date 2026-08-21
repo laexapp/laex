@@ -1,0 +1,35 @@
+﻿"use client";
+import Image from "next/image";
+import { useEffect, useRef, useState, type FormEvent } from "react";
+import { Bot, Check, LockKeyhole, Mic, Send, ShieldCheck, X } from "lucide-react";
+import "./assistants.css";
+
+type Agent = "LIA" | "ALAN" | "ETHAN";
+type Message = { id: string; agent: Agent; role: "user" | "assistant"; text: string; proposalId?: string; at: string };
+type Proposal = { id: string; summary: string; status: "pending" | "confirmed" | "cancelled" };
+type Activity={id:string;agent:Agent;intent:string;result:string;tools:string[];createdAt:string};
+const agents = { LIA: { role: "Administración, clientes, recepción, cotizaciones, ventas e inventario", intro: "Tu Asistente Administrativa Inteligente para el trabajo diario dentro de LAEX Business.", example: "LIA, recibe una Epson L3250 de Juan Martínez." }, ALAN: { role: "Taller, diagnósticos, equipos y operaciones técnicas", intro: "Tu especialista para organizar y consultar el trabajo técnico del taller.", example: "ALAN, muéstrame las órdenes pendientes de diagnóstico." }, ETHAN: { role: "Reportes, análisis, ventas, indicadores y desempeño empresarial", intro: "Tu analista para comprender resultados y desempeño de la empresa.", example: "ETHAN, ¿cuánto vendimos hoy?" } } as const;
+
+export function AssistantCenter({ apiBase, companyName, onBusinessChange }: { apiBase: string; companyName: string; onBusinessChange?: () => void }) {
+  const [agent, setAgent] = useState<Agent>("LIA"), [messages, setMessages] = useState<Message[]>([]),[activity,setActivity]=useState<Activity[]>([]), [proposals, setProposals] = useState<Record<string, Proposal>>({}), [text, setText] = useState(""), [busy, setBusy] = useState(false), [error, setError] = useState(""); const end = useRef<HTMLDivElement>(null);
+  async function call(body?: unknown) { const response = await fetch(`${apiBase}/assistants${body ? "" : `?agent=${agent}`}`, body ? { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) } : undefined); const data = await response.json(); if (!response.ok) throw new Error(data.error ?? "No fue posible comunicarse con el asistente"); return data; }
+  async function load(selected = agent) { const response = await fetch(`${apiBase}/assistants?agent=${selected}`); const data = await response.json(); if (response.ok){setMessages(data.messages);setActivity(data.activity??[])} }
+  useEffect(() => { let active = true; fetch(`${apiBase}/assistants?agent=${agent}`).then((response) => response.json()).then((data) => { if (active && data.messages){setMessages(data.messages);setActivity(data.activity??[])} }); return () => { active = false; }; }, [agent, apiBase]);
+  useEffect(() => { end.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
+  async function send(event: FormEvent) { event.preventDefault(); if (!text.trim() || busy) return; const prompt = text.trim(); setText(""); setBusy(true); setError(""); try { const data = await call({ agent, message: prompt }); if (data.proposal) setProposals((p) => ({ ...p, [data.proposal.id]: data.proposal })); await load(agent); } catch (e) { setError(e instanceof Error ? e.message : "Error inesperado"); } finally { setBusy(false); } }
+  async function decide(proposalId: string, action: "confirm" | "cancel") { setBusy(true); setError(""); try { await call({ action, proposalId }); setProposals((p) => ({ ...p, [proposalId]: { ...p[proposalId], status: action === "confirm" ? "confirmed" : "cancelled" } })); await load(agent); if (action === "confirm") onBusinessChange?.(); } catch (e) { setError(e instanceof Error ? e.message : "No fue posible ejecutar la acción"); } finally { setBusy(false); } }
+  return <section className="assistant-center">
+    <header className="assistant-heading"><div><span className="assistant-kicker"><Bot size={15}/> Centro de Asistentes</span><h2>Un chat. Tres especialistas. Una sola fuente de verdad.</h2><p>AI Engine seguro · interpretación determinística activa · proveedor cloud no autorizado</p></div><div className="assistant-context"><ShieldCheck size={18}/><div><strong>{companyName}</strong><small>Contexto aislado · permisos del usuario activos</small></div></div></header>
+    <div className="agent-tabs">{(Object.keys(agents) as Agent[]).map((id) => <button key={id} className={agent === id ? "active" : ""} onClick={() => setAgent(id)}><span>{id.slice(0,1)}</span><div><strong>{id}</strong><small>{agents[id].role}</small></div></button>)}</div>
+    <div className="assistant-console"><aside><div className={`agent-avatar ${agent.toLowerCase()}`}>{agent === "LIA" ? <Image src="/images/lia/lia-avatar-v1.png" alt="LIA, Asistente Administrativa Inteligente" width={58} height={58}/> : agent.slice(0,1)}</div><h3>{agent}</h3><strong>{agents[agent].role}</strong><p>{agents[agent].intro}</p><div className="assistant-route"><LockKeyhole size={16}/><span>Agente → Orquestador → Comando autorizado → Business Engine → Auditoría</span></div><button className="example-prompt" onClick={() => setText(agents[agent].example)}>Probar ejemplo<small>{agents[agent].example}</small></button></aside>
+      <div className="chat-column"><div className="chat-stream">{!messages.length && <div className="chat-welcome">{agent === "LIA" ? <Image className="lia-welcome-avatar" src="/images/lia/lia-avatar-v1.png" alt="LIA" width={64} height={64}/> : <Bot size={30}/>}<h3>Hola, soy {agent}.</h3><p>{agents[agent].intro} Escribe una consulta o prueba el ejemplo sugerido.</p></div>}{messages.map((m) => <div key={m.id} className={`chat-message ${m.role}`}><div className="chat-message-head">{m.role === "assistant" && m.agent === "LIA" && <Image src="/images/lia/lia-avatar-v1.png" alt="LIA" width={28} height={28}/>}<small>{m.role === "user" ? "Tú" : m.agent}</small></div><p>{m.text}</p>{m.proposalId && proposals[m.proposalId]?.status !== "confirmed" && proposals[m.proposalId]?.status !== "cancelled" && <div className="proposal-card"><span>ACCIÓN PROPUESTA</span><strong>{proposals[m.proposalId]?.summary ?? "Revisa la operación antes de continuar."}</strong><p>No se ha modificado ningún dato empresarial.</p><div><button disabled={busy} onClick={() => decide(m.proposalId!, "cancel")}><X size={15}/> Cancelar</button><button disabled={busy} onClick={() => decide(m.proposalId!, "confirm")}><Check size={15}/> Confirmar acción</button></div></div>}</div>)}<div ref={end}/></div>
+        <form className="chat-composer" onSubmit={send}><button type="button" disabled title="Voz preparada para una fase futura" aria-label="Voz futura"><Mic size={20}/></button><input autoFocus value={text} onChange={(e) => setText(e.target.value)} placeholder={`Escribe a ${agent}…`} /><button type="submit" disabled={busy || !text.trim()} aria-label="Enviar"><Send size={19}/></button></form>{error && <p className="assistant-error">{error}</p>}<small className="voice-note">Interfaz de voz preparada · reconocimiento deshabilitado · {activity.length} solicitudes auditadas en esta sesión empresarial</small>
+      </div></div>
+  </section>;
+}
+
+
+
+
+
+

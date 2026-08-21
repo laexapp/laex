@@ -11,10 +11,13 @@ export const projectIdentity: ProjectIdentityRegistry = {
     social: {
       youtube: {
         channelHandle:
-          "@onemillionminersspanish",
+          "@OMDMinersSpanish",
+
+        channelId:
+          "UCkdBi4V7HJ8drz6gXkMVbug",
 
         channelUrl:
-          "https://www.youtube.com/@onemillionminersspanish",
+          "https://www.youtube.com/@OMDMinersSpanish/shorts",
 
         featuredVideo:
           "https://youtu.be/JkaRmGY0cbo",

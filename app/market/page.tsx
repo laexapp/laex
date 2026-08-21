@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { ArrowRight, BarChart3, Eye, Scale, ShieldCheck, Sparkles } from "lucide-react";
 import { EvidenceLabel, MarketOverview, MarketTerminal } from "@/modules/market-intelligence/components";
+import { PUBLIC_ORIGINS } from "@/core/config/public-origins";
 
 export default function MarketPage() {
-  const jsonLd={"@context":"https://schema.org","@type":"WebSite",name:"LAEX Market Intelligence",url:"https://laex.vercel.app/market",description:"Plataforma pública de inteligencia y transparencia de mercado."};
+  const jsonLd={"@context":"https://schema.org","@type":"WebSite",name:"LAEX Market Intelligence",url:`${PUBLIC_ORIGINS.laex}/market`,description:"Plataforma pública de inteligencia y transparencia de mercado."};
   return <main><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(jsonLd).replace(/</g,"\\u003c")}} />
     <section className="mx-auto w-[min(100%-2rem,92rem)] pb-16 pt-16 lg:pb-24 lg:pt-24"><div className="grid gap-12 lg:grid-cols-[1fr_.9fr] lg:items-center"><div><span className="laex-eyebrow">Market Intelligence · Acceso público</span><h1 className="laex-display mt-7 max-w-4xl text-[clamp(3.4rem,8vw,7.5rem)]">Comprende el mercado. <span className="text-cyan-200">Exige evidencia.</span></h1><p className="mt-7 max-w-2xl text-base leading-8 text-slate-400 sm:text-lg">Precios, liquidez, riesgo y análisis explicables en una experiencia que distingue hechos, evaluación independiente y promoción comercial.</p><div className="mt-9 flex flex-wrap gap-3"><Link href="#assets" className="rounded-xl bg-cyan-300 px-5 py-3 text-sm font-bold text-[#031014]">Explorar mercado</Link><Link href="/promote" className="rounded-xl border border-white/10 px-5 py-3 text-sm font-bold text-slate-200">Promocionar mi token o producto</Link></div></div><div><div className="mb-4 flex flex-wrap gap-2"><EvidenceLabel kind="market"/><span className="rounded-full border border-amber-200/15 bg-amber-300/[.05] px-3 py-1.5 text-[10px] font-bold tracking-[.14em] text-amber-200">DATOS REALES · SOLO LECTURA</span></div><MarketTerminal initialSlug="bitcoin"/></div></div></section>
 

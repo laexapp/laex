@@ -1,0 +1,25 @@
+﻿import { randomUUID } from "node:crypto";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+import type { AssistantAgent } from "../chapter-two/LocalAssistantOrchestrator";
+import type { ActorContext } from "../domain/types";
+import { BUSINESS_SESSION_COOKIE, getBusinessRuntime } from "./runtime";
+
+export async function requireBusinessActor(request: NextRequest, expectedCompanyId?: string): Promise<ActorContext> { const runtime = getBusinessRuntime(); const actor = await runtime.businessIdentity.requireActor(request.cookies.get(BUSINESS_SESSION_COOKIE)?.value, request.headers.get("x-request-id") ?? randomUUID()); if (expectedCompanyId && actor.companyId !== expectedCompanyId) throw new Error("company_context_mismatch"); return actor; }
+export async function businessSnapshotResponse(request: NextRequest, expectedCompanyId?: string) { try { return NextResponse.json(await getBusinessRuntime().businessEngine.snapshot(await requireBusinessActor(request, expectedCompanyId))); } catch { return NextResponse.json({ error: "authentication_required" }, { status: 401 }); } }
+export async function businessCommandResponse(request: NextRequest, expectedCompanyId?: string) {
+  try {
+    const actor = await requireBusinessActor(request, expectedCompanyId), runtime = getBusinessRuntime(); const body = await request.json() as { action?: string; idempotencyKey?: string; input?: Record<string, unknown> }; const key = body.idempotencyKey ?? randomUUID();
+    if (body.action === "pos") return NextResponse.json(await runtime.posEngine.confirmSale(actor, key, body.input as never));
+    if (body.action === "workshop") return NextResponse.json(await runtime.businessEngine.completeWorkshopJourney(actor, key, body.input as never));
+    if (body.action === "purchase") return NextResponse.json(await runtime.businessEngine.receivePurchase(actor, key, body.input as never));
+    if (body.action === "quote") return NextResponse.json(await runtime.businessEngine.convertQuoteAndPay(actor, key, body.input as never));
+    return NextResponse.json({ error: "unknown_action" }, { status: 400 });
+  } catch (error) { const message = error instanceof Error ? error.message : "operation_failed"; const status = message.includes("authentication") ? 401 : message.includes("capability") || message.includes("access") ? 403 : 400; return NextResponse.json({ error: message }, { status }); }
+}
+export async function assistantHistoryResponse(request: NextRequest, expectedCompanyId?: string) { try { const actor = await requireBusinessActor(request, expectedCompanyId),runtime=getBusinessRuntime(); const agent = request.nextUrl.searchParams.get("agent") as AssistantAgent | null,state=await runtime.store.snapshot(); return NextResponse.json({ messages: await runtime.assistantOrchestrator.history(actor, agent ?? undefined),activity:state.aiActivity.filter(item=>item.tenantId===actor.tenantId&&item.companyId===actor.companyId&&item.userId===actor.userId&&(!agent||item.agent===agent)).slice(-20),provider:{mode:"deterministic",externalAuthorized:false} }); } catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "authentication_required" }, { status: 401 }); } }
+export async function assistantCommandResponse(request: NextRequest, expectedCompanyId?: string) { try { const actor = await requireBusinessActor(request, expectedCompanyId); const body = await request.json() as { action?: string; agent?: AssistantAgent; message?: string; proposalId?: string }; const orchestrator = getBusinessRuntime().assistantOrchestrator; if (body.action === "confirm" && body.proposalId) return NextResponse.json(await orchestrator.confirm(actor, body.proposalId)); if (body.action === "cancel" && body.proposalId) return NextResponse.json(await orchestrator.cancel(actor, body.proposalId)); if (body.agent && body.message) return NextResponse.json(await orchestrator.ask(actor, body.agent, body.message)); return NextResponse.json({ error: "invalid_request" }, { status: 400 }); } catch (error) { const message = error instanceof Error ? error.message : "operation_failed"; return NextResponse.json({ error: message }, { status: message.includes("capability") || message.includes("access") ? 403 : 400 }); } }
+export async function loginResponse(request: NextRequest) { try { const body = await request.json() as { email?: string; password?: string; companyId?: string }; const token = await getBusinessRuntime().businessIdentity.login(body.email ?? "", body.password ?? "", body.companyId as never); const response = NextResponse.json({ authenticated: true }); response.cookies.set(BUSINESS_SESSION_COOKIE, token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax", path: "/", maxAge: 8 * 60 * 60, priority: "high" }); return response; } catch { return NextResponse.json({ error: "invalid_credentials" }, { status: 401 }); } }
+export function logoutResponse() { const response = NextResponse.json({ authenticated: false }); response.cookies.set(BUSINESS_SESSION_COOKIE, "", { httpOnly: true, expires: new Date(0), path: "/", sameSite: "lax" }); return response; }
+
+

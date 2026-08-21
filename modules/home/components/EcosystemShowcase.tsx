@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+﻿import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -20,6 +20,9 @@ export default function EcosystemShowcase() {
         </p>
       </div>
 
+      <Link href="/laex/business" className="mb-6 flex items-center justify-between rounded-2xl border border-cyan-300/20 bg-cyan-300/[.06] p-5 text-white transition hover:border-cyan-300/50 hover:bg-cyan-300/[.1]">
+        <div><span className="laex-eyebrow">LAEX BUSINESS PLATFORM</span><p className="mt-2 text-lg font-semibold">Administrar empresas y acceder al producto empresarial</p><small className="text-slate-500">Control Plane separado de las operaciones de cada cliente.</small></div><ArrowRight size={20}/>
+      </Link>
       <div className="group relative overflow-hidden rounded-[32px] border border-white/[0.1] bg-[#071018] shadow-[0_36px_90px_rgba(2,4,10,.46)]">
         <Image
           src="/projects/onemillionminers/laex-ecosystem-hero.webp"

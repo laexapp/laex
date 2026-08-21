@@ -1,0 +1,3 @@
+"use client";
+import { useEffect,useState } from "react";import { LogOut } from "lucide-react";import "./control-plane-logout.css";
+export function ControlPlaneLogout(){const[visible,setVisible]=useState(false),[busy,setBusy]=useState(false);useEffect(()=>{fetch("/api/laex-control/companies").then(response=>setVisible(response.ok)).catch(()=>setVisible(false))},[]);if(!visible)return null;return <button className="control-plane-logout" disabled={busy} onClick={async()=>{setBusy(true);await fetch("/api/laex-control/session",{method:"DELETE"});window.location.assign("/laex/business")}}><LogOut size={17}/>{busy?"Cerrando…":"Cerrar sesión LAEX"}</button>}

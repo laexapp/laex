@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "projectId": "lf-printer",
+  "globalAssetId": "LAEX-ASSET-0000003",
+  "canonicalRole": "master",
+  "immutableMasterChecksumSha256": "2112a166a689eacd25eb91f35981e6a335aa2adfd38796df4af229c1528edd4c",
+  "generatedAt": "2026-08-05T19:20:50.857Z",
+  "policy": {
+    "masterImmutable": true,
+    "derivativesReceiveNoGlobalAssetId": true,
+    "deriveFromMasterWhenPossible": true,
+    "humanApprovalRequiredForReplacement": true
+  },
+  "assets": [
+    {
+      "role": "master",
+      "usage": [
+        "light",
+        "neutral"
+      ],
+      "sourceUri": "assets/lf-printer/official-source/brand/LFPRINTER-LOGO-MASTER.png",
+      "sourceChecksumSha256": "2112a166a689eacd25eb91f35981e6a335aa2adfd38796df4af229c1528edd4c",
+      "source": {
+        "format": "image/png",
+        "width": 1200,
+        "height": 1200,
+        "density": 300,
+        "hasAlpha": true,
+        "hasIccProfile": true
+      },
+      "renditionUri": "/assets/lf-printer/official/logos/lf-printer-logo-primary.png",
+      "renditionChecksumSha256": "60cc4cde82c00ced821dc95c07ce9ef144eb43e74a6e8356bc8d05ee5df7abfa",
+      "rendition": {
+        "format": "image/png",
+        "width": 444,
+        "height": 272,
+        "hasAlpha": true
+      },
+      "relationship": "canonical-master",
+      "derivedFromGlobalAssetId": "LAEX-ASSET-0000003"
+    },
+    {
+      "role": "dark-background",
+      "usage": [
+        "dark"
+      ],
+      "sourceUri": "assets/lf-printer/official-source/brand/LFPRINTER-LOGO-FONDO-OCURO.png",
+      "sourceChecksumSha256": "dcef1e36eadf3913d98749f8fc3c921f423d5adc7519ccc2d7e46491e4de6072",
+      "source": {
+        "format": "image/png",
+        "width": 1200,
+        "height": 1200,
+        "density": 300,
+        "hasAlpha": true,
+        "hasIccProfile": true
+      },
+      "renditionUri": "/assets/lf-printer/official/logos/lf-printer-logo-on-dark.png",
+      "renditionChecksumSha256": "519e4172f71d9ac7bd4de0b9be84098038f870a9377614e113ceb673461bc6f4",
+      "rendition": {
+        "format": "image/png",
+        "width": 941,
+        "height": 573,
+        "hasAlpha": true
+      },
+      "relationship": "official-derivative",
+      "derivedFromGlobalAssetId": "LAEX-ASSET-0000003"
+    }
+  ]
+}

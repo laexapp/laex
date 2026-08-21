@@ -1,0 +1,861 @@
+{
+  "schemaVersion": 1,
+  "nextSequence": 10,
+  "updatedAt": "2026-08-17T16:31:30.312Z",
+  "assets": [
+    {
+      "assetId": "LAEX-ASSET-0000001",
+      "manufacturer": "epson",
+      "model": "WF-4830",
+      "owner": "Seiko Epson Corporation / Epson regional affiliate",
+      "assetKind": "product-image",
+      "status": "published",
+      "license": {
+        "name": "Fuente oficial proporcionada por LF-PRINTER",
+        "summary": "Uso MVP provisional; autorizaci?n comercial definitiva pendiente de documentaci?n.",
+        "legalStatus": "permission-required",
+        "allowsCommercialUse": null,
+        "allowsModification": null,
+        "requiresWrittenAuthorization": true
+      },
+      "legalStatus": "permission-required",
+      "sourcePageUrl": "urn:laex:source:lf-printer-ceo-manual",
+      "currentVersion": 2,
+      "currentChecksumSha256": "02ebf9ffb24f30d473cea307c0bbf7adb790e3acbd455438dfac65b6559fbbd9",
+      "usages": [
+        {
+          "projectId": "lf-printer",
+          "contexts": [
+            "showroom",
+            "product-microsite"
+          ],
+          "firstReferencedAt": "2026-08-04T22:55:55.673Z",
+          "lastReferencedAt": "2026-08-04T22:55:55.673Z"
+        }
+      ],
+      "versions": [
+        {
+          "version": 1,
+          "checksumSha256": "6da84f93fa9189be08ef3eef63d6548d011a995adece05650f0afe696e794ff7",
+          "originalUri": "assets/lf-printer/official-source/printers/wf-4830-transparent.png",
+          "sourceUrl": "urn:laex:source:lf-printer-provided",
+          "acquiredAt": "2026-08-04T22:55:55.673Z",
+          "format": "image/png",
+          "dimensions": {
+            "width": 2000,
+            "height": 2000
+          }
+        },
+        {
+          "version": 2,
+          "checksumSha256": "02ebf9ffb24f30d473cea307c0bbf7adb790e3acbd455438dfac65b6559fbbd9",
+          "originalUri": "assets/lf-printer/official-source/printers/wf-4830-transparent.png",
+          "sourceUrl": "urn:laex:source:lf-printer-ceo-manual",
+          "acquiredAt": "2026-08-17T16:31:30.312Z",
+          "format": "image/png",
+          "dimensions": {
+            "width": 809,
+            "height": 720
+          }
+        }
+      ],
+      "processingHistory": [
+        {
+          "id": "LAEX-ASSET-0000001:processing:1",
+          "kind": "processing",
+          "at": "2026-08-04T22:55:55.673Z",
+          "actor": "media-pipeline",
+          "projectId": "lf-printer",
+          "version": 1,
+          "status": "review-required",
+          "provider": "photoroom"
+        },
+        {
+          "id": "LAEX-ASSET-0000001:processing:ce7a050d-3933-4c2f-b273-d3a89974841f",
+          "kind": "processing",
+          "at": "2026-08-17T16:31:30.312Z",
+          "actor": "media-pipeline",
+          "projectId": "lf-printer",
+          "version": 2,
+          "status": "published",
+          "provider": "laex-media-pipeline"
+        }
+      ],
+      "publicationHistory": [
+        {
+          "id": "LAEX-ASSET-0000001:publication:1",
+          "kind": "publication",
+          "at": "2026-08-04T22:55:55.673Z",
+          "actor": "Arquitecta",
+          "projectId": "lf-printer",
+          "version": 1,
+          "status": "published",
+          "reference": "production-temporary",
+          "notes": "Aprobaci?n provisional MVP."
+        },
+        {
+          "id": "LAEX-ASSET-0000001:publication:3e27a74e-c7ca-4161-93cf-3e68ab07af61",
+          "kind": "publication",
+          "at": "2026-08-17T16:31:30.312Z",
+          "actor": "media-pipeline",
+          "projectId": "lf-printer",
+          "version": 2,
+          "status": "published",
+          "reference": "temporary-manual",
+          "notes": "Publicado por el Media Pipeline oficial con coincidencia exacta de modelo."
+        }
+      ],
+      "replacementHistory": [
+        {
+          "id": "LAEX-ASSET-0000001:replacement:306b7454-1d26-40ba-9133-cb7011eeb567",
+          "kind": "replacement",
+          "at": "2026-08-17T16:31:30.312Z",
+          "actor": "CEO LF-PRINTER",
+          "projectId": "lf-printer",
+          "fromVersion": 1,
+          "toVersion": 2,
+          "reason": "CEO supplied an exact manually approved temporary image."
+        }
+      ],
+      "approvalHistory": [
+        {
+          "id": "LAEX-ASSET-0000001:approval:1",
+          "kind": "approval",
+          "at": "2026-08-04T22:55:55.673Z",
+          "actor": "CEO + Arquitecta",
+          "projectId": "lf-printer",
+          "version": 1,
+          "status": "approved",
+          "reference": "MVP",
+          "notes": "Activo provisional; pendiente de fotograf?a oficial superior."
+        },
+        {
+          "id": "LAEX-ASSET-0000001:approval:0a8c7d66-644c-43dc-b428-99d947aae052",
+          "kind": "approval",
+          "at": "2026-08-17T16:31:30.312Z",
+          "actor": "CEO LF-PRINTER",
+          "projectId": "lf-printer",
+          "version": 2,
+          "status": "approved",
+          "reference": "CEO-manual-temporary-2026-08",
+          "notes": "Activo suministrado y aprobado manualmente por el CEO para uso temporal; pendiente de sustitucion por fuente manufacturer-authorized."
+        }
+      ],
+      "createdAt": "2026-08-04T22:55:55.673Z",
+      "updatedAt": "2026-08-17T16:31:30.312Z"
+    },
+    {
+      "assetId": "LAEX-ASSET-0000002",
+      "manufacturer": "epson",
+      "model": "WF-7840",
+      "owner": "Seiko Epson Corporation / Epson regional affiliate",
+      "assetKind": "product-image",
+      "status": "published",
+      "license": {
+        "name": "Epson Newsroom Media Library",
+        "summary": "Descarga p?blica oficial para evaluaci?n interna; permiso de modificaci?n y publicaci?n comercial no expresado.",
+        "legalStatus": "permission-required",
+        "allowsCommercialUse": null,
+        "allowsModification": null,
+        "requiresWrittenAuthorization": true
+      },
+      "legalStatus": "permission-required",
+      "sourcePageUrl": "urn:laex:source:lf-printer-ceo-manual",
+      "currentVersion": 2,
+      "currentChecksumSha256": "d6db50df4d1ba9bd948206ef4464f20e5ec445e42acfcc54c928f52ff9e24418",
+      "usages": [
+        {
+          "projectId": "lf-printer",
+          "contexts": [
+            "showroom-review"
+          ],
+          "firstReferencedAt": "2026-08-04T23:42:54.819Z",
+          "lastReferencedAt": "2026-08-04T23:42:54.819Z"
+        }
+      ],
+      "versions": [
+        {
+          "version": 1,
+          "checksumSha256": "52d54d8076136abdd703ac981a335bb9327954690c4d0d369fd0efe8412eb710",
+          "originalUri": "assets/lf-printer/official-source/originals/wf-7840/wf-7840-epson-newsroom-4000x3500.jpg",
+          "sourceUrl": "https://news.epson.com/_gallery/get_file/?file_ext=.jpg&file_id=64df10803d6332414cf9db4f&page_id=5059f0be29371a4782000a1f",
+          "acquiredAt": "2026-08-04T23:42:54.819Z",
+          "format": "image/jpeg",
+          "dimensions": {
+            "width": 4000,
+            "height": 3500
+          }
+        },
+        {
+          "version": 2,
+          "checksumSha256": "d6db50df4d1ba9bd948206ef4464f20e5ec445e42acfcc54c928f52ff9e24418",
+          "originalUri": "assets/lf-printer/official-source/printers/wf-7840-transparent.png",
+          "sourceUrl": "urn:laex:source:lf-printer-ceo-manual",
+          "acquiredAt": "2026-08-17T16:31:30.312Z",
+          "format": "image/png",
+          "dimensions": {
+            "width": 1584,
+            "height": 1335
+          }
+        }
+      ],
+      "processingHistory": [
+        {
+          "id": "LAEX-ASSET-0000002:processing:1",
+          "kind": "processing",
+          "at": "2026-08-04T23:42:54.819Z",
+          "actor": "media-pipeline",
+          "projectId": "lf-printer",
+          "version": 1,
+          "status": "review-required",
+          "provider": "photoroom",
+          "reference": "assets/lf-printer/official-review/printers/wf-7840-transparent.png"
+        },
+        {
+          "id": "LAEX-ASSET-0000002:processing:84e2bebc-cffb-467c-a016-cf8a0b83c838",
+          "kind": "processing",
+          "at": "2026-08-17T16:31:30.312Z",
+          "actor": "media-pipeline",
+          "projectId": "lf-printer",
+          "version": 2,
+          "status": "published",
+          "provider": "laex-media-pipeline"
+        }
+      ],
+      "publicationHistory": [
+        {
+          "id": "LAEX-ASSET-0000002:publication:286f625e-cd1d-4201-b3a3-5d4dcf916469",
+          "kind": "publication",
+          "at": "2026-08-17T16:31:30.312Z",
+          "actor": "media-pipeline",
+          "projectId": "lf-printer",
+          "version": 2,
+          "status": "published",
+          "reference": "temporary-manual",
+          "notes": "Publicado por el Media Pipeline oficial con coincidencia exacta de modelo."
+        }
+      ],
+      "replacementHistory": [
+        {
+          "id": "LAEX-ASSET-0000002:replacement:085b4422-32bf-4382-a8a5-6316ef0ab5be",
+          "kind": "replacement",
+          "at": "2026-08-17T16:31:30.312Z",
+          "actor": "CEO LF-PRINTER",
+          "projectId": "lf-printer",
+          "fromVersion": 1,
+          "toVersion": 2,
+          "reason": "CEO supplied an exact manually approved temporary image."
+        }
+      ],
+      "approvalHistory": [
+        {
+          "id": "LAEX-ASSET-0000002:approval:a862572c-3552-476f-9dce-11cccd50a78d",
+          "kind": "approval",
+          "at": "2026-08-17T16:31:30.312Z",
+          "actor": "CEO LF-PRINTER",
+          "projectId": "lf-printer",
+          "version": 2,
+          "status": "approved",
+          "reference": "CEO-manual-temporary-2026-08",
+          "notes": "Activo suministrado y aprobado manualmente por el CEO para uso temporal; pendiente de sustitucion por fuente manufacturer-authorized."
+        }
+      ],
+      "createdAt": "2026-08-04T23:42:54.819Z",
+      "updatedAt": "2026-08-17T16:31:30.312Z"
+    },
+    {
+      "assetId": "LAEX-ASSET-0000003",
+      "manufacturer": "lf-printer",
+      "model": "LF Printer Brand Identity",
+      "owner": "LF-PRINTER",
+      "assetKind": "logo",
+      "status": "published",
+      "license": {
+        "name": "Identidad oficial propiedad de LF-PRINTER",
+        "summary": "Uso autorizado dentro del ecosistema LAEX y comunicaciones oficiales de LF-PRINTER.",
+        "legalStatus": "cleared",
+        "allowsCommercialUse": true,
+        "allowsModification": false,
+        "requiresWrittenAuthorization": false
+      },
+      "legalStatus": "cleared",
+      "sourcePageUrl": "urn:laex:source:lf-printer-official-brand-identity",
+      "currentVersion": 1,
+      "currentChecksumSha256": "2112a166a689eacd25eb91f35981e6a335aa2adfd38796df4af229c1528edd4c",
+      "usages": [
+        {
+          "projectId": "lf-printer",
+          "contexts": [
+            "showroom",
+            "media-pipeline",
+            "commercial-composition",
+            "canva-connect",
+            "shared-brand-identity"
+          ],
+          "firstReferencedAt": "2026-08-05T19:20:50.857Z",
+          "lastReferencedAt": "2026-08-05T19:20:50.857Z"
+        }
+      ],
+      "versions": [
+        {
+          "version": 1,
+          "checksumSha256": "2112a166a689eacd25eb91f35981e6a335aa2adfd38796df4af229c1528edd4c",
+          "originalUri": "assets/lf-printer/official-source/brand/LFPRINTER-LOGO-MASTER.png",
+          "sourceUrl": "urn:laex:source:lf-printer-provided",
+          "acquiredAt": "2026-08-05T19:20:50.857Z",
+          "format": "image/png",
+          "dimensions": {
+            "width": 1200,
+            "height": 1200
+          }
+        }
+      ],
+      "processingHistory": [],
+      "replacementHistory": [],
+      "approvalHistory": [
+        {
+          "id": "LAEX-ASSET-0000003:approval:brand-onboarding",
+          "kind": "approval",
+          "at": "2026-08-05T19:20:50.857Z",
+          "actor": "LF-PRINTER",
+          "projectId": "lf-printer",
+          "version": 1,
+          "status": "approved",
+          "reference": "official-brand-identity",
+          "notes": "Archivo maestro oficial suministrado para integración en LAEX."
+        }
+      ],
+      "publicationHistory": [
+        {
+          "id": "LAEX-ASSET-0000003:publication:brand-onboarding",
+          "kind": "publication",
+          "at": "2026-08-05T19:20:50.857Z",
+          "actor": "LAEX brand identity sync",
+          "projectId": "lf-printer",
+          "version": 1,
+          "status": "published",
+          "reference": "/assets/lf-printer/official/logos/lf-printer-logo-primary.png",
+          "notes": "Rendición web trazable; el original permanece inmutable."
+        }
+      ],
+      "createdAt": "2026-08-05T19:20:50.857Z",
+      "updatedAt": "2026-08-05T19:20:50.857Z"
+    },
+    {
+      "assetId": "LAEX-ASSET-0000004",
+      "manufacturer": "epson",
+      "model": "L1250",
+      "owner": "LF-PRINTER CEO-supplied temporary asset",
+      "assetKind": "product-image",
+      "status": "published",
+      "license": {
+        "name": "Autorizacion manual temporal LF-PRINTER",
+        "summary": "Activo suministrado y aprobado por el CEO para la tienda LF-PRINTER.",
+        "legalStatus": "permission-required",
+        "allowsCommercialUse": null,
+        "allowsModification": null,
+        "requiresWrittenAuthorization": true
+      },
+      "legalStatus": "permission-required",
+      "sourcePageUrl": "urn:laex:source:lf-printer-ceo-manual",
+      "currentVersion": 1,
+      "currentChecksumSha256": "68c937ec4881c734f8abb3949affad22299950270fa3f5d0f1df5af1a5d92836",
+      "usages": [
+        {
+          "projectId": "lf-printer",
+          "contexts": [
+            "showroom",
+            "product-microsite"
+          ],
+          "firstReferencedAt": "2026-08-17T16:31:30.312Z",
+          "lastReferencedAt": "2026-08-17T16:31:30.312Z"
+        }
+      ],
+      "versions": [
+        {
+          "version": 1,
+          "checksumSha256": "68c937ec4881c734f8abb3949affad22299950270fa3f5d0f1df5af1a5d92836",
+          "originalUri": "assets/lf-printer/official-source/printers/l1250-transparent.png",
+          "sourceUrl": "urn:laex:source:lf-printer-ceo-manual",
+          "acquiredAt": "2026-08-17T16:31:30.312Z",
+          "format": "image/png",
+          "dimensions": {
+            "width": 1240,
+            "height": 777
+          }
+        }
+      ],
+      "processingHistory": [
+        {
+          "id": "LAEX-ASSET-0000004:processing:ac1a7894-218a-4979-9d20-a72b6b3a0675",
+          "kind": "processing",
+          "at": "2026-08-17T16:31:30.312Z",
+          "actor": "media-pipeline",
+          "projectId": "lf-printer",
+          "version": 1,
+          "status": "published",
+          "provider": "laex-media-pipeline"
+        }
+      ],
+      "publicationHistory": [
+        {
+          "id": "LAEX-ASSET-0000004:publication:cfc322ea-34ea-47f3-be4c-e934ae2826f9",
+          "kind": "publication",
+          "at": "2026-08-17T16:31:30.312Z",
+          "actor": "media-pipeline",
+          "projectId": "lf-printer",
+          "version": 1,
+          "status": "published",
+          "reference": "temporary-manual",
+          "notes": "Publicado por el Media Pipeline oficial con coincidencia exacta de modelo."
+        }
+      ],
+      "replacementHistory": [],
+      "approvalHistory": [
+        {
+          "id": "LAEX-ASSET-0000004:approval:4065dd53-85a1-47f7-b8b2-237f01411dc8",
+          "kind": "approval",
+          "at": "2026-08-17T16:31:30.312Z",
+          "actor": "CEO LF-PRINTER",
+          "projectId": "lf-printer",
+          "version": 1,
+          "status": "approved",
+          "reference": "CEO-manual-temporary-2026-08",
+          "notes": "Activo suministrado y aprobado manualmente por el CEO para uso temporal; pendiente de sustitucion por fuente manufacturer-authorized."
+        }
+      ],
+      "createdAt": "2026-08-17T16:31:30.312Z",
+      "updatedAt": "2026-08-17T16:31:30.312Z"
+    },
+    {
+      "assetId": "LAEX-ASSET-0000005",
+      "manufacturer": "epson",
+      "model": "WF-4834",
+      "owner": "LF-PRINTER CEO-supplied temporary asset",
+      "assetKind": "product-image",
+      "status": "published",
+      "license": {
+        "name": "Autorizacion manual temporal LF-PRINTER",
+        "summary": "Activo suministrado y aprobado por el CEO para la tienda LF-PRINTER.",
+        "legalStatus": "permission-required",
+        "allowsCommercialUse": null,
+        "allowsModification": null,
+        "requiresWrittenAuthorization": true
+      },
+      "legalStatus": "permission-required",
+      "sourcePageUrl": "urn:laex:source:lf-printer-ceo-manual",
+      "currentVersion": 1,
+      "currentChecksumSha256": "a32df31dd6116a7a16cef5b25710f1f20b4911911f720f9eedb3572ad7b7b8f2",
+      "usages": [
+        {
+          "projectId": "lf-printer",
+          "contexts": [
+            "showroom",
+            "product-microsite"
+          ],
+          "firstReferencedAt": "2026-08-17T16:31:30.312Z",
+          "lastReferencedAt": "2026-08-17T16:31:30.312Z"
+        }
+      ],
+      "versions": [
+        {
+          "version": 1,
+          "checksumSha256": "a32df31dd6116a7a16cef5b25710f1f20b4911911f720f9eedb3572ad7b7b8f2",
+          "originalUri": "assets/lf-printer/official-source/printers/wf-4834-transparent.png",
+          "sourceUrl": "urn:laex:source:lf-printer-ceo-manual",
+          "acquiredAt": "2026-08-17T16:31:30.312Z",
+          "format": "image/png",
+          "dimensions": {
+            "width": 2211,
+            "height": 2072
+          }
+        }
+      ],
+      "processingHistory": [
+        {
+          "id": "LAEX-ASSET-0000005:processing:ffda4588-e67e-495c-93fe-dd93f1bb532d",
+          "kind": "processing",
+          "at": "2026-08-17T16:31:30.312Z",
+          "actor": "media-pipeline",
+          "projectId": "lf-printer",
+          "version": 1,
+          "status": "published",
+          "provider": "laex-media-pipeline"
+        }
+      ],
+      "publicationHistory": [
+        {
+          "id": "LAEX-ASSET-0000005:publication:8f8d4211-83c6-468a-bd7f-b8e06fe6b9cc",
+          "kind": "publication",
+          "at": "2026-08-17T16:31:30.312Z",
+          "actor": "media-pipeline",
+          "projectId": "lf-printer",
+          "version": 1,
+          "status": "published",
+          "reference": "temporary-manual",
+          "notes": "Publicado por el Media Pipeline oficial con coincidencia exacta de modelo."
+        }
+      ],
+      "replacementHistory": [],
+      "approvalHistory": [
+        {
+          "id": "LAEX-ASSET-0000005:approval:c4a82d20-08a9-4b6e-bbe1-55d960d03e4e",
+          "kind": "approval",
+          "at": "2026-08-17T16:31:30.312Z",
+          "actor": "CEO LF-PRINTER",
+          "projectId": "lf-printer",
+          "version": 1,
+          "status": "approved",
+          "reference": "CEO-manual-temporary-2026-08",
+          "notes": "Activo suministrado y aprobado manualmente por el CEO para uso temporal; pendiente de sustitucion por fuente manufacturer-authorized."
+        }
+      ],
+      "createdAt": "2026-08-17T16:31:30.312Z",
+      "updatedAt": "2026-08-17T16:31:30.312Z"
+    },
+    {
+      "assetId": "LAEX-ASSET-0000006",
+      "manufacturer": "epson",
+      "model": "WF-C4810",
+      "owner": "LF-PRINTER CEO-supplied temporary asset",
+      "assetKind": "product-image",
+      "status": "published",
+      "license": {
+        "name": "Autorizacion manual temporal LF-PRINTER",
+        "summary": "Activo suministrado y aprobado por el CEO para la tienda LF-PRINTER.",
+        "legalStatus": "permission-required",
+        "allowsCommercialUse": null,
+        "allowsModification": null,
+        "requiresWrittenAuthorization": true
+      },
+      "legalStatus": "permission-required",
+      "sourcePageUrl": "urn:laex:source:lf-printer-ceo-manual",
+      "currentVersion": 1,
+      "currentChecksumSha256": "bce8c1c50e50db9d5855d247b026dc57970ea82465d2f31d48b33d924f186052",
+      "usages": [
+        {
+          "projectId": "lf-printer",
+          "contexts": [
+            "showroom",
+            "product-microsite"
+          ],
+          "firstReferencedAt": "2026-08-17T16:31:30.312Z",
+          "lastReferencedAt": "2026-08-17T16:31:30.312Z"
+        }
+      ],
+      "versions": [
+        {
+          "version": 1,
+          "checksumSha256": "bce8c1c50e50db9d5855d247b026dc57970ea82465d2f31d48b33d924f186052",
+          "originalUri": "assets/lf-printer/official-source/printers/wf-c4810-transparent.png",
+          "sourceUrl": "urn:laex:source:lf-printer-ceo-manual",
+          "acquiredAt": "2026-08-17T16:31:30.312Z",
+          "format": "image/png",
+          "dimensions": {
+            "width": 1230,
+            "height": 1087
+          }
+        }
+      ],
+      "processingHistory": [
+        {
+          "id": "LAEX-ASSET-0000006:processing:cc7304c0-1b8b-4d38-aef9-5a8251c5e5a7",
+          "kind": "processing",
+          "at": "2026-08-17T16:31:30.312Z",
+          "actor": "media-pipeline",
+          "projectId": "lf-printer",
+          "version": 1,
+          "status": "published",
+          "provider": "laex-media-pipeline"
+        }
+      ],
+      "publicationHistory": [
+        {
+          "id": "LAEX-ASSET-0000006:publication:a3a70655-6710-4786-b657-204adc44f03c",
+          "kind": "publication",
+          "at": "2026-08-17T16:31:30.312Z",
+          "actor": "media-pipeline",
+          "projectId": "lf-printer",
+          "version": 1,
+          "status": "published",
+          "reference": "temporary-manual",
+          "notes": "Publicado por el Media Pipeline oficial con coincidencia exacta de modelo."
+        }
+      ],
+      "replacementHistory": [],
+      "approvalHistory": [
+        {
+          "id": "LAEX-ASSET-0000006:approval:104e35aa-da11-4ead-bd63-53d78b241c50",
+          "kind": "approval",
+          "at": "2026-08-17T16:31:30.312Z",
+          "actor": "CEO LF-PRINTER",
+          "projectId": "lf-printer",
+          "version": 1,
+          "status": "approved",
+          "reference": "CEO-manual-temporary-2026-08",
+          "notes": "Activo suministrado y aprobado manualmente por el CEO para uso temporal; pendiente de sustitucion por fuente manufacturer-authorized."
+        }
+      ],
+      "createdAt": "2026-08-17T16:31:30.312Z",
+      "updatedAt": "2026-08-17T16:31:30.312Z"
+    },
+    {
+      "assetId": "LAEX-ASSET-0000007",
+      "manufacturer": "epson",
+      "model": "WF-7820",
+      "owner": "LF-PRINTER CEO-supplied temporary asset",
+      "assetKind": "product-image",
+      "status": "published",
+      "license": {
+        "name": "Autorizacion manual temporal LF-PRINTER",
+        "summary": "Activo suministrado y aprobado por el CEO para la tienda LF-PRINTER.",
+        "legalStatus": "permission-required",
+        "allowsCommercialUse": null,
+        "allowsModification": null,
+        "requiresWrittenAuthorization": true
+      },
+      "legalStatus": "permission-required",
+      "sourcePageUrl": "urn:laex:source:lf-printer-ceo-manual",
+      "currentVersion": 1,
+      "currentChecksumSha256": "c98e8b144785c126397246c2bf11f20bcd3f27d46e85c9fb8afe7ada42cd6fb3",
+      "usages": [
+        {
+          "projectId": "lf-printer",
+          "contexts": [
+            "showroom",
+            "product-microsite"
+          ],
+          "firstReferencedAt": "2026-08-17T16:31:30.312Z",
+          "lastReferencedAt": "2026-08-17T16:31:30.312Z"
+        }
+      ],
+      "versions": [
+        {
+          "version": 1,
+          "checksumSha256": "c98e8b144785c126397246c2bf11f20bcd3f27d46e85c9fb8afe7ada42cd6fb3",
+          "originalUri": "assets/lf-printer/official-source/printers/wf-7820-transparent.png",
+          "sourceUrl": "urn:laex:source:lf-printer-ceo-manual",
+          "acquiredAt": "2026-08-17T16:31:30.312Z",
+          "format": "image/png",
+          "dimensions": {
+            "width": 1567,
+            "height": 1116
+          }
+        }
+      ],
+      "processingHistory": [
+        {
+          "id": "LAEX-ASSET-0000007:processing:822b87f0-71a9-4e98-a8d8-833c103e8c3b",
+          "kind": "processing",
+          "at": "2026-08-17T16:31:30.312Z",
+          "actor": "media-pipeline",
+          "projectId": "lf-printer",
+          "version": 1,
+          "status": "published",
+          "provider": "laex-media-pipeline"
+        }
+      ],
+      "publicationHistory": [
+        {
+          "id": "LAEX-ASSET-0000007:publication:9fedc26f-93d0-4622-aeb9-4b15205e63fb",
+          "kind": "publication",
+          "at": "2026-08-17T16:31:30.312Z",
+          "actor": "media-pipeline",
+          "projectId": "lf-printer",
+          "version": 1,
+          "status": "published",
+          "reference": "temporary-manual",
+          "notes": "Publicado por el Media Pipeline oficial con coincidencia exacta de modelo."
+        }
+      ],
+      "replacementHistory": [],
+      "approvalHistory": [
+        {
+          "id": "LAEX-ASSET-0000007:approval:e29c0d16-be15-44ba-b3a4-9159163e456b",
+          "kind": "approval",
+          "at": "2026-08-17T16:31:30.312Z",
+          "actor": "CEO LF-PRINTER",
+          "projectId": "lf-printer",
+          "version": 1,
+          "status": "approved",
+          "reference": "CEO-manual-temporary-2026-08",
+          "notes": "Activo suministrado y aprobado manualmente por el CEO para uso temporal; pendiente de sustitucion por fuente manufacturer-authorized."
+        }
+      ],
+      "createdAt": "2026-08-17T16:31:30.312Z",
+      "updatedAt": "2026-08-17T16:31:30.312Z"
+    },
+    {
+      "assetId": "LAEX-ASSET-0000008",
+      "manufacturer": "epson",
+      "model": "XP-4105",
+      "owner": "LF-PRINTER CEO-supplied temporary asset",
+      "assetKind": "product-image",
+      "status": "published",
+      "license": {
+        "name": "Autorizacion manual temporal LF-PRINTER",
+        "summary": "Activo suministrado y aprobado por el CEO para la tienda LF-PRINTER.",
+        "legalStatus": "permission-required",
+        "allowsCommercialUse": null,
+        "allowsModification": null,
+        "requiresWrittenAuthorization": true
+      },
+      "legalStatus": "permission-required",
+      "sourcePageUrl": "urn:laex:source:lf-printer-ceo-manual",
+      "currentVersion": 1,
+      "currentChecksumSha256": "a82e748665331f0bfe1bbda5cffe04df8023a2c630a69f1675f954aca202e681",
+      "usages": [
+        {
+          "projectId": "lf-printer",
+          "contexts": [
+            "showroom",
+            "product-microsite"
+          ],
+          "firstReferencedAt": "2026-08-17T16:31:30.312Z",
+          "lastReferencedAt": "2026-08-17T16:31:30.312Z"
+        }
+      ],
+      "versions": [
+        {
+          "version": 1,
+          "checksumSha256": "a82e748665331f0bfe1bbda5cffe04df8023a2c630a69f1675f954aca202e681",
+          "originalUri": "assets/lf-printer/official-source/printers/xp-4105-transparent.png",
+          "sourceUrl": "urn:laex:source:lf-printer-ceo-manual",
+          "acquiredAt": "2026-08-17T16:31:30.312Z",
+          "format": "image/png",
+          "dimensions": {
+            "width": 1204,
+            "height": 837
+          }
+        }
+      ],
+      "processingHistory": [
+        {
+          "id": "LAEX-ASSET-0000008:processing:4c27da5b-6cd2-4650-9623-b3f11530bf27",
+          "kind": "processing",
+          "at": "2026-08-17T16:31:30.312Z",
+          "actor": "media-pipeline",
+          "projectId": "lf-printer",
+          "version": 1,
+          "status": "published",
+          "provider": "laex-media-pipeline"
+        }
+      ],
+      "publicationHistory": [
+        {
+          "id": "LAEX-ASSET-0000008:publication:061c1428-0e7b-46e3-9a43-7d9cb89f9683",
+          "kind": "publication",
+          "at": "2026-08-17T16:31:30.312Z",
+          "actor": "media-pipeline",
+          "projectId": "lf-printer",
+          "version": 1,
+          "status": "published",
+          "reference": "temporary-manual",
+          "notes": "Publicado por el Media Pipeline oficial con coincidencia exacta de modelo."
+        }
+      ],
+      "replacementHistory": [],
+      "approvalHistory": [
+        {
+          "id": "LAEX-ASSET-0000008:approval:8c7f3d53-77a4-4894-8cef-21100a297128",
+          "kind": "approval",
+          "at": "2026-08-17T16:31:30.312Z",
+          "actor": "CEO LF-PRINTER",
+          "projectId": "lf-printer",
+          "version": 1,
+          "status": "approved",
+          "reference": "CEO-manual-temporary-2026-08",
+          "notes": "Activo suministrado y aprobado manualmente por el CEO para uso temporal; pendiente de sustitucion por fuente manufacturer-authorized."
+        }
+      ],
+      "createdAt": "2026-08-17T16:31:30.312Z",
+      "updatedAt": "2026-08-17T16:31:30.312Z"
+    },
+    {
+      "assetId": "LAEX-ASSET-0000009",
+      "manufacturer": "epson",
+      "model": "XP-4205",
+      "owner": "LF-PRINTER CEO-supplied temporary asset",
+      "assetKind": "product-image",
+      "status": "published",
+      "license": {
+        "name": "Autorizacion manual temporal LF-PRINTER",
+        "summary": "Activo suministrado y aprobado por el CEO para la tienda LF-PRINTER.",
+        "legalStatus": "permission-required",
+        "allowsCommercialUse": null,
+        "allowsModification": null,
+        "requiresWrittenAuthorization": true
+      },
+      "legalStatus": "permission-required",
+      "sourcePageUrl": "urn:laex:source:lf-printer-ceo-manual",
+      "currentVersion": 1,
+      "currentChecksumSha256": "608efc9dd5143a8528e8ae464084ee41913ca4b5c412ae3fac1f8f6d0ae45a16",
+      "usages": [
+        {
+          "projectId": "lf-printer",
+          "contexts": [
+            "showroom",
+            "product-microsite"
+          ],
+          "firstReferencedAt": "2026-08-17T16:31:30.312Z",
+          "lastReferencedAt": "2026-08-17T16:31:30.312Z"
+        }
+      ],
+      "versions": [
+        {
+          "version": 1,
+          "checksumSha256": "608efc9dd5143a8528e8ae464084ee41913ca4b5c412ae3fac1f8f6d0ae45a16",
+          "originalUri": "assets/lf-printer/official-source/printers/xp-4205-transparent.png",
+          "sourceUrl": "urn:laex:source:lf-printer-ceo-manual",
+          "acquiredAt": "2026-08-17T16:31:30.312Z",
+          "format": "image/png",
+          "dimensions": {
+            "width": 1500,
+            "height": 1135
+          }
+        }
+      ],
+      "processingHistory": [
+        {
+          "id": "LAEX-ASSET-0000009:processing:18597f3c-4e15-445f-a9eb-a9f33a397f60",
+          "kind": "processing",
+          "at": "2026-08-17T16:31:30.312Z",
+          "actor": "media-pipeline",
+          "projectId": "lf-printer",
+          "version": 1,
+          "status": "published",
+          "provider": "laex-media-pipeline"
+        }
+      ],
+      "publicationHistory": [
+        {
+          "id": "LAEX-ASSET-0000009:publication:5675bc6b-b337-45af-b6cf-af08fea285d0",
+          "kind": "publication",
+          "at": "2026-08-17T16:31:30.312Z",
+          "actor": "media-pipeline",
+          "projectId": "lf-printer",
+          "version": 1,
+          "status": "published",
+          "reference": "temporary-manual",
+          "notes": "Publicado por el Media Pipeline oficial con coincidencia exacta de modelo."
+        }
+      ],
+      "replacementHistory": [],
+      "approvalHistory": [
+        {
+          "id": "LAEX-ASSET-0000009:approval:b66030e6-a7ed-4d23-9d52-40facc822bc1",
+          "kind": "approval",
+          "at": "2026-08-17T16:31:30.312Z",
+          "actor": "CEO LF-PRINTER",
+          "projectId": "lf-printer",
+          "version": 1,
+          "status": "approved",
+          "reference": "CEO-manual-temporary-2026-08",
+          "notes": "Activo suministrado y aprobado manualmente por el CEO para uso temporal; pendiente de sustitucion por fuente manufacturer-authorized."
+        }
+      ],
+      "createdAt": "2026-08-17T16:31:30.312Z",
+      "updatedAt": "2026-08-17T16:31:30.312Z"
+    }
+  ]
+}

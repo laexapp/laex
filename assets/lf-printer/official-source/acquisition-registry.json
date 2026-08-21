@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "projectId": "lf-printer",
+  "checkedAt": "2026-08-04T00:00:00-04:00",
+  "policy": {
+    "minimumLongestSide": 2000,
+    "publicationRequiresHumanApproval": true,
+    "unknownPublicUsageRightsPermitPublication": false
+  },
+  "assets": [
+    {
+      "id": "wf-4833",
+      "status": "official-source-required",
+      "officialReference": "https://support.epson.com/For-Work/Printers/Inkjet/WorkForce-Pro-WF-4833-All-in-One-Printer/p/C11CJ05202",
+      "resolution": null,
+      "reason": "No se verific? una descarga p?blica oficial de 2000 px o m?s con derechos de transformaci?n.",
+      "accessRequired": "Epson Partner Portal/BusinessFirst o entrega directa del representante Epson con autorizaci?n de uso y adaptaci?n."
+    },
+    {
+      "id": "wf-4834",
+      "status": "official-source-required",
+      "officialReference": "https://epson.com/For-Work/Printers/Inkjet/WorkForce-Pro-WF-4834-Wireless-All-in-One-Printer/p/C11CJ05203",
+      "resolution": null,
+      "reason": "La p?gina oficial confirma el modelo, pero no se verific? un maestro p?blico de 2000 px o m?s con derechos de transformaci?n.",
+      "accessRequired": "Epson Partner Portal/BusinessFirst o entrega directa del representante Epson con autorizaci?n de uso y adaptaci?n."
+    },
+    {
+      "id": "wf-7820",
+      "status": "official-source-required",
+      "officialReference": "https://epson.com/For-Work/Printers/Inkjet/WorkForce-Pro-WF-7820-Wireless-Wide-format-All-in-One-Printer/p/C11CH78201",
+      "resolution": null,
+      "reason": "La p?gina oficial confirma el modelo, pero no se verific? un maestro p?blico de 2000 px o m?s con derechos de transformaci?n.",
+      "accessRequired": "Epson Partner Portal/BusinessFirst o entrega directa del representante Epson con autorizaci?n de uso y adaptaci?n."
+    },
+    {
+      "id": "wf-7840",
+      "status": "review-required",
+      "manufacturer": "Epson",
+      "source": "Epson Newsroom Media Library",
+      "sourceUrl": "https://news.epson.com/_gallery/get_file/?file_ext=.jpg&file_id=64df10803d6332414cf9db4f&page_id=5059f0be29371a4782000a1f",
+      "obtainedAt": "2026-08-04T00:00:00-04:00",
+      "resolution": "4000x3500",
+      "format": "jpeg",
+      "sha256": "52d54d8076136abdd703ac981a335bb9327954690c4d0d369fd0efe8412eb710",
+      "masterPath": "assets/lf-printer/official-source/originals/wf-7840/wf-7840-epson-newsroom-4000x3500.jpg",
+      "normalizedInputPath": "assets/lf-printer/official-source/printers/wf-7840-transparent.png",
+      "normalizedInputSha256": "d7b3e55eb67fddcb2c06660339177d6feba035a3655327fc8089fbf4f03d318a",
+      "knownUsageConditions": "Descarga p?blica de la biblioteca de prensa oficial. La p?gina p?blica no declara de forma expresa permiso para modificar el recurso; esta copia se usa solo para la prueba interna y no se publicar? sin aprobaci?n humana y confirmaci?n de derechos.",
+      "processing": {
+        "provider": "photoroom",
+        "candidatePath": "assets/lf-printer/official-review/printers/wf-7840-transparent.png",
+        "status": "review-required",
+        "published": false
+      }
+    },
+    {
+      "id": "xp-4200",
+      "status": "official-source-required",
+      "officialReference": "https://epson.com/For-Home/Printers/Inkjet/Expression-Home-XP-4200-Wireless-Color-Inkjet-All-in-One-Printer-with-Scan-and-Copy/p/C11CK65201",
+      "resolution": "690x460 (m?ximo p?blico verificado)",
+      "reason": "El recurso p?blico oficial verificado no alcanza 2000 px.",
+      "accessRequired": "Epson Partner Portal o maestro suministrado por Epson/LF-PRINTER con autorizaci?n de uso y adaptaci?n."
+    },
+    {
+      "id": "xp-4205",
+      "status": "official-source-required",
+      "officialReference": "https://epson.com/For-Home/Printers/Inkjet/Expression-Home-XP-4205-Wireless-Color-Inkjet-All-in-One-Printer-with-Scan-and-Copy/p/C11CK65202",
+      "resolution": null,
+      "reason": "La p?gina oficial confirma el modelo, pero no se verific? un maestro p?blico de 2000 px o m?s con derechos de transformaci?n.",
+      "accessRequired": "Epson Partner Portal o maestro suministrado por Epson/LF-PRINTER con autorizaci?n de uso y adaptaci?n."
+    },
+    {
+      "id": "l3250",
+      "status": "official-source-required",
+      "officialReference": "https://download-center.epson.com/softwares/?device_id=L3250+Series&language=en&os=WIN1064&region=GB",
+      "resolution": null,
+      "reason": "El centro oficial confirma el modelo, pero no ofrece p?blicamente un maestro comercial verificable de 2000 px o m?s.",
+      "accessRequired": "Portal comercial Epson de la regi?n o entrega directa del representante/distribuidor autorizado con autorizaci?n de uso y adaptaci?n."
+    }
+  ]
+}

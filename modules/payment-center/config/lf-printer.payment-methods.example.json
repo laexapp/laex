@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "projectId": "lf-printer",
+  "methods": [
+    { "id": "omd", "destinationLabel": "Dirección OMD", "destinationValue": "REEMPLAZAR_EN_SECRET_MANAGER", "privateInstructions": [], "enabled": true },
+    { "id": "omdb", "destinationLabel": "Dirección OMDB", "destinationValue": "REEMPLAZAR_EN_SECRET_MANAGER", "privateInstructions": [], "enabled": true },
+    { "id": "usdt", "destinationLabel": "Wallet USDT", "destinationValue": "REEMPLAZAR_EN_SECRET_MANAGER", "privateInstructions": ["Indicar la red autorizada."], "enabled": true },
+    { "id": "bnb", "destinationLabel": "Wallet BNB", "destinationValue": "REEMPLAZAR_EN_SECRET_MANAGER", "privateInstructions": [], "enabled": true },
+    { "id": "paypal", "destinationLabel": "Cuenta PayPal", "destinationValue": "REEMPLAZAR_EN_SECRET_MANAGER", "privateInstructions": [], "enabled": true },
+    { "id": "bhd", "destinationLabel": "Cuenta Banco BHD", "destinationValue": "REEMPLAZAR_EN_SECRET_MANAGER", "privateInstructions": ["Registrar tipo de cuenta, moneda y titular."], "enabled": true }
+  ]
+}

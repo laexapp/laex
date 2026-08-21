@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<x:xmpmeta xmlns:x="adobe:ns:meta/">
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+        <rdf:Description rdf:about="" xmlns="http://namespace.corel.com/Cdr/metadata">
+            <TextStream>
+                <TextRun break="para" lang="7178">Google LF-PRINTER</TextRun>
+            </TextStream>
+            <TextStream>
+                <TextRun break="para" lang="7178">849</TextRun>
+                <TextRun break="none" lang="1033">.</TextRun>
+                <TextRun break="none" lang="7178">358</TextRun>
+                <TextRun break="none" lang="1033">.</TextRun>
+                <TextRun break="none" lang="7178">1132</TextRun>
+                <TextRun break="none" lang="1033"> </TextRun>
+                <TextRun break="none" lang="7178"> 849</TextRun>
+                <TextRun break="none" lang="1033">.</TextRun>
+                <TextRun break="none" lang="7178">388</TextRun>
+                <TextRun break="none" lang="1033">.</TextRun>
+                <TextRun break="none" lang="7178">1132</TextRun>
+            </TextStream>
+            <TextStream>
+                <TextRun break="para" lang="7178">C/6 </TextRun>
+                <TextRun break="none" lang="1033">E</TextRun>
+                <TextRun break="none" lang="7178">sq</TextRun>
+                <TextRun break="none" lang="1033">.</TextRun>
+                <TextRun break="none" lang="7178"> D,</TextRun>
+                <TextRun break="none" lang="1033"> </TextRun>
+                <TextRun break="none" lang="7178">Ensanche Duarte</TextRun>
+                <TextRun break="none" lang="1033">, S.F.M., Rep. Dom. </TextRun>
+                <TextRun break="none" lang="7178"> </TextRun>
+            </TextStream>
+            <ObjectNames>
+                <rdf:Bag />
+            </ObjectNames>
+            <LayerNames>
+                <rdf:Bag>
+                    <rdf:li>Capa 1</rdf:li>
+                </rdf:Bag>
+            </LayerNames>
+            <PageNames>
+                <rdf:Bag />
+            </PageNames>
+        </rdf:Description>
+    </rdf:RDF>
+</x:xmpmeta>

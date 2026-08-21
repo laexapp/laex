@@ -1,0 +1,5 @@
+import { NextRequest,NextResponse } from "next/server";
+import { CompanyResolver } from "@/modules/business-engine/platform/CompanyResolver";
+import { getBusinessRuntime } from "@/modules/business-engine/server/runtime";
+export const dynamic="force-dynamic";
+export async function GET(request:NextRequest,{params}:{params:Promise<{company:string}>}){try{const runtime=getBusinessRuntime(),company=await new CompanyResolver(runtime.store).bySlugOrHost((await params).company),query=request.nextUrl.searchParams;return NextResponse.json(await runtime.commerceCatalog.search({tenantId:company.tenantId,companyId:company.id},{query:query.get("q")??undefined,category:query.get("category")??undefined,availability:(query.get("availability")||undefined)as "Disponible"|"Pocas unidades"|"Agotado"|undefined,page:Number(query.get("page")||1),pageSize:Number(query.get("pageSize")||24)}),{headers:{"cache-control":"no-store"}})}catch{return NextResponse.json({company:null,query:"",categories:[],total:0,page:1,pageSize:24,products:[]},{headers:{"cache-control":"no-store"}})}}

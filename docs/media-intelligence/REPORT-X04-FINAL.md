@@ -16,7 +16,7 @@ La implementación queda lista para revisión y aprobación final de la Arquitec
 - Textos definitivos orientados a decisiones, sin mensajes internos de arquitectura en la experiencia principal.
 - Estados técnicos traducidos a lenguaje humano.
 - Normalización UTF-8 de fuentes y documentación.
-- Verificación automática contra secuencias `Ã`, `Â` y otras corrupciones frecuentes.
+- Verificación automática contra secuencias de codificación dañada y otras corrupciones frecuentes.
 - Flujo continuo de nueve pasos con navegación anterior/siguiente.
 - Demo ejecutiva estable, sin credenciales ni configuración manual.
 - Inicio y preflight mediante un único comando cada uno.

@@ -1,0 +1,11 @@
+.lf-cinema-product,.lf-cinema-copy,.lf-cinema-detail,.lf-cinema-lia,.lf-cinema-cta{transition:opacity .7s ease,transform .9s cubic-bezier(.16,1,.3,1)}
+[data-phase="entering"] .lf-cinema-product{animation:lf-product-in 1.05s .12s cubic-bezier(.16,1,.3,1) both}
+[data-phase="entering"] .lf-cinema-copy{animation:lf-layer-in .78s .34s cubic-bezier(.16,1,.3,1) both}
+[data-phase="entering"] .lf-cinema-detail{animation:lf-layer-in .72s .54s cubic-bezier(.16,1,.3,1) both}
+[data-phase="entering"] .lf-cinema-lia{animation:lf-layer-in .72s .72s cubic-bezier(.16,1,.3,1) both}
+[data-phase="entering"] .lf-cinema-cta{animation:lf-layer-in .65s .88s cubic-bezier(.16,1,.3,1) both}
+[data-phase="leaving"] .lf-cinema-product{opacity:0;transform:translate3d(4rem,1rem,0) scale(.94)}
+[data-phase="leaving"] .lf-cinema-copy,[data-phase="leaving"] .lf-cinema-detail,[data-phase="leaving"] .lf-cinema-lia,[data-phase="leaving"] .lf-cinema-cta{opacity:0;transform:translate3d(0,.8rem,0)}
+@keyframes lf-product-in{from{opacity:0;transform:translate3d(4rem,1rem,0) scale(.93)}to{opacity:1;transform:none}}
+@keyframes lf-layer-in{from{opacity:0;transform:translate3d(0,1.1rem,0)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.lf-cinema-product,.lf-cinema-copy,.lf-cinema-detail,.lf-cinema-lia,.lf-cinema-cta{animation:none!important;transition:none!important}}

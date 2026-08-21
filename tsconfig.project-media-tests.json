@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": ".tmp-project-media-tests",
+    "rootDir": ".",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "incremental": false,
+    "isolatedModules": false
+  },
+  "include": [
+    "src/core/media/**/*.ts",
+    "src/core/projects/identity/**/*.ts",
+    "tests/project-media/**/*.ts"
+  ]
+}

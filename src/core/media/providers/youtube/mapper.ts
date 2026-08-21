@@ -9,6 +9,7 @@ export interface YouTubeVideoInput {
   description?: string;
   publishedAt?: string;
   duration?: string;
+  category?: "video" | "short";
 }
 
 export function mapYouTubeVideo(
@@ -25,7 +26,7 @@ export function mapYouTubeVideo(
     title: video.title,
     description: video.description,
     thumbnail: getYouTubeThumbnail(video.url) ?? "",
-    category: "video",
+    category: video.category ?? "video",
     publishedAt: video.publishedAt,
     duration: video.duration,
     source: {

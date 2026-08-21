@@ -19,7 +19,7 @@ const projectIdentitySlugs: Record<string, string> = {
   omd: "one-million-dollar",
 };
 
-export default function ProjectMedia({
+export default async function ProjectMedia({
   project,
   items,
 }: ProjectMediaProps) {
@@ -28,11 +28,12 @@ export default function ProjectMedia({
     : null;
 
   const configuredItems = projectIdentity
-    ? mediaRepository.getFeaturedVideos(projectIdentity.identity.slug)
+    ? await mediaRepository.getFeaturedVideos(projectIdentity.identity.slug)
     : [];
 
   const mediaItems = items ?? configuredItems;
   const featuredVideo = mediaItems[0];
+  const additionalVideos = mediaItems.slice(1);
 
   if (!featuredVideo) {
     return null;
@@ -107,6 +108,33 @@ export default function ProjectMedia({
                 )}
               </div>
             </div>
+
+            {additionalVideos.length > 0 && (
+              <div className="mx-auto mt-14 max-w-6xl text-left">
+                <div className="mb-6 flex items-end justify-between gap-4">
+                  <div>
+                    <span className="text-xs font-bold uppercase tracking-[0.32em] text-cyan-400">Canal oficial</span>
+                    <h3 className="mt-2 text-2xl font-black text-white md:text-3xl">Más videos de OMD Miners Spanish</h3>
+                  </div>
+                  <a href={projectIdentity?.social.youtube?.channelUrl} target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-cyan-300 transition hover:text-cyan-200">Ver canal ↗</a>
+                </div>
+                <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                  {additionalVideos.map(video => (
+                    <a key={video.id} href={video.source.url} target="_blank" rel="noopener noreferrer" className="group overflow-hidden rounded-2xl border border-cyan-400/15 bg-slate-950/70 transition hover:-translate-y-1 hover:border-cyan-300/40">
+                      <div className="relative aspect-video overflow-hidden bg-slate-900">
+                        {/* YouTube thumbnails remain remote and attributed; videos are never copied to LAEX. */}
+                        <img src={video.thumbnail} alt="" loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]" />
+                        <span className="absolute bottom-3 left-3 rounded-full bg-red-600 px-3 py-1 text-xs font-black text-white">YouTube</span>
+                      </div>
+                      <div className="p-5">
+                        <h4 className="line-clamp-2 text-base font-extrabold leading-6 text-white">{video.title}</h4>
+                        {video.publishedAt && <time className="mt-3 block text-xs text-slate-400" dateTime={video.publishedAt}>{new Intl.DateTimeFormat("es-DO", { dateStyle: "medium" }).format(new Date(video.publishedAt))}</time>}
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

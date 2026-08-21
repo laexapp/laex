@@ -1,0 +1,1 @@
+import { BusinessOnboarding } from "@/modules/business-engine/ui/BusinessOnboarding";export default async function Page({params}:{params:Promise<{company:string}>}){return <BusinessOnboarding companySlug={(await params).company}/>}

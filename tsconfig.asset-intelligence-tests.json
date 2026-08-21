@@ -1,0 +1,5 @@
+{
+  "extends":"./tsconfig.json",
+  "compilerOptions":{"noEmit":false,"incremental":false,"module":"commonjs","moduleResolution":"node","outDir":".tmp-asset-intelligence-tests","rootDir":"."},
+  "include":["modules/asset-intelligence/**/*.ts","tests/asset-intelligence/**/*.ts"]
+}

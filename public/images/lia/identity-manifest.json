@@ -1,0 +1,16 @@
+{
+  "identity": "LIA",
+  "version": 1,
+  "master": {
+    "path": "/images/lia/lia-avatar-v1.png",
+    "checksumSha256": "9c9058aa78dd934d4b2a20b1fde6f1e3e528e114d42372baeda5d948a8f103cb",
+    "kind": "original-fictional-adult-ai-assistant",
+    "status": "approved"
+  },
+  "renditions": [
+    { "size": 128, "path": "/images/lia/lia-avatar-128.webp", "checksumSha256": "915e148a9931640a758410178ec9d461f47d5f83a6d3d7e7ffa3103c4e5895df" },
+    { "size": 256, "path": "/images/lia/lia-avatar-256.webp", "checksumSha256": "dd21164922fe94109473f4c59117eee09e5cffb5ed813fd2bb08c89ff9ce204d" },
+    { "size": 512, "path": "/images/lia/lia-avatar-512.webp", "checksumSha256": "afa8b0d0671ffe8d443f3fb4f34418980b88e06a592099a503eff3771e5ee4f6" }
+  ],
+  "states": ["neutral", "listening", "thinking", "responding", "confirmation", "assistance"]
+}

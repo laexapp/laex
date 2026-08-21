@@ -2,15 +2,22 @@ import { projectRepository } from "@/src/core/projects/identity";
 
 import { youtubeSync } from "./sync";
 import { youtubeMediaService } from "./services/youtube";
+import { youtubeChannelFeedProvider } from "./providers/youtube/channelFeed";
 
 import type { MediaItem } from "./types";
 
 class MediaRepository {
-  getFeaturedVideos(projectSlug: string): MediaItem[] {
+  async getFeaturedVideos(projectSlug: string): Promise<MediaItem[]> {
     const project = projectRepository.getBySlug(projectSlug);
 
     if (!project) {
       return [];
+    }
+
+    const youtube = project.social.youtube;
+    if (youtube?.channelId) {
+      const synchronized = await youtubeChannelFeedProvider.list(youtube.channelId, youtube.channelUrl);
+      if (synchronized.videos.length) return synchronized.videos;
     }
 
     const result = youtubeSync.sync(projectSlug);

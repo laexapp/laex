@@ -6,6 +6,7 @@ export interface ProjectIdentityInfo {
 
 export interface ProjectYouTube {
   channelHandle?: string;
+  channelId?: string;
 
   channelUrl: string;
 

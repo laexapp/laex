@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "projectId": "lf-printer",
+  "policyId": "lf-printer-epson-temporary-manual-2026-08",
+  "minimumLongestSide": 640,
+  "definitiveMinimumLongestSide": 2000,
+  "withoutEnlargement": true,
+  "publicationRequiresExactModel": true,
+  "publicationRequiresDocumentedCommercialPermission": true,
+  "publicationRequiresHumanApproval": true,
+  "replacementRequiredBelowDefinitiveMinimum": true,
+  "label": "Temporal manual LF-PRINTER - Pendiente de sustitucion",
+  "models": [
+    { "assetId": "wf-4830", "manufacturer": "Epson", "model": "WF-4830" },
+    { "assetId": "wf-4833", "manufacturer": "Epson", "model": "WF-4833" },
+    { "assetId": "wf-4834", "manufacturer": "Epson", "model": "WF-4834" },
+    { "assetId": "wf-4810", "manufacturer": "Epson", "model": "WF-4810" },
+    { "assetId": "wf-7820", "manufacturer": "Epson", "model": "WF-7820" },
+    { "assetId": "wf-7840", "manufacturer": "Epson", "model": "WF-7840" },
+    { "assetId": "xp-4105", "manufacturer": "Epson", "model": "XP-4105" },
+    { "assetId": "xp-4205", "manufacturer": "Epson", "model": "XP-4205" },
+    { "assetId": "l3250", "manufacturer": "Epson", "model": "L3250" },
+    { "assetId": "l1212", "manufacturer": "Epson", "model": "L1212" }
+  ]
+}

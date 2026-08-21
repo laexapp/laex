@@ -1,0 +1,11 @@
+import type { ActorContext } from "../domain/types";
+
+export type ConversationTurn = { role: "user" | "assistant"; text: string; at: string };
+export type AssistantToolName = "customer.search" | "customer.create" | "customer.update" | "reception.create" | "product.create" | "catalog.bulk" | "inventory.read" | "inventory.move" | "quote.prepare" | "invoice.read" | "cash.read" | "workshop.read" | "report.sales" | "report.inventory" | "report.expenses" | "report.fiscal.prepare" | "navigation.help";
+export type InterpretedRequest = { intent: AssistantToolName | "clarification" | "unsupported"; arguments: Record<string, unknown>; missing: string[]; confidence: number; requiresConfirmation: boolean };
+export interface ConversationalProvider { readonly id: string; readonly mode: "local" | "external"; interpret(input: { actor: ActorContext; message: string; history: ConversationTurn[]; availableTools: AssistantToolName[] }): Promise<InterpretedRequest>; }
+
+export class LocalRuleConversationalProvider implements ConversationalProvider {
+  readonly id = "local-rules-v2"; readonly mode = "local" as const;
+  async interpret(input: { actor: ActorContext; message: string; history: ConversationTurn[]; availableTools: AssistantToolName[] }): Promise<InterpretedRequest> { const text = input.message.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase(); const match = (intent: AssistantToolName, expression: RegExp, requiresConfirmation = false): InterpretedRequest | undefined => expression.test(text) && input.availableTools.includes(intent) ? { intent, arguments: {}, missing: [], confidence: .72, requiresConfirmation } : undefined; return match("catalog.bulk", /registra|importa|carga.*(?:productos|impresoras)/, true) ?? match("report.fiscal.prepare", /fiscal|606|607|it-?1/) ?? match("report.sales", /ventas|facturad/) ?? match("report.inventory", /inventario|existencia/) ?? match("report.expenses", /gastos?/) ?? match("workshop.read", /taller|diagnostico|orden/) ?? match("customer.search", /cliente|juan|telefono/) ?? match("reception.create", /trajo|recibe|recepcion/, true) ?? { intent: "clarification", arguments: {}, missing: ["objetivo"], confidence: .2, requiresConfirmation: false }; }
+}

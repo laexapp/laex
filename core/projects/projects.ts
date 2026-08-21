@@ -33,7 +33,7 @@ export const projects: Project[] = [
 
     logo: "/projects/onemillionminers/logo.png",
 
-    banner: "/projects/onemillionminers/banner.png",
+    banner: "/projects/onemillionminers/launch-official-2026.png",
 
     trustIndex: 0,
 

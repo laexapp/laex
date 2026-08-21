@@ -1,0 +1,5 @@
+{
+  "extends":"./tsconfig.json",
+  "compilerOptions":{"noEmit":false,"incremental":false,"module":"commonjs","moduleResolution":"node","outDir":".tmp-chapter-twelve-audit","rootDir":"."},
+  "include":["modules/business-engine/**/*.ts","scripts/business-platform/chapter-twelve-audit.ts"]
+}

@@ -183,3 +183,5 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
 .tmp-media-tests
+/.tmp-*/
+/.data/

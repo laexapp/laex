@@ -1,0 +1,5 @@
+import { NextRequest,NextResponse } from "next/server";
+import { CompanyResolver } from "@/modules/business-engine/platform/CompanyResolver";
+import { PublicLiaCommerceAdvisor } from "@/modules/business-engine/commerce/PublicLiaCommerceAdvisor";
+import { getBusinessRuntime } from "@/modules/business-engine/server/runtime";
+export async function POST(request:NextRequest,{params}:{params:Promise<{company:string}>}){try{const runtime=getBusinessRuntime(),company=await new CompanyResolver(runtime.store).bySlugOrHost((await params).company),body=await request.json() as{message?:string};if(!body.message?.trim())return NextResponse.json({error:"message_required"},{status:400});return NextResponse.json(await new PublicLiaCommerceAdvisor(runtime.commerceCatalog).ask({tenantId:company.tenantId,companyId:company.id},body.message),{headers:{"cache-control":"no-store"}})}catch{return NextResponse.json({agent:"LIA",tool:"commerce.catalog.search",grounded:true,answer:"No puedo consultar el catálogo público en este momento.",products:[]},{status:503})}}

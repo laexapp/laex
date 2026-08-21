@@ -1,0 +1,4 @@
+import { NextResponse } from "next/server";
+import { getBusinessRuntime } from "@/modules/business-engine/server/runtime";
+export const dynamic="force-dynamic";
+export async function GET(){const startedAt=Date.now();try{const runtime=getBusinessRuntime(),observable=runtime.store as typeof runtime.store&{operationalStatus?:()=>Promise<{database?:{status?:string;engine?:string}}>},operational=await observable.operationalStatus?.(),healthy=operational?.database?.status==="healthy";return NextResponse.json({status:healthy?"healthy":"degraded",service:"laex",database:{status:operational?.database?.status??"unknown",engine:operational?.database?.engine??"unknown"},durationMs:Date.now()-startedAt},{status:healthy?200:503,headers:{"Cache-Control":"no-store"}})}catch{return NextResponse.json({status:"unhealthy",service:"laex",database:{status:"unavailable"},durationMs:Date.now()-startedAt},{status:503,headers:{"Cache-Control":"no-store"}})}}

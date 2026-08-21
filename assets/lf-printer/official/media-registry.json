@@ -1,0 +1,254 @@
+{
+  "schemaVersion": 2,
+  "projectId": "lf-printer",
+  "generatedAt": "2026-08-21T18:13:18.712Z",
+  "assets": [
+    {
+      "id": "l1250",
+      "status": "published",
+      "quality": {
+        "state": "temporary-manual",
+        "label": "Temporal manual LF-PRINTER - Pendiente de sustitucion",
+        "replacementRequired": true
+      },
+      "source": {
+        "uri": "assets/lf-printer/official-source/printers/l1250-transparent.png",
+        "format": "png",
+        "width": 1240,
+        "height": 777,
+        "checksum": "68c937ec4881c734f8abb3949affad22299950270fa3f5d0f1df5af1a5d92836"
+      },
+      "publishedAt": "2026-08-21T18:13:13.273Z",
+      "outputs": {
+        "transparent": "l1250-transparent.png",
+        "hero": "l1250-hero.webp",
+        "desktop": "l1250-desktop.webp",
+        "tablet": "l1250-tablet.webp",
+        "mobile": "l1250-mobile.webp"
+      },
+      "validation": {
+        "status": "passed",
+        "width": 1240,
+        "height": 777,
+        "requiredLongestSide": 640,
+        "withoutEnlargement": true
+      }
+    },
+    {
+      "id": "wf-4830",
+      "status": "published",
+      "quality": {
+        "state": "temporary-manual",
+        "label": "Temporal manual LF-PRINTER - Pendiente de sustitucion",
+        "replacementRequired": true
+      },
+      "source": {
+        "uri": "assets/lf-printer/official-source/printers/wf-4830-transparent.png",
+        "format": "png",
+        "width": 809,
+        "height": 720,
+        "checksum": "02ebf9ffb24f30d473cea307c0bbf7adb790e3acbd455438dfac65b6559fbbd9"
+      },
+      "publishedAt": "2026-08-21T18:13:14.502Z",
+      "outputs": {
+        "transparent": "wf-4830-transparent.png",
+        "hero": "wf-4830-hero.webp",
+        "desktop": "wf-4830-desktop.webp",
+        "tablet": "wf-4830-tablet.webp",
+        "mobile": "wf-4830-mobile.webp"
+      },
+      "validation": {
+        "status": "passed",
+        "width": 809,
+        "height": 720,
+        "requiredLongestSide": 640,
+        "withoutEnlargement": true
+      }
+    },
+    {
+      "id": "wf-4834",
+      "status": "published",
+      "quality": {
+        "state": "definitive",
+        "replacementRequired": false
+      },
+      "source": {
+        "uri": "assets/lf-printer/official-source/printers/wf-4834-transparent.png",
+        "format": "png",
+        "width": 2211,
+        "height": 2072,
+        "checksum": "a32df31dd6116a7a16cef5b25710f1f20b4911911f720f9eedb3572ad7b7b8f2"
+      },
+      "publishedAt": "2026-08-21T18:13:15.578Z",
+      "outputs": {
+        "transparent": "wf-4834-transparent.png",
+        "hero": "wf-4834-hero.webp",
+        "desktop": "wf-4834-desktop.webp",
+        "tablet": "wf-4834-tablet.webp",
+        "mobile": "wf-4834-mobile.webp"
+      },
+      "validation": {
+        "status": "passed",
+        "width": 2211,
+        "height": 2072,
+        "requiredLongestSide": 640,
+        "withoutEnlargement": true
+      }
+    },
+    {
+      "id": "wf-7820",
+      "status": "published",
+      "quality": {
+        "state": "temporary-manual",
+        "label": "Temporal manual LF-PRINTER - Pendiente de sustitucion",
+        "replacementRequired": true
+      },
+      "source": {
+        "uri": "assets/lf-printer/official-source/printers/wf-7820-transparent.png",
+        "format": "png",
+        "width": 1567,
+        "height": 1116,
+        "checksum": "c98e8b144785c126397246c2bf11f20bcd3f27d46e85c9fb8afe7ada42cd6fb3"
+      },
+      "publishedAt": "2026-08-21T18:13:16.308Z",
+      "outputs": {
+        "transparent": "wf-7820-transparent.png",
+        "hero": "wf-7820-hero.webp",
+        "desktop": "wf-7820-desktop.webp",
+        "tablet": "wf-7820-tablet.webp",
+        "mobile": "wf-7820-mobile.webp"
+      },
+      "validation": {
+        "status": "passed",
+        "width": 1567,
+        "height": 1116,
+        "requiredLongestSide": 640,
+        "withoutEnlargement": true
+      }
+    },
+    {
+      "id": "wf-7840",
+      "status": "published",
+      "quality": {
+        "state": "temporary-manual",
+        "label": "Temporal manual LF-PRINTER - Pendiente de sustitucion",
+        "replacementRequired": true
+      },
+      "source": {
+        "uri": "assets/lf-printer/official-source/printers/wf-7840-transparent.png",
+        "format": "png",
+        "width": 1584,
+        "height": 1335,
+        "checksum": "d6db50df4d1ba9bd948206ef4464f20e5ec445e42acfcc54c928f52ff9e24418"
+      },
+      "publishedAt": "2026-08-21T18:13:17.192Z",
+      "outputs": {
+        "transparent": "wf-7840-transparent.png",
+        "hero": "wf-7840-hero.webp",
+        "desktop": "wf-7840-desktop.webp",
+        "tablet": "wf-7840-tablet.webp",
+        "mobile": "wf-7840-mobile.webp"
+      },
+      "validation": {
+        "status": "passed",
+        "width": 1584,
+        "height": 1335,
+        "requiredLongestSide": 640,
+        "withoutEnlargement": true
+      }
+    },
+    {
+      "id": "wf-c4810",
+      "status": "published",
+      "quality": {
+        "state": "temporary-manual",
+        "label": "Temporal manual LF-PRINTER - Pendiente de sustitucion",
+        "replacementRequired": true
+      },
+      "source": {
+        "uri": "assets/lf-printer/official-source/printers/wf-c4810-transparent.png",
+        "format": "png",
+        "width": 1230,
+        "height": 1087,
+        "checksum": "bce8c1c50e50db9d5855d247b026dc57970ea82465d2f31d48b33d924f186052"
+      },
+      "publishedAt": "2026-08-21T18:13:14.052Z",
+      "outputs": {
+        "transparent": "wf-c4810-transparent.png",
+        "hero": "wf-c4810-hero.webp",
+        "desktop": "wf-c4810-desktop.webp",
+        "tablet": "wf-c4810-tablet.webp",
+        "mobile": "wf-c4810-mobile.webp"
+      },
+      "validation": {
+        "status": "passed",
+        "width": 1230,
+        "height": 1087,
+        "requiredLongestSide": 640,
+        "withoutEnlargement": true
+      }
+    },
+    {
+      "id": "xp-4105",
+      "status": "published",
+      "quality": {
+        "state": "temporary-manual",
+        "label": "Temporal manual LF-PRINTER - Pendiente de sustitucion",
+        "replacementRequired": true
+      },
+      "source": {
+        "uri": "assets/lf-printer/official-source/printers/xp-4105-transparent.png",
+        "format": "png",
+        "width": 1204,
+        "height": 837,
+        "checksum": "a82e748665331f0bfe1bbda5cffe04df8023a2c630a69f1675f954aca202e681"
+      },
+      "publishedAt": "2026-08-21T18:13:17.811Z",
+      "outputs": {
+        "transparent": "xp-4105-transparent.png",
+        "hero": "xp-4105-hero.webp",
+        "desktop": "xp-4105-desktop.webp",
+        "tablet": "xp-4105-tablet.webp",
+        "mobile": "xp-4105-mobile.webp"
+      },
+      "validation": {
+        "status": "passed",
+        "width": 1204,
+        "height": 837,
+        "requiredLongestSide": 640,
+        "withoutEnlargement": true
+      }
+    },
+    {
+      "id": "xp-4205",
+      "status": "published",
+      "quality": {
+        "state": "temporary-manual",
+        "label": "Temporal manual LF-PRINTER - Pendiente de sustitucion",
+        "replacementRequired": true
+      },
+      "source": {
+        "uri": "assets/lf-printer/official-source/printers/xp-4205-transparent.png",
+        "format": "png",
+        "width": 1500,
+        "height": 1135,
+        "checksum": "608efc9dd5143a8528e8ae464084ee41913ca4b5c412ae3fac1f8f6d0ae45a16"
+      },
+      "publishedAt": "2026-08-21T18:13:18.706Z",
+      "outputs": {
+        "transparent": "xp-4205-transparent.png",
+        "hero": "xp-4205-hero.webp",
+        "desktop": "xp-4205-desktop.webp",
+        "tablet": "xp-4205-tablet.webp",
+        "mobile": "xp-4205-mobile.webp"
+      },
+      "validation": {
+        "status": "passed",
+        "width": 1500,
+        "height": 1135,
+        "requiredLongestSide": 640,
+        "withoutEnlargement": true
+      }
+    }
+  ]
+}

@@ -2,12 +2,13 @@
 
 import { Check, Copy, Share2 } from "lucide-react";
 import { useState } from "react";
+import { PUBLIC_ORIGINS } from "@/core/config/public-origins";
 
 interface LinkCardProps { referralCode: string; }
 
 export default function LinkCard({ referralCode }: LinkCardProps) {
   const [copied, setCopied] = useState(false);
-  const link = `https://laex.vercel.app/register?ref=${referralCode}`;
+  const link = `${PUBLIC_ORIGINS.laex}/register?ref=${referralCode}`;
 
   async function copyLink() {
     await navigator.clipboard.writeText(link);

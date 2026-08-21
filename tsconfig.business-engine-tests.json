@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "noEmit": false, "incremental": false, "module": "commonjs", "moduleResolution": "node", "outDir": ".tmp-business-engine-tests", "rootDir": "." },
+  "include": ["modules/business-engine/**/*.ts", "modules/lf-printer/config/quick-actions.ts", "modules/lf-printer/infrastructure/order-whatsapp.ts", "tests/business-engine/**/*.ts"]
+}

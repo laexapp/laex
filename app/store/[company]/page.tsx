@@ -1,0 +1,1 @@
+import{CommerceStorefront}from"@/modules/business-engine/ui/CommerceStorefront";export const metadata={robots:{index:false,follow:false}};export default async function Page({params}:{params:Promise<{company:string}>}){return <CommerceStorefront company={(await params).company}/>}
