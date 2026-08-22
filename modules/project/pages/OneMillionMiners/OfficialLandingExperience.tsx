@@ -1,10 +1,30 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ArrowUpRight, ExternalLink, ShieldCheck } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, ExternalLink, LoaderCircle, ShieldCheck, WifiOff } from "lucide-react";
+import { useEffect, useState } from "react";
 import { ONE_MILLION_MINERS_OFFICIAL_LANDING } from "./official-landing";
+
+type LandingState = "checking" | "embedded" | "unavailable";
 
 export default function OfficialLandingExperience() {
   const landing = ONE_MILLION_MINERS_OFFICIAL_LANDING;
+  const [landingState, setLandingState] = useState<LandingState>("checking");
+
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch("/api/projects/onemillionminers/landing-health", {
+      cache: "no-store",
+      signal: controller.signal,
+    })
+      .then((response) => response.json() as Promise<{ available: boolean; embeddable: boolean }>)
+      .then((status) => setLandingState(status.available && status.embeddable ? "embedded" : "unavailable"))
+      .catch((error: unknown) => {
+        if (!(error instanceof DOMException && error.name === "AbortError")) setLandingState("unavailable");
+      });
+    return () => controller.abort();
+  }, []);
 
   return (
     <main className="min-h-dvh bg-[#050b14] text-white">
@@ -29,22 +49,38 @@ export default function OfficialLandingExperience() {
       </header>
 
       <section aria-label="Presentación oficial de OneMillionMiners" className="relative h-[calc(100dvh-4rem)] min-h-[38rem] w-full bg-[#02060c]">
-        <iframe
-          src={landing.landingUrl}
-          title="Landing oficial de OneMillionMiners"
-          className="h-full w-full border-0 bg-[#02060c]"
-          loading="eager"
-          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; fullscreen"
-          allowFullScreen
-          referrerPolicy="strict-origin-when-cross-origin"
-        />
-        <noscript>
-          <div className="absolute inset-0 grid place-items-center p-6 text-center">
-            <div><ExternalLink className="mx-auto text-cyan-300" /><p className="mt-3 text-sm text-slate-300">Activa JavaScript para visualizar la presentación integrada.</p><a href={landing.landingUrl} className="mt-4 inline-flex rounded-lg bg-cyan-400 px-4 py-3 text-sm font-black text-slate-950">Explorar OneMillionMiners</a></div>
+        {landingState === "checking" && (
+          <div className="absolute inset-0 grid place-items-center bg-[#02060c] p-6 text-center">
+            <div><LoaderCircle className="mx-auto animate-spin text-cyan-300" /><p className="mt-4 text-sm text-slate-300">Comprobando la presentación oficial…</p></div>
           </div>
-        </noscript>
+        )}
+
+        {landingState === "embedded" && (
+          <iframe
+            src={landing.landingUrl}
+            title="Landing oficial de OneMillionMiners"
+            className="h-full w-full border-0 bg-[#02060c]"
+            loading="eager"
+            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; fullscreen"
+            allowFullScreen
+            referrerPolicy="strict-origin-when-cross-origin"
+          />
+        )}
+
+        {landingState === "unavailable" && (
+          <div className="absolute inset-0 grid place-items-center overflow-hidden bg-[radial-gradient(circle_at_50%_30%,rgba(6,182,212,.14),transparent_42%),#02060c] p-6 text-center">
+            <div className="max-w-lg rounded-3xl border border-cyan-300/15 bg-[#07111d]/90 p-8 shadow-2xl backdrop-blur-xl">
+              <WifiOff className="mx-auto text-amber-300" size={34} />
+              <h1 className="mt-5 text-2xl font-black">Presentación oficial no disponible temporalmente</h1>
+              <p className="mt-3 text-sm leading-6 text-slate-300">La plataforma externa de OneMillionMiners no está respondiendo o no permite mostrarse dentro de LAEX. Su enlace oficial y los parámetros autorizados permanecen intactos.</p>
+              <a href={landing.landingUrl} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex items-center gap-2 rounded-xl bg-cyan-300 px-5 py-3 text-sm font-black text-slate-950 transition hover:bg-cyan-200">
+                Intentar abrir el sitio oficial <ExternalLink size={16}/>
+              </a>
+              <Link href="/proyectos" className="mx-auto mt-3 block text-xs font-bold text-slate-400 transition hover:text-white">Volver a Proyectos LAEX</Link>
+            </div>
+          </div>
+        )}
       </section>
     </main>
   );
 }
-

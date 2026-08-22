@@ -185,3 +185,4 @@ vite.config.ts.timestamp-*
 .tmp-media-tests
 /.tmp-*/
 /.data/
+/output/

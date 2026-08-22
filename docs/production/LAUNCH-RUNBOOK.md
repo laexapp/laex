@@ -10,7 +10,7 @@ This preparation is inert until `LAEX_MULTIDOMAIN_ROUTING_ENABLED=true` is set i
 
 ## Required production values
 
-Configure in the hosting secret manager; never commit values: pooled `BUSINESS_DATABASE_URL`, direct `BUSINESS_DATABASE_DIRECT_URL` for operations, `BUSINESS_SESSION_SECRET`, `LAEX_CONTROL_PLANE_PASSWORD`, `LAEX_CONTROL_PLANE_SECRET`, `COMMERCE_REFERENCE_COMPANY_SLUG`, both public origins, routing/indexing flags and Canva secrets. Register the exact production Canva callback before changing `CANVA_REDIRECT_URI`.
+Configure in the hosting secret manager; never commit values: pooled `BUSINESS_DATABASE_URL`, `BUSINESS_SESSION_SECRET`, `LAEX_CONTROL_PLANE_PASSWORD`, `LAEX_CONTROL_PLANE_SECRET`, `COMMERCE_REFERENCE_COMPANY_SLUG`, both public origins, routing/indexing flags and Canva secrets. Keep `BUSINESS_DATABASE_DIRECT_URL` outside Vercel and provide it only to authorized migration, backup or recovery commands. Register the exact production Canva callback before changing `CANVA_REDIRECT_URI`.
 
 ## DNS/TLS gate
 

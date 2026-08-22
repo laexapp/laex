@@ -26,7 +26,7 @@ Run `npm run business:production-data-audit` before export and after import. A p
 Production-only values:
 
 - `BUSINESS_DATABASE_URL`: Neon pooled runtime URL.
-- `BUSINESS_DATABASE_DIRECT_URL`: Neon direct URL for migrations and backups; not for application traffic.
+- `BUSINESS_DATABASE_DIRECT_URL`: Neon direct URL for migrations and backups. Keep it outside Vercel/runtime and supply it only to authorized operational commands.
 - `BUSINESS_SESSION_SECRET`: independent high-entropy business-session signing secret.
 - `LAEX_CONTROL_PLANE_SECRET`: independent high-entropy administrative-session signing secret.
 - `LAEX_CONTROL_PLANE_PASSWORD`: CEO-selected administrative password.
@@ -58,7 +58,7 @@ Media provider variables remain conditional and no external payment provider is 
 1. Create a production project owned by the LAEX organization in a region close to the Vercel functions.
 2. Confirm the PostgreSQL major version is compatible with the local PostgreSQL 18 source.
 3. Create a non-superuser runtime role and a separate migration/backup role.
-4. Map the Neon pooled connection to `BUSINESS_DATABASE_URL` and the unpooled connection to `BUSINESS_DATABASE_DIRECT_URL`.
+4. Map only the Neon pooled runtime connection to `BUSINESS_DATABASE_URL` in Vercel. Keep the unpooled owner connection outside the hosting runtime for migrations and controlled recovery operations.
 5. Run versioned migrations over the direct connection.
 6. Import the approved, tenant-scoped production set without changing IDs or audit relationships.
 7. Verify RLS, counts, checksums, stock derived from movements, idempotency and the eight public projections.

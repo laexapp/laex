@@ -2,9 +2,12 @@ import { createHash } from "node:crypto";
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import pg from "pg";
+import { formatSafeMigrationDiagnostic, selectMigrationConnection, validateMigrationConnection } from "./migration-connection.mjs";
 
-const connectionString=process.env.BUSINESS_DATABASE_DIRECT_URL??process.env.BUSINESS_DATABASE_URL;
-if(!connectionString)throw new Error("BUSINESS_DATABASE_DIRECT_URL or BUSINESS_DATABASE_URL is required");
+const directOnly=process.argv.includes("--direct-only");
+const selected=selectMigrationConnection(process.env,{directOnly});
+const {connectionString,diagnostic}=validateMigrationConnection(selected.source,selected.connectionString);
+console.log(formatSafeMigrationDiagnostic(diagnostic));
 const pool=new pg.Pool({connectionString,max:1,application_name:"laex-migrator"});
 const directory=path.join(process.cwd(),"modules","business-engine","infrastructure","postgres","migrations");
 try{
