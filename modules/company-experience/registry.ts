@@ -1,0 +1,23 @@
+import type { CompanyExperienceDefinition } from "./types";
+
+const RENT_SCOPE = { tenantId: "tenant-laex-rent-a-car", companyId: "company-laex-rent-a-car" } as const;
+export const companyExperienceRegistry: readonly CompanyExperienceDefinition[] = [{
+  scope: RENT_SCOPE,
+  company: { slug: "laex-renta-car", name: "LAEX Rent a Car", legalName: "LAEX Rent a Car — piloto", tagline: "Tu ruta comienza con confianza.", description: "Vehículos para ciudad, carretera y grupos, con atención directa y una experiencia de reserva clara.", locale: "es-DO", currency: "DOP", timezone: "America/Santo_Domingo" },
+  domainBindings: [{ hostname: "laexapp.com", path: "/empresas/laex-renta-car", kind: "internal-path", status: "active" }],
+  workflow: [{ to: "draft", at: "2026-08-25T12:00:00.000Z", note: "Piloto creado" }, { from: "draft", to: "collecting-content", at: "2026-08-25T12:10:00.000Z", note: "Contenido demo identificado" }, { from: "collecting-content", to: "configuring", at: "2026-08-25T12:20:00.000Z", note: "Marca y catálogo configurados" }, { from: "configuring", to: "preview-ready", at: "2026-08-25T12:30:00.000Z", note: "Vista previa validable" }, { from: "preview-ready", to: "quality-review", at: "2026-08-25T12:40:00.000Z", note: "Gate de calidad aprobado" }, { from: "quality-review", to: "published", at: "2026-08-25T12:50:00.000Z", note: "Publicado en URL interna" }],
+  brand: { logoText: "LAEX RENT A CAR", primaryColor: "#0f766e", secondaryColor: "#123047", accentColor: "#f6b73c", surfaceColor: "#f5f1e8", textColor: "#102a33", fontFamily: "Arial, Helvetica, sans-serif" },
+  contact: { phone: "+1 (809) 555-0124", whatsapp: "18095550124", email: "renta.demo@laexapp.com", address: "Santo Domingo, República Dominicana", hours: "Lunes a sábado · 8:00 a. m. – 6:00 p. m." },
+  experience: { template: "catalog", state: "published", enabledSections: ["hero", "catalog", "services", "contact"], commerceMode: "services", seo: { title: "LAEX Rent a Car | Piloto", description: "Piloto del LAEX Company Experience Engine para alquiler de vehículos.", noIndex: true }, demoNotice: "Empresa piloto · Flota y datos demostrativos. No representan disponibilidad real." },
+  catalog: [
+    { id: "veh-crv", slug: "honda-cr-v-2024", kind: "vehicle", name: "Honda CR-V", summary: "SUV versátil para ciudad y carretera.", image: "/assets/company-experience/laex-rent-a-car/honda-cr-v.webp", imageAlt: "Honda CR-V blanca de demostración", year: "2024", passengers: 5, transmission: "Automática", fuel: "Gasolina", luggage: 4, features: ["Aire acondicionado", "Cámara de reversa", "Conectividad móvil"], priceLabel: "Cotización personalizada", demo: true },
+    { id: "veh-civic", slug: "honda-civic-2023", kind: "vehicle", name: "Honda Civic", summary: "Sedán eficiente, cómodo y ágil.", image: "/assets/company-experience/laex-rent-a-car/honda-civic.webp", imageAlt: "Honda Civic plateado de demostración", year: "2023", passengers: 5, transmission: "Automática", fuel: "Gasolina", luggage: 3, features: ["Aire acondicionado", "Bluetooth", "Control de crucero"], priceLabel: "Cotización personalizada", demo: true },
+    { id: "veh-pilot", slug: "honda-pilot-2024", kind: "vehicle", name: "Honda Pilot", summary: "SUV amplia para familias y recorridos largos.", image: "/assets/company-experience/laex-rent-a-car/honda-pilot.webp", imageAlt: "Honda Pilot azul de demostración", year: "2024", passengers: 8, transmission: "Automática", fuel: "Gasolina", luggage: 5, features: ["Tres filas", "Climatización multizona", "Asistencia de conducción"], priceLabel: "Cotización personalizada", demo: true },
+    { id: "veh-minibus", slug: "hyundai-minibus-18-pasajeros", kind: "vehicle", name: "Hyundai Minibus", summary: "Transporte cómodo para grupos y eventos.", image: "/assets/company-experience/laex-rent-a-car/hyundai-minibus.webp", imageAlt: "Hyundai Minibus blanca de demostración", year: "2023+", passengers: 18, transmission: "Manual", fuel: "Diésel", luggage: 8, features: ["18 pasajeros", "Aire acondicionado", "Acceso amplio"], priceLabel: "Cotización personalizada", demo: true }
+  ],
+  services: [
+    { id: "srv-airport", name: "Entrega coordinada", description: "Coordinación de punto y hora de entrega según solicitud." },
+    { id: "srv-groups", name: "Movilidad para grupos", description: "Opciones para familias, equipos y actividades empresariales." },
+    { id: "srv-support", name: "Atención directa", description: "Seguimiento humano antes y durante la experiencia." }
+  ]
+}];
