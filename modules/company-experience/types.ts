@@ -1,5 +1,6 @@
 export type ExperienceWorkflowState = "draft" | "collecting-content" | "configuring" | "preview-ready" | "domain-pending" | "quality-review" | "published";
 export type ExperienceKind = "product" | "service" | "vehicle";
+export type VehicleOperationalStatus = "available" | "reserved" | "rented" | "maintenance";
 export interface CompanyExperienceDefinition {
   scope: { tenantId: string; companyId: string };
   company: { slug: string; name: string; legalName: string; tagline: string; shortDescription?: string; description: string; sector?: string; publicStatus?: "hidden" | "preview" | "published"; locale: string; currency: string; timezone: string };
@@ -8,7 +9,7 @@ export interface CompanyExperienceDefinition {
   brand: { logoText: string; logoUrl?: string; logoVariants?: string[]; faviconUrl?: string; heroImageUrl?: string; primaryColor: string; secondaryColor: string; accentColor: string; backgroundColor?: string; surfaceColor: string; textColor: string; fontFamily: string };
   contact: { phone: string; whatsapp: string; email: string; address: string; hours: string };
   experience: { template: "catalog"; navigation?: Array<{ label: string; href: string }>; primaryCta?: { label: string; href: string }; secondaryCta?: { label: string; href: string }; faq?: Array<{ question: string; answer: string }>; state: ExperienceWorkflowState; enabledSections: Array<"hero" | "catalog" | "services" | "contact">; commerceMode: "products" | "services" | "mixed"; seo: { title: string; description: string; noIndex: boolean }; demoNotice?: string };
-  catalog: Array<{ id: string; slug: string; kind: ExperienceKind; name: string; summary: string; image: string; imageAlt: string; year?: string; passengers?: number; transmission?: string; fuel?: string; luggage?: number; features: string[]; priceLabel: string; demo: boolean }>;
+  catalog: Array<{ id: string; slug: string; kind: ExperienceKind; name: string; summary: string; image: string; imageAlt: string; year?: string; passengers?: number; transmission?: string; fuel?: string; luggage?: number; features: string[]; priceLabel: string; demo: boolean; operationalStatus?: VehicleOperationalStatus }>;
   services: Array<{ id: string; name: string; description: string }>;
 }
 export interface PublicCompanyExperienceDTO {
