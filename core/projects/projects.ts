@@ -1,4 +1,5 @@
 import { Project } from "../types/project";
+import { PUBLIC_ORIGINS } from "../config/public-origins";
 
 export const projects: Project[] = [
   {
@@ -186,6 +187,35 @@ export const projects: Project[] = [
 
     timeline: [],
 
+    gallery: [],
+  },
+  {
+    id: "lf-printer",
+    name: "LF-PRINTER",
+    category: "Empresa / Comercio",
+    status: "Activo",
+    launchDate: "2026",
+    lastUpdate: "Agosto 2026",
+    description:
+      "Tienda, servicios técnicos y soluciones de impresión integradas al ecosistema LAEX.",
+    website: PUBLIC_ORIGINS.lfPrinter,
+    cardCta: "Ir a la empresa",
+    cardExternal: true,
+    registerLink: "",
+    referralCode: "",
+    whitepaper: "",
+    telegram: "",
+    twitter: "",
+    youtube: "",
+    logo: "/assets/lf-printer/official/logos/lf-printer-logo-on-dark.png",
+    banner: "/assets/lf-printer/official/printers/wf-4830-desktop.webp",
+    trustIndex: 0,
+    riskLevel: 0,
+    communityScore: 0,
+    aiScore: 0,
+    highlights: ["Tienda y catálogo comercial", "Servicios técnicos especializados", "Experiencia empresarial integrada a LAEX"],
+    tags: ["Empresa", "Comercio", "Impresión", "Servicios técnicos"],
+    timeline: [],
     gallery: [],
   },
 ];

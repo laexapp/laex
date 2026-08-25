@@ -26,6 +26,10 @@ export type Project = {
 
   website: string;
 
+  cardCta?: string;
+
+  cardExternal?: boolean;
+
   registerLink: string;
 
   referralCode: string;
