@@ -1,9 +1,10 @@
 export type ExperienceWorkflowState = "draft" | "collecting-content" | "configuring" | "preview-ready" | "domain-pending" | "quality-review" | "published";
+export type CompanyPublicationState = "draft" | "private" | "published";
 export type ExperienceKind = "product" | "service" | "vehicle";
 export type VehicleOperationalStatus = "available" | "reserved" | "rented" | "maintenance";
 export interface CompanyExperienceDefinition {
   scope: { tenantId: string; companyId: string };
-  company: { slug: string; name: string; legalName: string; tagline: string; shortDescription?: string; description: string; sector?: string; publicStatus?: "hidden" | "preview" | "published"; locale: string; currency: string; timezone: string };
+  company: { slug: string; name: string; legalName: string; tagline: string; shortDescription?: string; description: string; sector?: string; publicStatus: CompanyPublicationState; locale: string; currency: string; timezone: string };
   domainBindings: Array<{ hostname: string; path?: string; kind: "internal-path" | "subdomain" | "custom"; status: "pending" | "active" }>;
   workflow: Array<{ from?: ExperienceWorkflowState; to: ExperienceWorkflowState; at: string; note: string }>;
   brand: { logoText: string; logoUrl?: string; logoVariants?: string[]; faviconUrl?: string; heroImageUrl?: string; primaryColor: string; secondaryColor: string; accentColor: string; backgroundColor?: string; surfaceColor: string; textColor: string; fontFamily: string };
@@ -14,7 +15,7 @@ export interface CompanyExperienceDefinition {
 }
 export interface PublicCompanyExperienceDTO {
   scope: Readonly<{ tenantId: string; companyId: string }>;
-  company: Omit<CompanyExperienceDefinition["company"], "legalName">;
+  company: Omit<CompanyExperienceDefinition["company"], "legalName" | "publicStatus">;
   brand: Readonly<CompanyExperienceDefinition["brand"]>;
   contact: Readonly<CompanyExperienceDefinition["contact"]>;
   experience: Readonly<CompanyExperienceDefinition["experience"]>;

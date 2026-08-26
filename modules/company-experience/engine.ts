@@ -15,9 +15,12 @@ const overlaps = (startDate: string, endDate: string, otherStart: string, otherE
 
 export const vehicleStatusLabels: Record<VehicleOperationalStatus, string> = { available: "Disponible", reserved: "Reservado", rented: "Alquilado", maintenance: "No disponible · Mantenimiento" };
 export function canTransitionExperience(from: ExperienceWorkflowState, to: ExperienceWorkflowState) { return transitions[from].includes(to); }
+export function isPublicCompanyExperience(definition: CompanyExperienceDefinition) {
+  return definition.company.publicStatus === "published" && definition.experience.state === "published" && !definition.experience.seo.noIndex;
+}
 export function resolveCompanyExperience(value: string, includeUnpublished = false): CompanyExperienceDefinition | undefined {
   const key = cleanKey(value);
-  return companyExperienceRegistry.find((entry) => (entry.company.slug === key || entry.domainBindings.some((binding) => binding.kind !== "internal-path" && binding.status === "active" && cleanKey(binding.hostname) === key)) && (includeUnpublished || entry.experience.state === "published"));
+  return companyExperienceRegistry.find((entry) => (entry.company.slug === key || entry.domainBindings.some((binding) => binding.kind !== "internal-path" && binding.status === "active" && cleanKey(binding.hostname) === key)) && (includeUnpublished || isPublicCompanyExperience(entry)));
 }
 export function toPublicExperience(definition: CompanyExperienceDefinition): PublicCompanyExperienceDTO {
   const { slug, name, tagline, description, locale, currency, timezone } = definition.company;
@@ -27,6 +30,8 @@ export function toPublicExperience(definition: CompanyExperienceDefinition): Pub
 export function validateExperience(definition: CompanyExperienceDefinition) {
   const errors: string[] = [];
   if (!definition.company.name.trim() || !definition.company.slug.trim()) errors.push("company_identity_incomplete");
+  if (definition.company.publicStatus === "published" && definition.experience.state !== "published") errors.push("publication_workflow_incomplete");
+  if (definition.company.publicStatus === "published" && definition.experience.seo.noIndex) errors.push("published_experience_is_noindex");
   if (!/^#[0-9a-f]{6}$/i.test(definition.brand.primaryColor)) errors.push("invalid_primary_color");
   if (!definition.contact.phone.trim() || !definition.contact.email.includes("@")) errors.push("contact_incomplete");
   if (!definition.catalog.length && !definition.services.length) errors.push("empty_experience");
