@@ -136,18 +136,18 @@ export const projects: Project[] = [
   {
     id: "omdb",
 
-    name: "OMDB Blockchain",
+    name: "DIGITAL ASSET INTELLIGENCE",
 
-    category: "Blockchain",
+    category: "Mercado · Blockchain · Evidencia",
 
-    status: "En Desarrollo",
+    status: "Activo",
 
     launchDate: "2026",
 
     lastUpdate: "2026",
 
     description:
-      "Blockchain principal integrada dentro del ecosistema LAEX.",
+      "Terminal multi-activo con datos de mercado, actividad on-chain y evidencia verificable. Incluye OMDB y OMD.",
 
     website: "",
 
