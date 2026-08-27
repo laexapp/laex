@@ -6,6 +6,8 @@ import {
   Activity,
   BarChart3,
   BookOpen,
+  ChevronLeft,
+  ChevronRight,
   Clock3,
   Database,
   Globe2,
@@ -13,7 +15,7 @@ import {
   ShieldCheck,
   TriangleAlert,
 } from "lucide-react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Header from "@/modules/layout/components/Header";
 import { MarketTerminal } from "@/modules/market-intelligence/components";
 import {
@@ -278,19 +280,103 @@ export function AssetSelector({
   selected: DemoAssetSlug;
   onSelect: (slug: DemoAssetSlug) => void;
 }) {
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const updateScrollState = useCallback(() => {
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+    setCanScrollLeft(viewport.scrollLeft > 4);
+    setCanScrollRight(
+      viewport.scrollLeft + viewport.clientWidth < viewport.scrollWidth - 4,
+    );
+  }, []);
+
+  useEffect(() => {
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+    updateScrollState();
+    const observer = new ResizeObserver(updateScrollState);
+    observer.observe(viewport);
+    const track = viewport.firstElementChild;
+    if (track) observer.observe(track);
+    return () => observer.disconnect();
+  }, [updateScrollState]);
+
+  useEffect(() => {
+    const viewport = viewportRef.current;
+    const selectedCard = viewport?.querySelector<HTMLElement>(
+      `[data-asset="${selected}"]`,
+    );
+    selectedCard?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "nearest",
+    });
+  }, [selected]);
+
+  const scroll = (direction: -1 | 1) => {
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+    viewport.scrollBy({
+      left: direction * Math.max(240, viewport.clientWidth * 0.65),
+      behavior: "smooth",
+    });
+  };
+
   return (
-    <div className="flex max-w-full gap-1 overflow-x-auto rounded-2xl border border-white/[.09] bg-black/25 p-1.5">
-      {demoAssetOptions.map((entry) => (
+    <div className="relative min-w-0 flex-1 xl:max-w-[58rem]">
+      <div
+        ref={viewportRef}
+        onScroll={updateScrollState}
+        onPointerDown={updateScrollState}
+        className="no-scrollbar overflow-x-auto overscroll-x-contain scroll-smooth rounded-2xl border border-white/[.09] bg-black/25 p-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        aria-label="Carrusel de activos digitales"
+      >
+        <div className="flex min-w-max snap-x snap-mandatory gap-1.5 lg:min-w-full">
+          {demoAssetOptions.map((entry) => (
+            <button
+              key={entry.slug}
+              data-asset={entry.slug}
+              onClick={() => onSelect(entry.slug)}
+              title={entry.name}
+              aria-pressed={selected === entry.slug}
+              className={`group flex min-w-32 flex-1 snap-start items-center justify-center gap-2 rounded-xl border px-3 py-2 text-xs font-black tracking-[.08em] transition-all duration-300 sm:min-w-36 sm:px-5 ${selected === entry.slug ? "-translate-y-0.5 border-cyan-200/25 bg-cyan-300/10 text-cyan-100 shadow-[0_0_28px_rgba(34,211,238,.16)]" : "border-transparent text-slate-500 hover:-translate-y-0.5 hover:border-cyan-200/15 hover:bg-white/[.045] hover:text-slate-100 hover:shadow-[0_10px_28px_rgba(0,0,0,.28)]"}`}
+            >
+              <Image
+                src={entry.logo}
+                alt=""
+                width={30}
+                height={30}
+                className={`h-7 w-7 object-contain transition-all duration-300 group-hover:scale-110 group-hover:drop-shadow-[0_0_9px_rgba(103,232,249,.55)] ${selected === entry.slug ? "scale-110 drop-shadow-[0_0_9px_rgba(103,232,249,.48)]" : ""}`}
+              />
+              <span>{entry.symbol}</span>
+              <span className="hidden truncate text-[9px] font-semibold tracking-normal text-slate-600 2xl:inline group-hover:text-slate-400">
+                {entry.name}
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+      {canScrollLeft && (
         <button
-          key={entry.slug}
-          onClick={() => onSelect(entry.slug)}
-          title={entry.name}
-          className={`flex shrink-0 items-center gap-2 rounded-xl px-3 py-2 text-xs font-black tracking-[.08em] transition sm:px-5 ${selected === entry.slug ? "bg-cyan-300/10 text-cyan-100 shadow-[0_0_25px_rgba(34,211,238,.12)]" : "text-slate-500 hover:text-slate-200"}`}
+          onClick={() => scroll(-1)}
+          aria-label="Ver activos anteriores"
+          className="absolute left-1 top-1/2 z-10 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-cyan-200/20 bg-[#07111e]/95 text-cyan-200 shadow-xl backdrop-blur transition hover:scale-105 hover:bg-cyan-300/10"
         >
-          <Image src={entry.logo} alt="" width={28} height={28} className="h-7 w-7 object-contain" />
-          {entry.symbol}
+          <ChevronLeft size={16} />
         </button>
-      ))}
+      )}
+      {canScrollRight && (
+        <button
+          onClick={() => scroll(1)}
+          aria-label="Ver más activos"
+          className="absolute right-1 top-1/2 z-10 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-cyan-200/20 bg-[#07111e]/95 text-cyan-200 shadow-xl backdrop-blur transition hover:scale-105 hover:bg-cyan-300/10"
+        >
+          <ChevronRight size={16} />
+        </button>
+      )}
     </div>
   );
 }
