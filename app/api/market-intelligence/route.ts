@@ -1,7 +1,90 @@
 import { NextResponse } from "next/server";
-import { allowMarketRequest, marketDataOrchestrator, unavailableBundle } from "@/modules/market-intelligence/application";
-import { findMarketAsset, marketCatalog, type MarketInterval } from "@/modules/market-intelligence/domain";
+import {
+  allowMarketRequest,
+  marketDataOrchestrator,
+  unavailableBundle,
+} from "@/modules/market-intelligence/application";
+import {
+  findMarketAsset,
+  marketCatalog,
+  type MarketInterval,
+} from "@/modules/market-intelligence/domain";
 import { fetchCoinGeckoOverview } from "@/modules/market-intelligence/infrastructure/providers/coingecko";
-export const dynamic="force-dynamic";
-let overviewCache:{expires:number;data:unknown}|null=null;
-export async function GET(request:Request){if(!allowMarketRequest())return NextResponse.json({error:"rate_limit",retryAfterSeconds:60},{status:429,headers:{"retry-after":"60"}});const url=new URL(request.url),slug=url.searchParams.get("asset"),intervalValue=url.searchParams.get("interval")??"1h";if(!slug){try{if(overviewCache&&overviewCache.expires>Date.now())return NextResponse.json({catalog:overviewCache.data},{headers:{"x-laex-cache":"hit"}});const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),7_500),catalog=await fetchCoinGeckoOverview(marketCatalog,controller.signal);clearTimeout(timeout);overviewCache={expires:Date.now()+30_000,data:catalog};return NextResponse.json({catalog},{headers:{"cache-control":"public, max-age=20, stale-while-revalidate=60","x-laex-provider":"coingecko-keyless-public"}})}catch{return NextResponse.json({catalog:marketCatalog.map(({assetId,slug,symbol,name,networkId,status})=>({assetId,slug,symbol,name,networkId,status,price:null,change24h:null,provider:"No disponible",observedAt:null}))},{headers:{"x-laex-data-state":"unavailable"}})}}if(!["1h","4h","1d"].includes(intervalValue))return NextResponse.json({error:"invalid_interval"},{status:400});const asset=findMarketAsset(slug);if(!asset)return NextResponse.json({error:"asset_not_found"},{status:404});const bundle=asset.status==="active"?await marketDataOrchestrator.get(asset,intervalValue as MarketInterval):unavailableBundle(asset,[asset.status==="identity-pending"?"identity_pending_ceo_confirmation":"conceptual_asset_not_issued"]);return NextResponse.json(bundle,{headers:{"cache-control":"public, max-age=15, stale-while-revalidate=60","x-laex-data-state":bundle.quote.state,"x-laex-provider":bundle.quote.provider}})}
+export const dynamic = "force-dynamic";
+let overviewCache: { expires: number; data: unknown } | null = null;
+export async function GET(request: Request) {
+  if (!allowMarketRequest())
+    return NextResponse.json(
+      { error: "rate_limit", retryAfterSeconds: 60 },
+      { status: 429, headers: { "retry-after": "60" } },
+    );
+  const url = new URL(request.url),
+    slug = url.searchParams.get("asset"),
+    intervalValue = url.searchParams.get("interval") ?? "24h";
+  if (!slug) {
+    try {
+      if (overviewCache && overviewCache.expires > Date.now())
+        return NextResponse.json(
+          { catalog: overviewCache.data },
+          { headers: { "x-laex-cache": "hit" } },
+        );
+      const controller = new AbortController(),
+        timeout = setTimeout(() => controller.abort(), 7_500),
+        catalog = await fetchCoinGeckoOverview(
+          marketCatalog,
+          controller.signal,
+        );
+      clearTimeout(timeout);
+      overviewCache = { expires: Date.now() + 30_000, data: catalog };
+      return NextResponse.json(
+        { catalog },
+        {
+          headers: {
+            "cache-control": "public, max-age=20, stale-while-revalidate=60",
+            "x-laex-provider": "coingecko-keyless-public",
+          },
+        },
+      );
+    } catch {
+      return NextResponse.json(
+        {
+          catalog: marketCatalog.map(
+            ({ assetId, slug, symbol, name, networkId, status }) => ({
+              assetId,
+              slug,
+              symbol,
+              name,
+              networkId,
+              status,
+              price: null,
+              change24h: null,
+              provider: "No disponible",
+              observedAt: null,
+            }),
+          ),
+        },
+        { headers: { "x-laex-data-state": "unavailable" } },
+      );
+    }
+  }
+  if (!["1h", "24h", "7d", "30d", "90d", "365d", "max"].includes(intervalValue))
+    return NextResponse.json({ error: "invalid_interval" }, { status: 400 });
+  const asset = findMarketAsset(slug);
+  if (!asset)
+    return NextResponse.json({ error: "asset_not_found" }, { status: 404 });
+  const bundle =
+    asset.status === "active"
+      ? await marketDataOrchestrator.get(asset, intervalValue as MarketInterval)
+      : unavailableBundle(asset, [
+          asset.status === "identity-pending"
+            ? "identity_pending_ceo_confirmation"
+            : "conceptual_asset_not_issued",
+        ]);
+  return NextResponse.json(bundle, {
+    headers: {
+      "cache-control": "public, max-age=15, stale-while-revalidate=60",
+      "x-laex-data-state": bundle.quote.state,
+      "x-laex-provider": bundle.quote.provider,
+    },
+  });
+}

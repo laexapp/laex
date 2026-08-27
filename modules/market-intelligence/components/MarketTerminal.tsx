@@ -1,28 +1,532 @@
 "use client";
 
-import { Activity, AreaChart, CandlestickChart, ChevronLeft, ChevronRight, Clock3, Database, RefreshCw, Search, Sparkles, TriangleAlert } from "lucide-react";
+import {
+  Activity,
+  AreaChart,
+  CandlestickChart,
+  ChevronLeft,
+  ChevronRight,
+  Clock3,
+  Database,
+  RefreshCw,
+  Search,
+  Sparkles,
+  TriangleAlert,
+} from "lucide-react";
 import { useEffect, useState } from "react";
-import { marketCatalog, type MarketDataBundle, type MarketInterval, type OhlcvCandle } from "../domain";
+import {
+  marketCatalog,
+  type MarketDataBundle,
+  type MarketInterval,
+  type OhlcvCandle,
+} from "../domain";
 import { buildMarketNarrative } from "../application/MarketNarrative";
 
-type ChartMode="candles"|"line"|"area";
-const W=900,H=330;
-const money=(value:number|null)=>value==null?"Dato no disponible":new Intl.NumberFormat("es-ES",{style:"currency",currency:"USD",maximumFractionDigits:value<1?6:2}).format(value);
-const statusCopy={live:["En vivo","text-emerald-300 bg-emerald-300"],delayed:["Datos retrasados","text-amber-300 bg-amber-300"],reconnecting:["Reconectando","text-orange-300 bg-orange-300"],paused:["Pausado","text-blue-300 bg-blue-300"],unavailable:["No disponible","text-slate-400 bg-slate-500"]} as const;
+type ChartMode = "candles" | "line" | "area";
+const W = 900,
+  H = 330;
+const money = (value: number | null) =>
+  value == null
+    ? "Dato no disponible"
+    : new Intl.NumberFormat("es-ES", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: value < 1 ? 6 : 2,
+      }).format(value);
+const statusCopy = {
+  live: ["En vivo", "text-emerald-300 bg-emerald-300"],
+  delayed: ["Datos retrasados", "text-amber-300 bg-amber-300"],
+  reconnecting: ["Reconectando", "text-orange-300 bg-orange-300"],
+  paused: ["Pausado", "text-blue-300 bg-blue-300"],
+  unavailable: ["No disponible", "text-slate-400 bg-slate-500"],
+} as const;
 
-async function requestBundle(slug:string,interval:MarketInterval){const response=await fetch(`/api/market-intelligence?asset=${encodeURIComponent(slug)}&interval=${interval}`,{cache:"no-store"});if(!response.ok)throw new Error(`market_http_${response.status}`);return response.json() as Promise<MarketDataBundle>}
+async function requestBundle(slug: string, interval: MarketInterval) {
+  const response = await fetch(
+    `/api/market-intelligence?asset=${encodeURIComponent(slug)}&interval=${interval}`,
+    { cache: "no-store" },
+  );
+  if (!response.ok) throw new Error(`market_http_${response.status}`);
+  return response.json() as Promise<MarketDataBundle>;
+}
 
-function Chart({candles,mode}:{candles:OhlcvCandle[];mode:ChartMode}){const values=candles.map(c=>c.close),max=Math.max(...candles.map(c=>c.high),1),min=Math.min(...candles.map(c=>c.low),0),span=Math.max(max-min,1),xy=(value:number,index:number)=>({x:(index/Math.max(candles.length-1,1))*W,y:H-((value-min)/span)*(H-34)-17}),poly=values.map((value,index)=>{const p=xy(value,index);return`${p.x},${p.y}`}).join(" "),area=`0,${H} ${poly} ${W},${H}`;if(!candles.length)return <div className="grid min-h-[330px] place-items-center rounded-2xl border border-dashed border-white/[.08] text-sm text-slate-500">Dato no disponible</div>;return <svg viewBox={`0 0 ${W} ${H}`} className="h-auto min-h-[270px] w-full" role="img" aria-label={`${mode} con datos reales de mercado`}><defs><linearGradient id="real-market-area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#37d8ee" stopOpacity=".34"/><stop offset="1" stopColor="#37d8ee" stopOpacity="0"/></linearGradient><pattern id="real-market-grid" width="90" height="55" patternUnits="userSpaceOnUse"><path d="M 90 0 L 0 0 0 55" fill="none" stroke="rgba(148,163,184,.11)"/></pattern></defs><rect width={W} height={H} fill="url(#real-market-grid)"/>{mode==="area"&&<polygon points={area} fill="url(#real-market-area)"/>}{mode!=="candles"&&<polyline points={poly} fill="none" stroke={mode==="line"?"#60a5fa":"#37d8ee"} strokeWidth={mode==="line"?2.2:3} vectorEffect="non-scaling-stroke"/>}{mode==="candles"&&candles.map((c,index)=>{const open=xy(c.open,index),close=xy(c.close,index),high=xy(c.high,index),low=xy(c.low,index),up=c.close>=c.open,color=up?"#4ade80":"#fb7185",width=Math.max(4,Math.min(14,W/candles.length*.56));return <g key={`${c.timestamp}-${index}`}><title>{`${new Date(c.timestamp).toLocaleString("es-CL")} · O ${c.open} H ${c.high} L ${c.low} C ${c.close}`}</title><line x1={high.x} x2={low.x} y1={high.y} y2={low.y} stroke={color} strokeWidth="1.4"/><rect x={open.x-width/2} y={Math.min(open.y,close.y)} width={width} height={Math.max(2,Math.abs(close.y-open.y))} rx="1.5" fill={color}/></g>})}</svg>}
+function Chart({ candles, mode }: { candles: OhlcvCandle[]; mode: ChartMode }) {
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  if (!candles.length)
+    return (
+      <div className="grid min-h-[330px] place-items-center rounded-2xl border border-dashed border-white/[.08] text-sm text-slate-500">
+        Dato no disponible
+      </div>
+    );
+  const plotWidth = 820,
+    top = 18,
+    bottom = H - 18,
+    rawMax = Math.max(...candles.map((candle) => candle.high)),
+    rawMin = Math.min(...candles.map((candle) => candle.low)),
+    rawSpan = Math.max(rawMax - rawMin, Math.abs(rawMax) * 0.0001, 1e-8),
+    padding = rawSpan * 0.08,
+    max = rawMax + padding,
+    min = rawMin - padding,
+    span = max - min,
+    xFor = (index: number) =>
+      8 + (index / Math.max(candles.length - 1, 1)) * (plotWidth - 16),
+    yFor = (value: number) => bottom - ((value - min) / span) * (bottom - top),
+    points = candles
+      .map((candle, index) => `${xFor(index)},${yFor(candle.close)}`)
+      .join(" "),
+    area = `8,${bottom} ${points} ${plotWidth - 8},${bottom}`,
+    active = candles[selectedIndex ?? candles.length - 1],
+    current = candles[candles.length - 1].close,
+    currentY = yFor(current),
+    change = active.open ? ((active.close - active.open) / active.open) * 100 : null,
+    ticks = Array.from({ length: 6 }, (_, index) => max - (span * index) / 5),
+    decimals = current < 1 ? 6 : current < 100 ? 4 : 2,
+    formatPrice = (value: number) =>
+      new Intl.NumberFormat("en-US", { maximumFractionDigits: decimals }).format(value),
+    selectAt = (clientX: number, target: SVGSVGElement) => {
+      const bounds = target.getBoundingClientRect(),
+        relative = ((clientX - bounds.left) / bounds.width) * W,
+        index = Math.round(((relative - 8) / (plotWidth - 16)) * (candles.length - 1));
+      setSelectedIndex(Math.max(0, Math.min(candles.length - 1, index)));
+    };
+  return (
+    <div>
+      <div className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[11px] text-slate-500">
+        <span>{new Date(active.timestamp).toLocaleString("es-DO")}</span>
+        <span>O <b className="text-slate-200">{formatPrice(active.open)}</b></span>
+        <span>H <b className="text-emerald-300">{formatPrice(active.high)}</b></span>
+        <span>L <b className="text-rose-300">{formatPrice(active.low)}</b></span>
+        <span>C <b className="text-cyan-200">{formatPrice(active.close)}</b></span>
+        <span className={change != null && change >= 0 ? "text-emerald-300" : "text-rose-300"}>{change == null ? "—" : `${change >= 0 ? "+" : ""}${change.toFixed(2)}%`}</span>
+      </div>
+      <svg
+        viewBox={`0 0 ${W} ${H}`}
+        className="h-auto min-h-[300px] w-full touch-pan-y"
+        role="img"
+        aria-label={`${mode} con datos reales de mercado y eje de precios`}
+        onMouseMove={(event) => selectAt(event.clientX, event.currentTarget)}
+        onMouseLeave={() => setSelectedIndex(null)}
+        onTouchMove={(event) => selectAt(event.touches[0].clientX, event.currentTarget)}
+      >
+      <defs>
+        <linearGradient id="real-market-area" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#37d8ee" stopOpacity=".34" />
+          <stop offset="1" stopColor="#37d8ee" stopOpacity="0" />
+        </linearGradient>
+        <pattern
+          id="real-market-grid"
+          width="90"
+          height="55"
+          patternUnits="userSpaceOnUse"
+        >
+          <path
+            d="M 90 0 L 0 0 0 55"
+            fill="none"
+            stroke="rgba(148,163,184,.11)"
+          />
+        </pattern>
+      </defs>
+      <rect width={plotWidth} height={H} fill="url(#real-market-grid)" />
+      {ticks.map((tick) => <g key={tick}><line x1="0" x2={plotWidth} y1={yFor(tick)} y2={yFor(tick)} stroke="rgba(148,163,184,.10)" /><text x={plotWidth + 12} y={yFor(tick) + 4} fill="#64748b" fontSize="11">{formatPrice(tick)}</text></g>)}
+      {mode === "area" && (
+        <polygon points={area} fill="url(#real-market-area)" />
+      )}
+      {mode !== "candles" && (
+        <polyline
+          points={points}
+          fill="none"
+          stroke={mode === "line" ? "#60a5fa" : "#37d8ee"}
+          strokeWidth={mode === "line" ? 2.2 : 3}
+          vectorEffect="non-scaling-stroke"
+        />
+      )}
+      {mode === "candles" &&
+        candles.map((c, index) => {
+          const x = xFor(index),
+            openY = yFor(c.open),
+            closeY = yFor(c.close),
+            highY = yFor(c.high),
+            lowY = yFor(c.low),
+            up = c.close >= c.open,
+            color = up ? "#4ade80" : "#fb7185",
+            width = Math.max(2, Math.min(14, (plotWidth / candles.length) * 0.62));
+          return (
+            <g key={`${c.timestamp}-${index}`}>
+              <title>{`${new Date(c.timestamp).toLocaleString("es-CL")} · O ${c.open} H ${c.high} L ${c.low} C ${c.close}`}</title>
+              <line
+                x1={x}
+                x2={x}
+                y1={highY}
+                y2={lowY}
+                stroke={color}
+                strokeWidth="1.4"
+              />
+              <rect
+                x={x - width / 2}
+                y={Math.min(openY, closeY)}
+                width={width}
+                height={Math.max(2, Math.abs(closeY - openY))}
+                rx="1.5"
+                fill={color}
+              />
+            </g>
+          );
+        })}
+      <line x1="0" x2={plotWidth} y1={currentY} y2={currentY} stroke="#22d3ee" strokeDasharray="4 4" strokeOpacity=".72" />
+      <rect x={plotWidth} y={currentY - 11} width={80} height={22} rx="4" fill="#0891b2" />
+      <text x={plotWidth + 7} y={currentY + 4} fill="white" fontSize="11" fontWeight="700">{formatPrice(current)}</text>
+      {selectedIndex != null && <line x1={xFor(selectedIndex)} x2={xFor(selectedIndex)} y1={top} y2={bottom} stroke="#94a3b8" strokeDasharray="3 5" strokeOpacity=".45" />}
+      </svg>
+    </div>
+  );
+}
 
-export default function MarketTerminal({initialSlug}:{initialSlug:string}){const[slug,setSlug]=useState(initialSlug),[mode,setMode]=useState<ChartMode>("candles"),[interval,setIntervalValue]=useState<MarketInterval>("1h"),[query,setQuery]=useState(""),[bundle,setBundle]=useState<MarketDataBundle|null>(null),[connection,setConnection]=useState<MarketDataBundle["quote"]["state"]>("reconnecting"),[windowSize,setWindowSize]=useState(48),[offset,setOffset]=useState(0),[recent,setRecent]=useState<string[]>([initialSlug]);const identity=marketCatalog.find(item=>item.slug===slug)??marketCatalog[0];
- useEffect(()=>{let active=true;const apply=()=>requestBundle(slug,interval).then(next=>{if(active){setBundle(next);setConnection(next.quote.state);setOffset(0)}}).catch(()=>{if(active)setConnection("unavailable")});void apply();const timer=window.setInterval(()=>void apply(),30_000);return()=>{active=false;window.clearInterval(timer)}},[slug,interval]);
- async function refresh(){try{const next=await requestBundle(slug,interval);setBundle(next);setConnection(next.quote.state);setOffset(0)}catch{setConnection("unavailable")}}
- const selectAsset=(next:string)=>{setConnection("reconnecting");setBundle(null);setSlug(next);setQuery("");setRecent(items=>[next,...items.filter(item=>item!==next)].slice(0,4))};
- const allCandles=bundle?.candles??[],start=Math.max(0,allCandles.length-windowSize-offset),visible=allCandles.slice(start,Math.max(start,allCandles.length-offset)),filtered=marketCatalog.filter(item=>`${item.name} ${item.symbol} ${item.networkId}`.toLowerCase().includes(query.toLowerCase())),story=bundle?buildMarketNarrative(bundle,interval):null,[statusLabel,statusDot]=statusCopy[connection],lastUpdate=bundle?.quote.observedAt?new Date(bundle.quote.observedAt).toLocaleString("es-CL"):"Sin actualización";
- return <section className="relative overflow-hidden rounded-[2rem] border border-white/[.09] bg-[linear-gradient(145deg,rgba(10,22,37,.97),rgba(3,7,12,.98))] shadow-[0_32px_100px_rgba(0,0,0,.46)]"><header className="grid gap-4 border-b border-white/[.07] p-5 sm:p-6 xl:grid-cols-[1fr_auto] xl:items-center"><div className="relative max-w-2xl"><Search className="absolute left-4 top-3.5 text-slate-500" size={17}/><input aria-label="Buscar y cambiar activo" value={query} onChange={event=>setQuery(event.target.value)} placeholder={`${identity.name} · ${identity.symbol} · Buscar activo`} className="h-12 w-full rounded-2xl border border-white/[.09] bg-black/25 pl-11 pr-4 text-sm text-white placeholder:text-slate-500 focus:border-cyan-200/40 focus:outline-none"/>{query&&<div className="absolute inset-x-0 top-14 z-30 max-h-80 overflow-auto rounded-2xl border border-white/10 bg-[#09111e] p-2 shadow-2xl">{filtered.map(item=><button key={item.assetId} onClick={()=>selectAsset(item.slug)} className="grid w-full grid-cols-[1fr_auto] gap-3 rounded-xl px-4 py-3 text-left hover:bg-white/[.05]"><span><b className="text-sm">{item.name}</b><small className="ml-2 text-slate-500">{item.symbol}</small><small className="mt-1 block text-xs text-slate-600">{item.networkId}</small></span><span className={`self-center text-xs ${item.status==="active"?"text-emerald-300":"text-amber-300"}`}>{item.status==="active"?"Disponible":"Pendiente"}</span></button>)}</div>}</div><div className="flex flex-wrap gap-2">{([{id:"candles",label:"Velas",icon:CandlestickChart},{id:"line",label:"Línea",icon:Activity},{id:"area",label:"Área",icon:AreaChart}] as const).map(item=><button key={item.id} onClick={()=>setMode(item.id)} aria-pressed={mode===item.id} className={`flex h-10 items-center gap-2 rounded-xl border px-3 text-xs font-bold ${mode===item.id?"border-cyan-200/30 bg-cyan-300/[.09] text-cyan-100":"border-white/[.07] text-slate-500"}`}><item.icon size={14}/>{item.label}</button>)}</div></header>
- <div className="flex flex-col gap-4 border-b border-white/[.06] px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6"><div className="flex flex-wrap items-baseline gap-3"><strong className="text-2xl tracking-[-.04em]">{identity.name}</strong><span className="text-sm text-slate-500">{identity.symbol}</span><strong className="text-xl">{money(bundle?.quote.price??null)}</strong><span className={`${(bundle?.quote.change24h??0)>=0?"text-emerald-300":"text-rose-300"}`}>{bundle?.quote.change24h==null?"—":`${bundle.quote.change24h>=0?"+":""}${bundle.quote.change24h.toFixed(2)} %`}</span></div><div className={`flex items-center gap-2 text-xs font-bold ${statusLabel.includes("vivo")?"text-emerald-300":statusLabel.includes("retrasados")?"text-amber-300":"text-slate-400"}`}><span className={`h-2.5 w-2.5 rounded-full ${statusDot}`}/>{statusLabel} · {lastUpdate}</div></div>
- <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[.06] px-5 py-3 sm:px-6"><div className="flex gap-1">{(["1h","4h","1d"] as MarketInterval[]).map(value=><button key={value} onClick={()=>setIntervalValue(value)} className={`rounded-lg px-3 py-2 text-xs font-bold ${interval===value?"bg-blue-300/10 text-blue-200":"text-slate-600"}`}>{value}</button>)}</div><div className="flex items-center gap-2"><button onClick={()=>setOffset(value=>Math.min(value+Math.floor(windowSize/2),Math.max(0,allCandles.length-windowSize)))} aria-label="Desplazar gráfica al pasado" className="rounded-lg border border-white/[.07] p-2 text-slate-500"><ChevronLeft size={14}/></button><select aria-label="Zoom de gráfica" value={windowSize} onChange={event=>{setWindowSize(Number(event.target.value));setOffset(0)}} className="rounded-lg border border-white/[.07] bg-[#07101b] px-3 py-2 text-xs text-slate-300"><option value={24}>Zoom 24</option><option value={48}>Zoom 48</option><option value={96}>Zoom 96</option></select><button onClick={()=>setOffset(value=>Math.max(0,value-Math.floor(windowSize/2)))} aria-label="Desplazar gráfica al presente" className="rounded-lg border border-white/[.07] p-2 text-slate-500"><ChevronRight size={14}/></button><button onClick={()=>void refresh()} aria-label="Actualizar datos" className="rounded-lg border border-white/[.07] p-2 text-cyan-200"><RefreshCw size={14}/></button></div></div>
- <div className="p-4 sm:p-6"><Chart candles={visible} mode={mode}/><div className="mt-3 grid h-14 grid-cols-12 items-end gap-1.5" aria-label="Volumen sincronizado">{visible.slice(-12).map((c,index)=><span key={c.timestamp} className={`${c.close>=c.open?"bg-emerald-300/25":"bg-rose-300/25"} rounded-t`} style={{height:`${Math.max(10,((c.volume??index+1)/Math.max(...visible.slice(-12).map((item,i)=>item.volume??i+1),1))*100)}%`}}/>)}</div></div>
- <div className="grid border-t border-white/[.07] lg:grid-cols-[1.05fr_.95fr]"><article className="border-b border-white/[.07] p-5 sm:p-6 lg:border-b-0 lg:border-r"><div className="flex items-center justify-between gap-3"><div className="flex items-center gap-2 text-violet-300"><Sparkles size={16}/><span className="text-xs font-bold uppercase tracking-[.16em]">Inteligencia del mercado</span></div><span className="text-xs text-violet-200">Confianza {story?.confidence??0}%</span></div><p className="mt-4 text-[15px] leading-7 text-slate-300">{story?.text??"Esperando evidencia del mercado…"}</p><dl className="mt-5 space-y-3 text-sm"><div><dt className="text-slate-500">Periodo analizado</dt><dd className="mt-1 text-slate-300">{interval} · generado {bundle?new Date(bundle.generatedAt).toLocaleString("es-CL"):"—"}</dd></div><div><dt className="text-slate-500">Evidencia</dt><dd className="mt-1 text-slate-300">{story?.evidence.join(" · ")??"Sin evidencia"}</dd></div><div><dt className="text-slate-500">Limitaciones</dt><dd className="mt-1 leading-6 text-slate-400">{story?.limitations.join(" ")??"Los datos aún no están disponibles."}</dd></div></dl></article><article className="p-5 sm:p-6"><div className="flex items-center justify-between"><span className="text-xs font-bold uppercase tracking-[.16em] text-slate-400">Mercados observados</span><span className="text-xs text-cyan-200">{bundle?.venues.length??0} fuentes</span></div><div className="mt-4 max-h-64 space-y-2 overflow-auto">{bundle?.venues.length?bundle.venues.map((venue,index)=><div key={`${venue.name}-${venue.pair}-${index}`} className="grid grid-cols-[1fr_auto] gap-3 rounded-xl border border-white/[.06] bg-black/15 p-3 text-xs sm:grid-cols-[1fr_auto_auto]"><span><b className="text-slate-300">{venue.name}</b><small className="mt-1 block text-slate-600">{venue.pair}</small></span><span className="self-center text-slate-300">{money(venue.price)}</span><span className={`hidden self-center sm:block ${venue.quality==="high"?"text-blue-300":"text-amber-300"}`}>{venue.quality}</span></div>):<p className="rounded-xl border border-dashed border-white/[.08] p-4 text-sm text-slate-600">Dato no disponible</p>}</div><div className="mt-5 flex items-start gap-3 rounded-xl bg-black/20 p-3"><Database size={15} className="mt-0.5 shrink-0 text-cyan-200"/><p className="text-xs leading-5 text-slate-500">Proveedor: {bundle?.quote.provider??"ninguno"}. Caché: {bundle?.cache??"—"}. {bundle?.fallbackUsed?"Fuente secundaria activa.":"Fuente primaria activa."}</p></div></article></div>
- <div className="flex flex-wrap items-center gap-2 border-t border-white/[.06] px-5 py-3 text-xs text-slate-600 sm:px-6"><Clock3 size={13}/><span>Recientes:</span>{recent.map(item=><button key={item} onClick={()=>selectAsset(item)} className="rounded-lg bg-white/[.035] px-2 py-1 text-slate-400">{marketCatalog.find(asset=>asset.slug===item)?.symbol}</button>)}{bundle?.errors.length?<span className="ml-auto flex items-center gap-1 text-orange-300"><TriangleAlert size={13}/>{bundle.errors.length} incidencias controladas</span>:null}</div>
- </section>}
+export default function MarketTerminal({
+  initialSlug,
+}: {
+  initialSlug: string;
+}) {
+  const [slug, setSlug] = useState(initialSlug),
+    [mode, setMode] = useState<ChartMode>("candles"),
+    [interval, setIntervalValue] = useState<MarketInterval>("24h"),
+    [query, setQuery] = useState(""),
+    [bundle, setBundle] = useState<MarketDataBundle | null>(null),
+    [connection, setConnection] =
+      useState<MarketDataBundle["quote"]["state"]>("reconnecting"),
+    [windowSize, setWindowSize] = useState(1000),
+    [offset, setOffset] = useState(0),
+    [recent, setRecent] = useState<string[]>([initialSlug]);
+  const identity =
+    marketCatalog.find((item) => item.slug === slug) ?? marketCatalog[0];
+  useEffect(() => {
+    let active = true;
+    const apply = () =>
+      requestBundle(slug, interval)
+        .then((next) => {
+          if (active) {
+            setBundle(next);
+            setConnection(next.quote.state);
+            setOffset(0);
+          }
+        })
+        .catch(() => {
+          if (active) setConnection("unavailable");
+        });
+    void apply();
+    const timer = window.setInterval(() => void apply(), 30_000);
+    return () => {
+      active = false;
+      window.clearInterval(timer);
+    };
+  }, [slug, interval]);
+  async function refresh() {
+    try {
+      const next = await requestBundle(slug, interval);
+      setBundle(next);
+      setConnection(next.quote.state);
+      setOffset(0);
+    } catch {
+      setConnection("unavailable");
+    }
+  }
+  const selectAsset = (next: string) => {
+    setConnection("reconnecting");
+    setBundle(null);
+    setSlug(next);
+    setQuery("");
+    setRecent((items) =>
+      [next, ...items.filter((item) => item !== next)].slice(0, 4),
+    );
+  };
+  const allCandles = bundle?.candles ?? [],
+    start = Math.max(0, allCandles.length - windowSize - offset),
+    visible = allCandles.slice(
+      start,
+      Math.max(start, allCandles.length - offset),
+    ),
+    filtered = marketCatalog.filter((item) =>
+      `${item.name} ${item.symbol} ${item.networkId}`
+        .toLowerCase()
+        .includes(query.toLowerCase()),
+    ),
+    story = bundle ? buildMarketNarrative(bundle, interval) : null,
+    [statusLabel, statusDot] = statusCopy[connection],
+    lastUpdate = bundle?.quote.observedAt
+      ? new Date(bundle.quote.observedAt).toLocaleString("es-CL")
+      : "Sin actualización";
+  return (
+    <section className="relative overflow-hidden rounded-[2rem] border border-white/[.09] bg-[linear-gradient(145deg,rgba(10,22,37,.97),rgba(3,7,12,.98))] shadow-[0_32px_100px_rgba(0,0,0,.46)]">
+      <header className="grid gap-4 border-b border-white/[.07] p-5 sm:p-6 xl:grid-cols-[1fr_auto] xl:items-center">
+        <div className="relative max-w-2xl">
+          <Search
+            className="absolute left-4 top-3.5 text-slate-500"
+            size={17}
+          />
+          <input
+            aria-label="Buscar y cambiar activo"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder={`${identity.name} · ${identity.symbol} · Buscar activo`}
+            className="h-12 w-full rounded-2xl border border-white/[.09] bg-black/25 pl-11 pr-4 text-sm text-white placeholder:text-slate-500 focus:border-cyan-200/40 focus:outline-none"
+          />
+          {query && (
+            <div className="absolute inset-x-0 top-14 z-30 max-h-80 overflow-auto rounded-2xl border border-white/10 bg-[#09111e] p-2 shadow-2xl">
+              {filtered.map((item) => (
+                <button
+                  key={item.assetId}
+                  onClick={() => selectAsset(item.slug)}
+                  className="grid w-full grid-cols-[1fr_auto] gap-3 rounded-xl px-4 py-3 text-left hover:bg-white/[.05]"
+                >
+                  <span>
+                    <b className="text-sm">{item.name}</b>
+                    <small className="ml-2 text-slate-500">{item.symbol}</small>
+                    <small className="mt-1 block text-xs text-slate-600">
+                      {item.networkId}
+                    </small>
+                  </span>
+                  <span
+                    className={`self-center text-xs ${item.status === "active" ? "text-emerald-300" : "text-amber-300"}`}
+                  >
+                    {item.status === "active" ? "Disponible" : "Pendiente"}
+                  </span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {(
+            [
+              { id: "candles", label: "Velas", icon: CandlestickChart },
+              { id: "line", label: "Línea", icon: Activity },
+              { id: "area", label: "Área", icon: AreaChart },
+            ] as const
+          ).map((item) => (
+            <button
+              key={item.id}
+              onClick={() => setMode(item.id)}
+              aria-pressed={mode === item.id}
+              className={`flex h-10 items-center gap-2 rounded-xl border px-3 text-xs font-bold ${mode === item.id ? "border-cyan-200/30 bg-cyan-300/[.09] text-cyan-100" : "border-white/[.07] text-slate-500"}`}
+            >
+              <item.icon size={14} />
+              {item.label}
+            </button>
+          ))}
+        </div>
+      </header>
+      <div className="flex flex-col gap-4 border-b border-white/[.06] px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+        <div className="flex flex-wrap items-baseline gap-3">
+          <strong className="text-2xl tracking-[-.04em]">
+            {identity.name}
+          </strong>
+          <span className="text-sm text-slate-500">{identity.symbol}</span>
+          <strong className="text-xl">
+            {money(bundle?.quote.price ?? null)}
+          </strong>
+          <span
+            className={`${(bundle?.quote.change24h ?? 0) >= 0 ? "text-emerald-300" : "text-rose-300"}`}
+          >
+            {bundle?.quote.change24h == null
+              ? "—"
+              : `${bundle.quote.change24h >= 0 ? "+" : ""}${bundle.quote.change24h.toFixed(2)} %`}
+          </span>
+        </div>
+        <div
+          className={`flex items-center gap-2 text-xs font-bold ${statusLabel.includes("vivo") ? "text-emerald-300" : statusLabel.includes("retrasados") ? "text-amber-300" : "text-slate-400"}`}
+        >
+          <span className={`h-2.5 w-2.5 rounded-full ${statusDot}`} />
+          {statusLabel} · {lastUpdate}
+        </div>
+      </div>
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[.06] px-5 py-3 sm:px-6">
+        <div className="flex gap-1">
+          {(["1h", "24h", "7d", "30d", "90d", "365d", "max"] as MarketInterval[]).map((value) => (
+            <button
+              key={value}
+              onClick={() => { setIntervalValue(value); setWindowSize(1000); setOffset(0); }}
+              className={`rounded-lg px-3 py-2 text-xs font-bold ${interval === value ? "bg-blue-300/10 text-blue-200" : "text-slate-600"}`}
+            >
+              {{ "1h": "1H", "24h": "24H", "7d": "7D", "30d": "1M", "90d": "3M", "365d": "1A", max: "TODO" }[value]}
+            </button>
+          ))}
+        </div>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() =>
+              setOffset((value) =>
+                Math.min(
+                  value + Math.floor(windowSize / 2),
+                  Math.max(0, allCandles.length - windowSize),
+                ),
+              )
+            }
+            aria-label="Desplazar gráfica al pasado"
+            className="rounded-lg border border-white/[.07] p-2 text-slate-500"
+          >
+            <ChevronLeft size={14} />
+          </button>
+          <select
+            aria-label="Zoom de gráfica"
+            value={windowSize}
+            onChange={(event) => {
+              setWindowSize(Number(event.target.value));
+              setOffset(0);
+            }}
+            className="rounded-lg border border-white/[.07] bg-[#07101b] px-3 py-2 text-xs text-slate-300"
+          >
+            <option value={24}>Zoom 24</option>
+            <option value={48}>Zoom 48</option>
+            <option value={96}>Zoom 96</option>
+            <option value={1000}>Todo el período</option>
+          </select>
+          <button
+            onClick={() =>
+              setOffset((value) =>
+                Math.max(0, value - Math.floor(windowSize / 2)),
+              )
+            }
+            aria-label="Desplazar gráfica al presente"
+            className="rounded-lg border border-white/[.07] p-2 text-slate-500"
+          >
+            <ChevronRight size={14} />
+          </button>
+          <button
+            onClick={() => void refresh()}
+            aria-label="Actualizar datos"
+            className="rounded-lg border border-white/[.07] p-2 text-cyan-200"
+          >
+            <RefreshCw size={14} />
+          </button>
+        </div>
+      </div>
+      <div className="p-4 sm:p-6">
+        <Chart candles={visible} mode={mode} />
+        <div
+          className="mt-3 grid h-16 items-end gap-px border-t border-white/[.05] pt-2"
+          style={{ gridTemplateColumns: `repeat(${Math.max(visible.length, 1)}, minmax(1px, 1fr))` }}
+          aria-label="Volumen sincronizado"
+        >
+          {visible.map((c) => (
+            <span
+              key={c.timestamp}
+              className={`${c.close >= c.open ? "bg-emerald-300/25" : "bg-rose-300/25"} rounded-t`}
+              style={{
+                height: `${Math.max(6, ((c.volume ?? 0) / Math.max(...visible.map((item) => item.volume ?? 0), 1)) * 100)}%`,
+              }}
+            />
+          ))}
+        </div>
+      </div>
+      <div className="grid border-t border-white/[.07] lg:grid-cols-[1.05fr_.95fr]">
+        <article className="border-b border-white/[.07] p-5 sm:p-6 lg:border-b-0 lg:border-r">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2 text-violet-300">
+              <Sparkles size={16} />
+              <span className="text-xs font-bold uppercase tracking-[.16em]">
+                Inteligencia del mercado
+              </span>
+            </div>
+            <span className="text-xs text-violet-200">
+              Confianza {story?.confidence ?? 0}%
+            </span>
+          </div>
+          <p className="mt-4 text-[15px] leading-7 text-slate-300">
+            {story?.text ?? "Esperando evidencia del mercado…"}
+          </p>
+          <dl className="mt-5 space-y-3 text-sm">
+            <div>
+              <dt className="text-slate-500">Periodo analizado</dt>
+              <dd className="mt-1 text-slate-300">
+                {interval} · generado{" "}
+                {bundle
+                  ? new Date(bundle.generatedAt).toLocaleString("es-CL")
+                  : "—"}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-slate-500">Evidencia</dt>
+              <dd className="mt-1 text-slate-300">
+                {story?.evidence.join(" · ") ?? "Sin evidencia"}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-slate-500">Limitaciones</dt>
+              <dd className="mt-1 leading-6 text-slate-400">
+                {story?.limitations.join(" ") ??
+                  "Los datos aún no están disponibles."}
+              </dd>
+            </div>
+          </dl>
+        </article>
+        <article className="p-5 sm:p-6">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold uppercase tracking-[.16em] text-slate-400">
+              Mercados observados
+            </span>
+            <span className="text-xs text-cyan-200">
+              {bundle?.venues.length ?? 0} fuentes
+            </span>
+          </div>
+          <div className="mt-4 max-h-64 space-y-2 overflow-auto">
+            {bundle?.venues.length ? (
+              bundle.venues.map((venue, index) => (
+                <div
+                  key={`${venue.name}-${venue.pair}-${index}`}
+                  className="grid grid-cols-[1fr_auto] gap-3 rounded-xl border border-white/[.06] bg-black/15 p-3 text-xs sm:grid-cols-[1fr_auto_auto]"
+                >
+                  <span>
+                    <b className="text-slate-300">{venue.name}</b>
+                    <small className="mt-1 block text-slate-600">
+                      {venue.pair}
+                    </small>
+                  </span>
+                  <span className="self-center text-slate-300">
+                    {money(venue.price)}
+                  </span>
+                  <span
+                    className={`hidden self-center sm:block ${venue.quality === "high" ? "text-blue-300" : "text-amber-300"}`}
+                  >
+                    {venue.quality}
+                  </span>
+                </div>
+              ))
+            ) : (
+              <p className="rounded-xl border border-dashed border-white/[.08] p-4 text-sm text-slate-600">
+                Dato no disponible
+              </p>
+            )}
+          </div>
+          <div className="mt-5 flex items-start gap-3 rounded-xl bg-black/20 p-3">
+            <Database size={15} className="mt-0.5 shrink-0 text-cyan-200" />
+            <p className="text-xs leading-5 text-slate-500">
+              Proveedor: {bundle?.quote.provider ?? "ninguno"}. Caché:{" "}
+              {bundle?.cache ?? "—"}.{" "}
+              {bundle?.fallbackUsed
+                ? "Fuente secundaria activa."
+                : "Fuente primaria activa."}
+            </p>
+          </div>
+        </article>
+      </div>
+      <div className="flex flex-wrap items-center gap-2 border-t border-white/[.06] px-5 py-3 text-xs text-slate-600 sm:px-6">
+        <Clock3 size={13} />
+        <span>Recientes:</span>
+        {recent.map((item) => (
+          <button
+            key={item}
+            onClick={() => selectAsset(item)}
+            className="rounded-lg bg-white/[.035] px-2 py-1 text-slate-400"
+          >
+            {marketCatalog.find((asset) => asset.slug === item)?.symbol}
+          </button>
+        ))}
+        {bundle?.errors.length ? (
+          <span className="ml-auto flex items-center gap-1 text-orange-300">
+            <TriangleAlert size={13} />
+            {bundle.errors.length} incidencias controladas
+          </span>
+        ) : null}
+      </div>
+    </section>
+  );
+}

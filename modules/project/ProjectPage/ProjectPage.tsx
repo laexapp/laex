@@ -10,6 +10,7 @@ import ProjectTimeline from "../ProjectTimeline/ProjectTimeline";
 import Header from "@/modules/layout/components/Header";
 import CommunityConnect from "@/modules/ui/components/CommunityConnect";
 import { getProjectCommunityChannels } from "../communityChannels";
+import OMDBProjectPage from "../pages/OMDB/ProjectPage";
 
 type Props = {
   project: Project;
@@ -18,6 +19,8 @@ type Props = {
 export default function ProjectPage({
   project,
 }: Props) {
+  if (project.id === "omdb") return <OMDBProjectPage />;
+
   const communityChannels = getProjectCommunityChannels(project);
 
   return (
