@@ -6,11 +6,13 @@ import type { CSSProperties } from "react";
 import { Project } from "@/core/types/project";
 import DigitalAssetProjectVisual from "./DigitalAssetProjectVisual";
 import OmdPoolProjectCard from "./OmdPoolProjectCard";
+import OneMillionMinersProjectCard from "./OneMillionMinersProjectCard";
 
 type Props = { project: Project; index?: number };
 const accents: Record<string, string> = { onemillionminers: "#F6C65B", omdb: "#37D8EE", omd: "#A78BFA", "lf-printer": "#00BBFC" };
 
 export default function ProjectCard({ project, index = 0 }: Props) {
+  if (project.id === "onemillionminers") return <OneMillionMinersProjectCard project={project} index={index} />;
   if (project.id === "omd") return <OmdPoolProjectCard project={project} index={index} />;
 
   const style = { "--project-accent": accents[project.id] ?? "#37D8EE" } as CSSProperties;
