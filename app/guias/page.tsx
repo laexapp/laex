@@ -1,0 +1,1 @@
+import type {Metadata} from "next";import {GuideCenter} from "@/modules/guides/GuideCenter";export const metadata:Metadata={title:"Centro de Guías · LAEX",description:"Guías visuales e interactivas paso a paso de LAEX.",robots:{index:true,follow:true},alternates:{canonical:"https://laexapp.com/guias"}};export default function Page(){return <GuideCenter/>}

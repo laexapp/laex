@@ -1,0 +1,189 @@
+{
+  "generatedAt": "2026-09-04",
+  "count": 26,
+  "excludedSource": "foto 4.jpeg",
+  "items": [
+    {
+      "step": 1,
+      "source": "fotos 1.jpeg",
+      "output": "public/guides/onemillionminers/steps/01.webp",
+      "sourceSha256": "30e4b7f13147946c70e4d086571d0ab29f6ef2a30aa2f565513d1d8febc63396",
+      "sanitized": false
+    },
+    {
+      "step": 2,
+      "source": "fotos 2.jpeg",
+      "output": "public/guides/onemillionminers/steps/02.webp",
+      "sourceSha256": "7673831ee2786cdf279518526b46cddf6d558b9992fa00ba4f465d357b7739c6",
+      "sanitized": false
+    },
+    {
+      "step": 3,
+      "source": "fotos 3.jpeg",
+      "output": "public/guides/onemillionminers/steps/03.webp",
+      "sourceSha256": "508933093d054197545f9d053ddb93595ac274150a00eb961b925e5a8b64da61",
+      "sanitized": false
+    },
+    {
+      "step": 4,
+      "source": "fotos 4.jpeg",
+      "output": "public/guides/onemillionminers/steps/04.webp",
+      "sourceSha256": "8d05450bb0161eb4599cd50be73c95d20285999f28b2dcab53e430f92bbf3f15",
+      "sanitized": false
+    },
+    {
+      "step": 5,
+      "source": "foto 5.jpeg",
+      "output": "public/guides/onemillionminers/steps/05.webp",
+      "sourceSha256": "8e22e0ee8d47678564955f419d5c8018562902ced1fd9f8d7d2e43021e7404b3",
+      "sanitized": false
+    },
+    {
+      "step": 6,
+      "source": "fotos 6.jpeg",
+      "output": "public/guides/onemillionminers/steps/06.webp",
+      "sourceSha256": "1fa70dd8131e8cd9c0f92184bcea3bda0579b6890bc4fc2b3fbf147d4bcb407f",
+      "sanitized": false
+    },
+    {
+      "step": 7,
+      "source": "fotos 7.jpeg",
+      "output": "public/guides/onemillionminers/steps/07.webp",
+      "sourceSha256": "3f9a381f9237113ac5bfd89236a83889d330aeaa0e88357b3ba1f5bfca94d37d",
+      "sanitized": false
+    },
+    {
+      "step": 8,
+      "source": "fotos 8.jpeg",
+      "output": "public/guides/onemillionminers/steps/08.webp",
+      "sourceSha256": "50b6b04bad27dc19f757d2860ad2cf3d2953cdd57ec89a09d484a78de55c0d51",
+      "sanitized": false
+    },
+    {
+      "step": 9,
+      "source": "fotos 9.jpeg",
+      "output": "public/guides/onemillionminers/steps/09.webp",
+      "sourceSha256": "749ff3ce1a1a461ad260cc2da19d29970aa45349de65a1f1a6236757251b8e19",
+      "sanitized": false
+    },
+    {
+      "step": 10,
+      "source": "fotos 10.jpeg",
+      "output": "public/guides/onemillionminers/steps/10.webp",
+      "sourceSha256": "087666e0dcd3c266e84be3c2f9bc4d5262802264e4381efe53ca28b15086d8a0",
+      "sanitized": true
+    },
+    {
+      "step": 11,
+      "source": "fotos 11.jpeg",
+      "output": "public/guides/onemillionminers/steps/11.webp",
+      "sourceSha256": "9bb34d3a17de9347c28ef7d8a7c0c3fb46325996ec54fb5650bfb375dca4104d",
+      "sanitized": false
+    },
+    {
+      "step": 12,
+      "source": "fotos 12.jpeg",
+      "output": "public/guides/onemillionminers/steps/12.webp",
+      "sourceSha256": "a79b2b7024bd15c2f325e1057a64c74b71dc899b7ad868124b8ef58ca1f4126b",
+      "sanitized": false
+    },
+    {
+      "step": 13,
+      "source": "fotos 13.jpeg",
+      "output": "public/guides/onemillionminers/steps/13.webp",
+      "sourceSha256": "818b32337b7493226e6f03483191e465ff8e1230a22202e321711582e16427ed",
+      "sanitized": false
+    },
+    {
+      "step": 14,
+      "source": "fotos 14.jpeg",
+      "output": "public/guides/onemillionminers/steps/14.webp",
+      "sourceSha256": "8732344e0cae43d0a6a02f20de8daa051162dd4decaab146601d2688d90c7671",
+      "sanitized": true
+    },
+    {
+      "step": 15,
+      "source": "fotos 15.jpeg",
+      "output": "public/guides/onemillionminers/steps/15.webp",
+      "sourceSha256": "60705a4a56663ac018e5b977f3aa0fa4cfbf3f5270cdfa9d97c0e35dbcf6f0f3",
+      "sanitized": false
+    },
+    {
+      "step": 16,
+      "source": "fotos 16.jpeg",
+      "output": "public/guides/onemillionminers/steps/16.webp",
+      "sourceSha256": "958a4d4354fe95d683ec52e614d277a9effe90afc1a0d18a8eac9e0da9a7e329",
+      "sanitized": false
+    },
+    {
+      "step": 17,
+      "source": "fotos 17.jpeg",
+      "output": "public/guides/onemillionminers/steps/17.webp",
+      "sourceSha256": "c5ba16ad1721a6bc407db9ed506b2c4c3579831694c1d9963c7934e1add9131b",
+      "sanitized": false
+    },
+    {
+      "step": 18,
+      "source": "fotos 18.jpeg",
+      "output": "public/guides/onemillionminers/steps/18.webp",
+      "sourceSha256": "d4c9e01ad184f1861bc860d525378177fd018b5536f14e52b0027a6dc4e12d43",
+      "sanitized": false
+    },
+    {
+      "step": 19,
+      "source": "fotos 19.jpeg",
+      "output": "public/guides/onemillionminers/steps/19.webp",
+      "sourceSha256": "e12eece79515c526653427bbc45cd4752efffc4533e280e4fcef9d86321c8a3b",
+      "sanitized": false
+    },
+    {
+      "step": 20,
+      "source": "fotos 20.jpeg",
+      "output": "public/guides/onemillionminers/steps/20.webp",
+      "sourceSha256": "be5e718b56eff8f513b6fc33d6652f74fe07a03298573f45c14ee174d1c79cff",
+      "sanitized": false
+    },
+    {
+      "step": 21,
+      "source": "fotos 21.jpeg",
+      "output": "public/guides/onemillionminers/steps/21.webp",
+      "sourceSha256": "22de673da125e9f8c03e02e693383ef23507f8859430bafb91227624ec516909",
+      "sanitized": false
+    },
+    {
+      "step": 22,
+      "source": "fotos 22.jpeg",
+      "output": "public/guides/onemillionminers/steps/22.webp",
+      "sourceSha256": "5c844f7249aeca3ca6113fd67f06637ab7b218893a15edbe3bab9dce68806ed5",
+      "sanitized": false
+    },
+    {
+      "step": 23,
+      "source": "fotos 23.jpeg",
+      "output": "public/guides/onemillionminers/steps/23.webp",
+      "sourceSha256": "be26b5bc946b926994610b9259e77de654407dba52c28b01ec79df4b67f7ca82",
+      "sanitized": false
+    },
+    {
+      "step": 24,
+      "source": "fotos 24.jpeg",
+      "output": "public/guides/onemillionminers/steps/24.webp",
+      "sourceSha256": "e69a1101c0a3e642beb1e48e227b11e9717f61e05caa276ac7a5df3e26aae322",
+      "sanitized": true
+    },
+    {
+      "step": 25,
+      "source": "fotos 25.jpeg",
+      "output": "public/guides/onemillionminers/steps/25.webp",
+      "sourceSha256": "3ea146baa4ef74b40610bf4bd2a0078f784dac0f910ec23fdbc143a0710ffa60",
+      "sanitized": true
+    },
+    {
+      "step": 26,
+      "source": "fotos 26.jpeg",
+      "output": "public/guides/onemillionminers/steps/26.webp",
+      "sourceSha256": "fa141216f70dc2171ee966d018211513c7142fcbd40a153c735e88eefdd5459d",
+      "sanitized": true
+    }
+  ]
+}

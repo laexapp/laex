@@ -1,0 +1,3 @@
+import type { LucideIcon } from "lucide-react";
+export type GuideStep={id:string;number:number;title:string;instruction:string;explanation:string;media:{kind:"image"|"prototype";src?:string;alt:string};hotspot?:{x:number;y:number;label:string};warning?:string;icon:LucideIcon};
+export type Guide={slug:string;title:string;shortTitle:string;description:string;project:string;difficulty:"Inicial"|"Intermedia"|"Avanzada";estimatedMinutes?:number;requirements:string[];version:string;updatedAt:string;status:"draft"|"verified";href:string;projectHref:string;steps:GuideStep[]};

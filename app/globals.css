@@ -288,3 +288,22 @@ body > :not(script):not(style) {
     animation: none;
   }
 }
+
+@keyframes guide-step-enter { from { opacity: 0; transform: translate3d(18px,0,0); } to { opacity: 1; transform: translate3d(0,0,0); } }
+.guide-step-enter { animation: guide-step-enter 420ms var(--laex-ease-emphasized) both; }
+
+@keyframes guide-signal-arrow {
+  0%, 15% { opacity: 0; transform: translate3d(-8px, 8px, 0); }
+  35%, 70% { opacity: 1; transform: translate3d(2px, -2px, 0); }
+  100% { opacity: 0; transform: translate3d(4px, -4px, 0); }
+}
+@keyframes guide-signal-pulse {
+  0%, 100% { opacity: .4; transform: translate(-50%, -50%) scale(.84); }
+  45% { opacity: 1; transform: translate(-50%, -50%) scale(1.06); }
+}
+.guide-signal-arrow { animation: guide-signal-arrow 2.8s var(--laex-ease-emphasized, ease-in-out) infinite; }
+.guide-signal-pulse { animation: guide-signal-pulse 2.4s var(--laex-ease-standard, ease-in-out) infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .guide-signal-arrow { opacity: 1; transform: translate3d(2px, -2px, 0); }
+  .guide-signal-pulse { opacity: .8; }
+}
