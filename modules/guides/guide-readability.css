@@ -1,0 +1,24 @@
+.guide-readable { overflow-x: clip; }
+.guide-readable .guide-step-layout { height: auto; min-height: calc(100dvh - 4rem); padding-block: 1rem; }
+.guide-readable .guide-step-grid { flex: none; grid-template-rows: auto auto; overflow: visible; gap: 1rem; }
+.guide-readable .guide-instruction { font-size: 1.25rem; line-height: 1.5; }
+.guide-readable .guide-explanation { font-size: 1.125rem; line-height: 1.6; color: #e2e8f0; }
+.guide-readable .guide-warning { font-size: 1rem; line-height: 1.6; }
+.guide-readable .guide-copy-fields { grid-template-columns: 1fr; gap: .75rem; }
+.guide-readable .guide-copy-fields button { min-height: 4rem; padding: .75rem; gap: .75rem; }
+.guide-readable .guide-copy-fields small { font-size: .875rem; color: #cbd5e1; }
+.guide-readable .guide-copy-fields code { max-width: none; white-space: normal; overflow-wrap: anywhere; font-size: 1rem; line-height: 1.5; }
+.guide-readable .guide-copy-fields button > span:last-child { font-size: .75rem; }
+.guide-readable .guide-navigation { margin-top: 1rem; padding-bottom: max(.5rem, env(safe-area-inset-bottom)); }
+.guide-readable .guide-navigation button { min-height: 3.5rem; font-size: .9375rem; letter-spacing: .04em; }
+.guide-readable .guide-capture { height: auto; max-width: 32rem; }
+.guide-readable .guide-capture img { display: block; width: 100%; height: auto; }
+.guide-readable .guide-phone { height: auto; aspect-ratio: 9 / 16; min-height: 32rem; }
+.guide-readable button:focus-visible, .guide-readable a:focus-visible { outline: 3px solid #67e8f9; outline-offset: 4px; }
+@media (min-width: 1024px) {
+  .guide-readable .guide-step-grid { grid-template-rows: none; }
+  .guide-readable .guide-instruction { font-size: 1.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .guide-readable *, .guide-readable *::before, .guide-readable *::after { animation: none !important; transition: none !important; }
+}
