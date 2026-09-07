@@ -74,7 +74,7 @@ export function WalletDemo() {
     <div className="lw-app">
       <header className="lw-header"><button className="lw-brand" onClick={() => go(screen === "welcome" ? "welcome" : "home")} aria-label="Inicio de laexWallet"><Mark/><span>laex<span>Wallet</span></span></button><button className="lw-demo-badge" onClick={() => go("about")} aria-label="Acerca de esta demostración"><i/> DEMO</button></header>
       {screen !== "welcome" && <div className="lw-demo-note"><span/> Saldos de prueba · Sin dinero real</div>}
-      <main className={`lw-content ${showNav ? "lw-with-nav" : ""}`}>
+      <main className={`lw-content lw-screen-${screen} ${showNav ? "lw-with-nav" : ""}`}>
         {back[screen] && <button className="lw-back" onClick={() => go(back[screen]!)}><ArrowLeft size={19}/> {screen === "review" ? "Editar envío" : "Volver"}</button>}
 
         {screen === "welcome" && <section className="lw-welcome">
@@ -102,11 +102,11 @@ export function WalletDemo() {
           <button className="lw-learn-card" onClick={() => go("security")}><span className="lw-learn-icon"><ShieldCheck size={23}/></span><span><b>{prepared ? "Tu seguridad, primero" : "Conoce tu respaldo"}</b><small>Tu frase secreta nunca se comparte.</small></span><ChevronRight size={19}/></button>
           <div className="lw-section-title"><h2>Mis monedas</h2><span>2 activos de prueba</span></div>
           <div className="lw-asset-list">{(["USDT", "BNB"] as Asset[]).map(item => <button key={item} className="lw-asset-row" onClick={() => startSend(item)}><Token asset={item}/><span className="lw-asset-name"><b>{ASSETS[item].name}</b><small>{item} · BNB Chain</small></span><span className="lw-asset-value"><b>{hidden ? "••••" : money(usdAmount(state.balances[item], item))}</b><small>{hidden ? "••••" : amountText(state.balances[item], item)} {item}</small></span><ChevronRight size={16}/></button>)}</div>
-          <div className="lw-section-title"><h2>Últimos movimientos</h2><button onClick={() => go("activity")}>Ver todos</button></div><div className="lw-movements">{state.movements.slice(0, 2).map(movementRow)}</div>
+          <button className="lw-history-link" onClick={() => go("activity")}><History size={18}/><span>Ver mis movimientos</span><ChevronRight size={18}/></button>
         </section>}
 
         {screen === "send" && <section>
-          {heading("Envía con confianza", "Completa los datos. Podrás revisarlos antes de confirmar la simulación.")}
+          {heading("Envía con confianza", "Elige moneda, destinatario y cantidad. Después revisarás el envío.")}
           <form onSubmit={event => { event.preventDefault(); review(); }}>
             <fieldset className="lw-fieldset"><legend>1. Elige tu moneda</legend><div className="lw-asset-picker">{(["USDT", "BNB"] as Asset[]).map(item => <button type="button" key={item} aria-pressed={asset === item} className={asset === item ? "is-selected" : ""} onClick={() => { setAsset(item); setAmount(""); setError(""); }}><Token asset={item}/><span>{item}</span>{asset === item && <Check size={17}/>}</button>)}</div></fieldset>
             <div className="lw-field"><label htmlFor="lw-recipient">2. ¿A quién enviarás?</label><input id="lw-recipient" autoComplete="off" spellCheck={false} value={recipient} onChange={event => { setRecipient(event.target.value); setError(""); }} placeholder="Identificador de prueba" aria-describedby="lw-recipient-hint"/><p id="lw-recipient-hint">Elige un destinatario ficticio para probar:</p><div className="lw-contacts"><button type="button" onClick={() => { setRecipient("LAEX-DEMO-002"); setError(""); }}><span aria-hidden="true">A</span> Ana · Demo {recipient === "LAEX-DEMO-002" && <Check size={15}/>}</button><button type="button" onClick={() => { setRecipient("LAEX-DEMO-003"); setError(""); }}><span aria-hidden="true">L</span> Luis · Demo {recipient === "LAEX-DEMO-003" && <Check size={15}/>}</button></div></div>
