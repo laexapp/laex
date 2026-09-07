@@ -6,7 +6,7 @@
 
 Una aplicación web de demostración con recorridos de bienvenida, respaldo educativo, recuperación ficticia, envío, recepción, historial, intercambio de ejemplo USDT a BNB, alta y eliminación de redes, alta y ocultación de tokens, contactos, preferencias, bloqueo visual, navegador ficticio y conexión/autorización/desconexión Web3.
 
-Todo vive en memoria y se reinicia al recargar. Las redes añadidas no se consultan. Los contratos introducidos se validan por su formato, no por su existencia ni seguridad. No hay claves, firmas, WalletConnect real, cámara, huella, contraseña, precios de mercado ni fondos. OMDBLOCKCHAIN es una entrada de maqueta pendiente de compatibilidad. Los saldos y movimientos utilizables corresponden al escenario BNB Chain; otras redes comienzan sin saldo de ejemplo.
+Todo vive en memoria y se reinicia al recargar. Las redes añadidas no se consultan. Los contratos introducidos se validan por su formato, no por su existencia ni seguridad. No hay claves, firmas, WalletConnect real, cámara, huella, contraseña, precios de mercado ni fondos. OMDBlockchain está preconfigurada con Chain ID 9580; su compatibilidad operativa sigue pendiente. OMD está preconfigurado en BNB Chain con 8 decimales. Ver OMDB-OMD-CONFIGURATION.md. Los saldos y movimientos utilizables corresponden al escenario BNB Chain; otras redes comienzan sin saldo de ejemplo.
 
 Esta entrega permite revisar los recorridos principales del producto. No es una wallet terminada para producción, un APK, una auditoría ni una copia de todas las funciones de Binance o SafePal.
 
