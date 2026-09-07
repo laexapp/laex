@@ -11,7 +11,7 @@ type Screen = "welcome" | "prepare" | "home" | "send" | "review" | "receive" | "
 const money = (value: number) => value.toLocaleString("en-US", { style: "currency", currency: "USD" });
 
 function Mark({ large = false }: { large?: boolean }) {
-  return <span className={`lw-mark ${large ? "lw-mark-large" : ""}`} aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><path d="M11 12v24h25M12 35 34 13M24 13h11v11" stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" /></svg></span>;
+  return <span className={`lw-mark ${large ? "lw-mark-large" : ""}`} aria-hidden="true"><Image src="/wallet-demo/brand/laexwallet-monogram-v1.png" alt="" width={1254} height={1254} sizes={large ? "180px" : "80px"} className="lw-monogram-image" /></span>;
 }
 function Token({ asset }: { asset: Asset }) {
   return <span className={`lw-token lw-token-${asset.toLowerCase()}`} aria-hidden="true">{asset === "USDT" ? <svg viewBox="0 0 32 32" fill="none"><path d="M7 7h18v5h-7v14h-4V12H7z" fill="currentColor"/><ellipse cx="16" cy="16" rx="12" ry="3" stroke="currentColor" strokeWidth="1.8"/></svg> : <svg viewBox="0 0 32 32" fill="currentColor"><path d="m16 3 5 5-5 5-5-5ZM8 11l5 5-5 5-5-5Zm16 0 5 5-5 5-5-5Zm-8 8 5 5-5 5-5-5Zm0-7 4 4-4 4-4-4Z"/></svg>}</span>;
