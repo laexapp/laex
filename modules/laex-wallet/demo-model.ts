@@ -52,3 +52,20 @@ export function simulateReceive(state: DemoState, asset: Asset): DemoState {
   const units = asset === "USDT" ? 25_000_000 : 1_000_000;
   return { balances: { ...state.balances, [asset]: state.balances[asset] + units }, nextId: state.nextId + 1, movements: [{ id: `DEMO-${String(state.nextId).padStart(3, "0")}`, direction: "in", asset, units, counterparty: "Recepción de ejemplo", fee: 0, time: "En esta sesión" }, ...state.movements] };
 }
+
+/** Fixed-rate demo only: 600 USDT per BNB, with integer conversion and one gas charge. */
+export function simulateSwap(state: DemoState, value: string): DemoState {
+  const units = parseUnits(value, "USDT");
+  if (units === null || units > state.balances.USDT) throw new Error("Revisa el importe y tu saldo USDT de prueba.");
+  if (state.balances.BNB < DEMO_FEE) throw new Error("Falta BNB de prueba para la comisión.");
+  const received = Number(BigInt(units) / BigInt(6));
+  if (received === 0) throw new Error("El importe es demasiado pequeño para este ejemplo.");
+  const balances = { USDT: state.balances.USDT - units, BNB: state.balances.BNB - DEMO_FEE + received };
+  if (!Number.isSafeInteger(balances.BNB)) throw new Error("El saldo supera el límite de la demo.");
+  const common = { counterparty: `Intercambio demo ${state.nextId}`, time: "Intercambio de ejemplo" };
+  return { balances, nextId: state.nextId + 2, movements: [
+    { ...common, id: `DEMO-${String(state.nextId+1).padStart(3,"0")}`, direction: "in", asset: "BNB", units: received, fee: 0 },
+    { ...common, id: `DEMO-${String(state.nextId).padStart(3,"0")}`, direction: "out", asset: "USDT", units, fee: DEMO_FEE },
+    ...state.movements,
+  ] };
+}

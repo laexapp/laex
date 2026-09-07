@@ -3,11 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowDownLeft, ArrowLeft, ArrowRight, ArrowUpRight, ArrowLeftRight, Check, CheckCheck, ChevronRight, Copy, Eye, EyeOff, Fingerprint, History, Info, KeyRound, LockKeyhole, Plus, RotateCcw, ShieldCheck, Smartphone, Wallet, X } from "lucide-react";
-import { ASSETS, DEMO_ADDRESS, DEMO_FEE, amountText, initialDemo, inputAmount, maxSend, parseUnits, simulateReceive, simulateSend, usdAmount, validateSend, type Asset, type Movement } from "./demo-model";
+import { ArrowDownLeft, ArrowLeft, ArrowRight, ArrowUpRight, ArrowLeftRight, Check, CheckCheck, ChevronRight, Copy, Eye, EyeOff, Fingerprint, Globe, Settings, History, Info, KeyRound, LockKeyhole, Plus, RotateCcw, ShieldCheck, Smartphone, Wallet, X } from "lucide-react";
+import { ASSETS, DEMO_ADDRESS, DEMO_FEE, amountText, initialDemo, inputAmount, maxSend, parseUnits, simulateReceive, simulateSend, simulateSwap, usdAmount, validateSend, type Asset, type Movement } from "./demo-model";
+import { WalletExtensions, useWalletExtras, type ExtraScreen } from "./WalletExtensions";
 import "./wallet-demo.css";
 
-type Screen = "welcome" | "prepare" | "home" | "send" | "review" | "receive" | "success" | "activity" | "security" | "backup" | "future" | "details" | "about";
+type Screen = ExtraScreen | "welcome" | "prepare" | "home" | "send" | "review" | "receive" | "success" | "activity" | "security" | "backup" | "future" | "details" | "about";
 const money = (value: number) => value.toLocaleString("en-US", { style: "currency", currency: "USD" });
 
 function Mark({ large = false }: { large?: boolean }) {
@@ -18,6 +19,9 @@ function Token({ asset }: { asset: Asset }) {
 }
 
 export function WalletDemo() {
+  const extras = useWalletExtras();
+  const network = extras.networks.find(item => item.id === extras.network)!;
+  const extraScreens: string[] = ["networks", "add-network", "tokens", "add-token", "token-detail", "swap", "web3", "browser", "connect", "permission", "settings", "contacts", "restore", "lock"];
   const [screen, setScreen] = useState<Screen>("welcome");
   const [state, setState] = useState(initialDemo);
   const [asset, setAsset] = useState<Asset>("USDT");
@@ -37,12 +41,12 @@ export function WalletDemo() {
   const cancelReset = useRef<HTMLButtonElement>(null);
   const total = usdAmount(state.balances.USDT, "USDT") + usdAmount(state.balances.BNB, "BNB");
 
-  useEffect(() => { window.scrollTo({ top: 0, behavior: "instant" }); if (screen !== "welcome") title.current?.focus({ preventScroll: true }); }, [screen]);
+  useEffect(() => { window.scrollTo({ top: 0, behavior: "instant" }); if (screen !== "welcome") (document.querySelector("main h1") as HTMLElement | null)?.focus({ preventScroll: true }); }, [screen]);
   useEffect(() => { if (!toast) return; const timer = window.setTimeout(() => setToast(""), 3000); return () => window.clearTimeout(timer); }, [toast]);
   useEffect(() => { if (resetOpen) cancelReset.current?.focus(); }, [resetOpen]);
 
   function go(next: Screen) { setError(""); setToast(""); setScreen(next); }
-  function startSend(nextAsset = asset) { sending.current = false; setAsset(nextAsset); setAmount(""); setRecipient(""); go("send"); }
+  function startSend(nextAsset = asset) { extras.setNetwork("56"); sending.current = false; setAsset(nextAsset); setAmount(""); setRecipient(""); go("send"); }
   async function copyAddress() {
     try { await navigator.clipboard.writeText(DEMO_ADDRESS); setToast("Identificador de prueba copiado"); }
     catch { setToast("No se pudo copiar. Mantén pulsado el identificador para copiarlo."); }
@@ -56,9 +60,9 @@ export function WalletDemo() {
   }
   function receiveDemo() { const next = simulateReceive(state, asset); setState(next); setSelected(next.movements[0]); go("success"); }
   function closeReset() { setResetOpen(false); resetButton.current?.focus(); }
-  function reset() { setState(initialDemo()); setPrepared(false); setChecked(false); setHidden(false); setSelected(null); setFilter("all"); setResetOpen(false); setAsset("USDT"); setAmount(""); setRecipient(""); sending.current = false; go("welcome"); }
+  function reset() { extras.reset(); setState(initialDemo()); setPrepared(false); setChecked(false); setHidden(false); setSelected(null); setFilter("all"); setResetOpen(false); setAsset("USDT"); setAmount(""); setRecipient(""); sending.current = false; go("welcome"); }
   const heading = (text: string, subtitle?: string) => <div className="lw-heading"><h1 ref={title} tabIndex={-1}>{text}</h1>{subtitle && <p>{subtitle}</p>}</div>;
-  const showNav = !["welcome", "prepare", "send", "review", "success", "backup", "details"].includes(screen);
+  const showNav = !["welcome", "prepare", "send", "review", "success", "backup", "details", "add-network", "add-token", "connect", "permission", "restore", "lock"].includes(screen);
   const back: Partial<Record<Screen, Screen>> = { prepare: "welcome", send: "home", review: "send", receive: "home", success: "home", backup: "security", future: "home", details: "activity", about: "home" };
 
   function movementRow(movement: Movement) {
@@ -75,6 +79,7 @@ export function WalletDemo() {
       <header className="lw-header"><button className="lw-brand" onClick={() => go(screen === "welcome" ? "welcome" : "home")} aria-label="Inicio de laexWallet"><Mark/><span>laex<span>Wallet</span></span></button><button className="lw-demo-badge" onClick={() => go("about")} aria-label="Acerca de esta demostración"><i/> DEMO</button></header>
       {screen !== "welcome" && <div className="lw-demo-note"><span/> Saldos de prueba · Sin dinero real</div>}
       <main className={`lw-content lw-screen-${screen} ${showNav ? "lw-with-nav" : ""}`}>
+        {extraScreens.includes(screen) && <WalletExtensions screen={screen as ExtraScreen} go={go} extras={extras} available={inputAmount(state.balances.USDT,"USDT")} balanceBNB={inputAmount(state.balances.BNB,"BNB")} swap={value=>{try { setState(simulateSwap(state,value)); return null; } catch (cause) { return cause instanceof Error ? cause.message : "No se pudo simular el intercambio."; }}}/>}
         {back[screen] && <button className="lw-back" onClick={() => go(back[screen]!)}><ArrowLeft size={19}/> {screen === "review" ? "Editar envío" : "Volver"}</button>}
 
         {screen === "welcome" && <section className="lw-welcome">
@@ -84,7 +89,7 @@ export function WalletDemo() {
           <p className="lw-welcome-copy">Envía, recibe y entiende cada movimiento. Tu próxima wallet empieza aquí.</p>
           <button className="lw-primary" onClick={() => go("prepare")}>Crear wallet demo <ArrowRight size={21}/></button>
           <button className="lw-text-button" onClick={() => go("home")}>Explorar con saldo de prueba <ChevronRight size={17}/></button>
-          <div className="lw-welcome-disclosure"><Info size={18}/><p>Demostración interactiva. No crea claves ni mueve criptomonedas reales.</p></div>
+          <button className="lw-text-button" onClick={()=>go("restore")}>Ya tengo una wallet <KeyRound size={17}/></button><div className="lw-welcome-disclosure"><Info size={18}/><p>Demostración interactiva. No crea claves ni mueve criptomonedas reales.</p></div>
         </section>}
 
         {screen === "prepare" && <section>
@@ -96,12 +101,14 @@ export function WalletDemo() {
         </section>}
 
         {screen === "home" && <section>
-          <div className="lw-wallet-label"><span><span className="lw-avatar">L</span> Mi wallet</span><button onClick={() => go("about")} className="lw-network"><i/> BNB Chain <ChevronRight size={13}/></button></div>
-          <div className="lw-balance-card"><div className="lw-balance-title"><span>Balance de prueba</span><button className="lw-icon-button" onClick={() => setHidden(!hidden)} aria-label={hidden ? "Mostrar saldo" : "Ocultar saldo"}>{hidden ? <EyeOff size={20}/> : <Eye size={20}/>}</button></div><h1 ref={title} tabIndex={-1} className="lw-balance">{hidden ? "••••••" : money(total)}<span>USD</span></h1><p>Valores ilustrativos, no cotizaciones actuales.</p><div className="lw-balance-bottom"><span><ShieldCheck size={16}/> Mi espacio personal</span><span className="lw-mini-mark">↗</span></div></div>
-          <div className="lw-actions"><button onClick={() => startSend()}><span className="lw-action-main"><ArrowUpRight/></span>Enviar</button><button onClick={() => go("receive")}><span><ArrowDownLeft/></span>Recibir</button><button onClick={() => go("future")}><span><ArrowLeftRight/></span>Cambiar<small>Próximamente</small></button></div>
+          <div className="lw-wallet-label"><span><span className="lw-avatar">L</span> {extras.walletName || "Mi wallet"}</span><button onClick={() => go("networks")} className="lw-network"><i/> {network.name} <ChevronRight size={13}/></button></div>
+          <div className="lw-balance-card"><div className="lw-balance-title"><span>Balance de prueba</span><button className="lw-icon-button" onClick={() => setHidden(!hidden)} aria-label={hidden ? "Mostrar saldo" : "Ocultar saldo"}>{hidden ? <EyeOff size={20}/> : <Eye size={20}/>}</button></div><h1 ref={title} tabIndex={-1} className="lw-balance">{hidden ? "••••••" : money(extras.network === "56" ? total : 0)}<span>USD</span></h1><p>Valores ilustrativos, no cotizaciones actuales.</p><div className="lw-balance-bottom"><span><ShieldCheck size={16}/> Mi espacio personal</span><span className="lw-mini-mark">↗</span></div></div>
+          <div className="lw-actions"><button onClick={() => startSend()}><span className="lw-action-main"><ArrowUpRight/></span>Enviar</button><button onClick={() => { extras.setNetwork("56"); go("receive"); }}><span><ArrowDownLeft/></span>Recibir</button><button onClick={() => go("swap")}><span><ArrowLeftRight/></span>Cambiar<small>Demo</small></button></div>
           <button className="lw-learn-card" onClick={() => go("security")}><span className="lw-learn-icon"><ShieldCheck size={23}/></span><span><b>{prepared ? "Tu seguridad, primero" : "Conoce tu respaldo"}</b><small>Tu frase secreta nunca se comparte.</small></span><ChevronRight size={19}/></button>
-          <div className="lw-section-title"><h2>Mis monedas</h2><span>2 activos de prueba</span></div>
-          <div className="lw-asset-list">{(["USDT", "BNB"] as Asset[]).map(item => <button key={item} className="lw-asset-row" onClick={() => startSend(item)}><Token asset={item}/><span className="lw-asset-name"><b>{ASSETS[item].name}</b><small>{item} · BNB Chain</small></span><span className="lw-asset-value"><b>{hidden ? "••••" : money(usdAmount(state.balances[item], item))}</b><small>{hidden ? "••••" : amountText(state.balances[item], item)} {item}</small></span><ChevronRight size={16}/></button>)}</div>
+          <div className="lw-section-title"><h2>Mis monedas</h2><button onClick={() => go("tokens")}><Plus size={14}/> Añadir / gestionar</button></div>
+          <div className="lw-asset-list">{(extras.network === "56" ? ["USDT", "BNB"] as Asset[] : []).map(item => <button key={item} className="lw-asset-row" onClick={() => startSend(item)}><Token asset={item}/><span className="lw-asset-name"><b>{ASSETS[item].name}</b><small>{item} · BNB Chain</small></span><span className="lw-asset-value"><b>{hidden ? "••••" : money(usdAmount(state.balances[item], item))}</b><small>{hidden ? "••••" : amountText(state.balances[item], item)} {item}</small></span><ChevronRight size={16}/></button>)}</div>
+          {extras.network !== "56" && <p className="lw-footnote">Sin saldo de ejemplo en {network.name}. Enviar, recibir e intercambiar usan el escenario BNB Chain.</p>}
+          {extras.tokens.filter(t=>t.network===extras.network).map(t=><button className="lw-menu-row" key={t.address} onClick={()=>go("tokens")}><div><b>{t.symbol}</b><small>{t.name} · Datos manuales</small></div><span>0</span></button>)}
           <button className="lw-history-link" onClick={() => go("activity")}><History size={18}/><span>Ver mis movimientos</span><ChevronRight size={18}/></button>
         </section>}
 
@@ -109,7 +116,7 @@ export function WalletDemo() {
           {heading("Envía con confianza", "Elige moneda, destinatario y cantidad. Después revisarás el envío.")}
           <form onSubmit={event => { event.preventDefault(); review(); }}>
             <fieldset className="lw-fieldset"><legend>1. Elige tu moneda</legend><div className="lw-asset-picker">{(["USDT", "BNB"] as Asset[]).map(item => <button type="button" key={item} aria-pressed={asset === item} className={asset === item ? "is-selected" : ""} onClick={() => { setAsset(item); setAmount(""); setError(""); }}><Token asset={item}/><span>{item}</span>{asset === item && <Check size={17}/>}</button>)}</div></fieldset>
-            <div className="lw-field"><label htmlFor="lw-recipient">2. ¿A quién enviarás?</label><input id="lw-recipient" autoComplete="off" spellCheck={false} value={recipient} onChange={event => { setRecipient(event.target.value); setError(""); }} placeholder="Identificador de prueba" aria-describedby="lw-recipient-hint"/><p id="lw-recipient-hint">Elige un destinatario ficticio para probar:</p><div className="lw-contacts"><button type="button" onClick={() => { setRecipient("LAEX-DEMO-002"); setError(""); }}><span aria-hidden="true">A</span> Ana · Demo {recipient === "LAEX-DEMO-002" && <Check size={15}/>}</button><button type="button" onClick={() => { setRecipient("LAEX-DEMO-003"); setError(""); }}><span aria-hidden="true">L</span> Luis · Demo {recipient === "LAEX-DEMO-003" && <Check size={15}/>}</button></div></div>
+            <div className="lw-field"><label htmlFor="lw-recipient">2. ¿A quién enviarás?</label><input id="lw-recipient" autoComplete="off" spellCheck={false} value={recipient} onChange={event => { setRecipient(event.target.value); setError(""); }} placeholder="Identificador de prueba" aria-describedby="lw-recipient-hint"/><p id="lw-recipient-hint">Elige un destinatario ficticio para probar:</p><div className="lw-contacts">{extras.contacts.map(contact=><button type="button" key={contact.address} onClick={()=>{setRecipient(contact.address);setError("");}}><span aria-hidden="true">{contact.name[0]}</span>{contact.name} · Demo {recipient===contact.address&&<Check size={15}/>}</button>)}</div></div>
             <div className="lw-field"><label htmlFor="lw-amount">3. ¿Cuánto quieres enviar?</label><div className="lw-amount-input"><input id="lw-amount" inputMode="decimal" autoComplete="off" placeholder="0.00" value={amount} onChange={event => { setAmount(event.target.value); setError(""); }} aria-describedby="lw-available"/><span>{asset}</span><button type="button" onClick={() => { setAmount(inputAmount(maxSend(state, asset), asset)); setError(""); }}>Máx.</button></div><p id="lw-available">Disponible: {amountText(maxSend(state, asset), asset)} {asset}</p></div>
             <div className="lw-inline-note"><Info size={19}/><p>Red propuesta: <b>BNB Chain</b>. La comisión del ejemplo es {amountText(DEMO_FEE, "BNB")} BNB.</p></div>
             {error && <p className="lw-error" role="alert">{error}</p>}
@@ -120,7 +127,7 @@ export function WalletDemo() {
         {screen === "review" && <section>
           {heading("Revisa antes de enviar", "Esta es tu oportunidad de comprobar cada detalle.")}
           <div className="lw-review-amount"><Token asset={asset}/><h2>{amountText(parseUnits(amount, asset) || 0, asset)} <span>{asset}</span></h2><p>≈ {money(usdAmount(parseUnits(amount, asset) || 0, asset))} USD de ejemplo</p></div>
-          <dl className="lw-details"><div><dt>Desde</dt><dd>Mi wallet demo</dd></div><div><dt>Para</dt><dd>{recipient}<small>{recipient === "LAEX-DEMO-002" ? "Ana · Destinataria ficticia" : "Luis · Destinatario ficticio"}</small></dd></div><div><dt>Red propuesta</dt><dd>BNB Chain</dd></div><div><dt>Comisión simulada</dt><dd>{amountText(DEMO_FEE, "BNB")} BNB<small>{money(usdAmount(DEMO_FEE, "BNB"))} USD de ejemplo</small></dd></div><div className="lw-total"><dt>Se descontará</dt><dd>{amountText((parseUnits(amount, asset) || 0) + (asset === "BNB" ? DEMO_FEE : 0), asset)} {asset}{asset !== "BNB" && <small>+ {amountText(DEMO_FEE, "BNB")} BNB</small>}</dd></div></dl>
+          <dl className="lw-details"><div><dt>Desde</dt><dd>Mi wallet demo</dd></div><div><dt>Para</dt><dd>{recipient}<small>{`${extras.contacts.find(contact=>contact.address===recipient)?.name || "Contacto"} · Destinatario ficticio`}</small></dd></div><div><dt>Red propuesta</dt><dd>BNB Chain</dd></div><div><dt>Comisión simulada</dt><dd>{amountText(DEMO_FEE, "BNB")} BNB<small>{money(usdAmount(DEMO_FEE, "BNB"))} USD de ejemplo</small></dd></div><div className="lw-total"><dt>Se descontará</dt><dd>{amountText((parseUnits(amount, asset) || 0) + (asset === "BNB" ? DEMO_FEE : 0), asset)} {asset}{asset !== "BNB" && <small>+ {amountText(DEMO_FEE, "BNB")} BNB</small>}</dd></div></dl>
           <div className="lw-inline-note"><ShieldCheck size={20}/><p>En la wallet real, autorizarás el envío desde tu dispositivo. Aquí solo cambia tu saldo de prueba.</p></div>
           {error && <p className="lw-error" role="alert">{error}</p>}
           <button className="lw-primary" onClick={confirmSend}>Confirmar simulación <CheckCheck size={21}/></button>
@@ -146,9 +153,9 @@ export function WalletDemo() {
 
         {screen === "future" && <section className="lw-future"><div className="lw-feature-icon"><ArrowLeftRight size={32}/></div><span className="lw-eyebrow">EL SIGUIENTE PASO</span>{heading("Cambiar monedas, con claridad", "Primero construiremos una buena base para enviar y recibir. Después incorporaremos intercambios.")}<div className="lw-swap-preview" aria-hidden="true"><div><Token asset="USDT"/><span>USDT</span></div><ArrowDownLeft size={27}/><div><Token asset="BNB"/><span>BNB</span></div></div><div className="lw-inline-note"><Info size={20}/><p>Esta función todavía no está disponible. Antes de activarla, revisaremos proveedores, comisiones y seguridad.</p></div><button className="lw-primary" onClick={() => go("home")}>Seguir explorando <ArrowRight size={20}/></button></section>}
 
-        {screen === "about" && <section><div className="lw-feature-icon"><Smartphone size={32}/></div>{heading("Así empieza laexWallet", "Una primera versión para probar la experiencia desde tu celular.")}<div className="lw-roadmap"><div><span className="is-current">01</span><h2>Explorar la experiencia</h2><p>Ahora: saldos, envío y recepción simulados.</p></div><div><span>02</span><h2>Construir la app Android</h2><p>Después: claves en el dispositivo y operaciones en una red de pruebas.</p></div><div><span>03</span><h2>Validar antes de lanzar</h2><p>Auditoría de seguridad y revisión legal antes de operar con fondos reales.</p></div></div><div className="lw-inline-note"><Info size={20}/><p>BNB Chain es la red propuesta de esta maqueta. Los activos, saldos y precios son ilustrativos. Esta página no se conecta a bancos ni a una blockchain.</p></div><Link href="/" className="lw-secondary">Visitar LAEX <ArrowUpRight size={18}/></Link></section>}
+        {screen === "about" && <section><div className="lw-feature-icon"><Smartphone size={32}/></div>{heading("Así empieza laexWallet", "Una demo ampliada para recorrer la experiencia desde tu celular.")}<div className="lw-roadmap"><div><span className="is-current">01</span><h2>Explorar la experiencia</h2><p>Ahora: envío, recepción, intercambio, redes, tokens, conexiones Web3 y ajustes simulados.</p></div><div><span>02</span><h2>Construir la app Android</h2><p>Después: claves en el dispositivo y operaciones en una red de pruebas.</p></div><div><span>03</span><h2>Validar antes de lanzar</h2><p>Auditoría de seguridad y revisión legal antes de operar con fondos reales.</p></div></div><div className="lw-inline-note"><Info size={20}/><p>Los movimientos usan BNB Chain como escenario ficticio. Ethereum y OMDBLOCKCHAIN son configuraciones de maqueta. Los activos, saldos y precios son ilustrativos. Esta página no se conecta a bancos ni a una blockchain.</p></div><Link href="/" className="lw-secondary">Visitar LAEX <ArrowUpRight size={18}/></Link></section>}
       </main>
-      {showNav && <nav className="lw-bottom-nav" aria-label="Navegación de la wallet"><button aria-current={screen === "home" ? "page" : undefined} onClick={() => go("home")}><Wallet size={22}/><span>Mi wallet</span></button><button aria-current={screen === "activity" ? "page" : undefined} onClick={() => go("activity")}><History size={22}/><span>Actividad</span></button><button aria-current={screen === "security" ? "page" : undefined} onClick={() => go("security")}><ShieldCheck size={22}/><span>Seguridad</span></button></nav>}
+      {showNav && <nav className="lw-bottom-nav" aria-label="Navegación de la wallet"><button aria-current={screen === "home" ? "page" : undefined} onClick={() => go("home")}><Wallet size={22}/><span>Mi wallet</span></button><button aria-current={screen === "activity" ? "page" : undefined} onClick={() => go("activity")}><History size={22}/><span>Actividad</span></button><button aria-current={["web3","browser","connect","permission"].includes(screen) ? "page" : undefined} onClick={()=>go("web3")}><Globe size={22}/><span>Web3</span></button><button aria-current={screen === "settings" ? "page" : undefined} onClick={()=>go("settings")}><Settings size={22}/><span>Ajustes</span></button><button aria-current={screen === "security" ? "page" : undefined} onClick={() => go("security")}><ShieldCheck size={22}/><span>Seguridad</span></button></nav>}
       {toast && <div className="lw-toast" role="status"><Check size={18}/>{toast}</div>}
       {resetOpen && <div className="lw-modal-scrim" onKeyDown={event => { if (event.key === "Escape") closeReset(); if (event.key === "Tab") { const buttons = event.currentTarget.querySelectorAll("button"); const first = buttons[0]; const last = buttons[buttons.length - 1]; if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); } else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); } } }}><section className="lw-modal" role="dialog" aria-modal="true" aria-labelledby="lw-reset-title"><button className="lw-icon-button lw-modal-close" aria-label="Cerrar" onClick={closeReset}><X/></button><RotateCcw size={30}/><h2 id="lw-reset-title">¿Volvemos a empezar?</h2><p>Se borrarán los movimientos de esta demo y volverán los saldos de ejemplo.</p><button className="lw-primary" onClick={reset}>Sí, reiniciar demo</button><button className="lw-secondary" ref={cancelReset} onClick={closeReset}>Seguir explorando</button></section></div>}
     </div>

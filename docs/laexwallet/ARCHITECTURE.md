@@ -1,3 +1,5 @@
+> Actualización del 7 de septiembre: recorridos ampliados y límites vigentes en [BLOCKCHAIN-CONNECTION.md](./BLOCKCHAIN-CONNECTION.md). La descripción inicial de esta página corresponde al primer prototipo.
+
 # laexWallet — arquitectura inicial
 
 Estado: demostración de producto, 5 de septiembre de 2026.

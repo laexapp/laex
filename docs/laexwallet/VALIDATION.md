@@ -11,3 +11,13 @@ Fecha: 5 de septiembre de 2026.
 - Las pantallas se revisaron visualmente. Evidencia local: `tmp/laexwallet-qa/`.
 
 Limitaciones: emulación de tamaños de pantalla en navegador; no equivale a pruebas de un APK en dispositivos Android físicos. No hay criptografía ni transacciones reales que auditar en esta entrega.
+
+## Ampliación del 7 de septiembre de 2026
+
+- Ocho pruebas unitarias: seis originales más conversión exacta del intercambio, gas único, historial vinculado, falta de gas, sobregiro y cantidades inferiores a la precisión de salida.
+- Compilación de producción y TypeScript completados en copia aislada.
+- Recorridos originales repetidos en 320, 390, 430, 768 y 1440 píxeles.
+- Nuevos recorridos comprobados en 320, 390, 430 y 1440 píxeles: alta/ocultación de token, contrato inválido, alta/borrado de red, rechazo de RPC HTTP, selección y saldo separado, intercambio con actualización de saldos e historial, conexión rechazada/aceptada, permiso limitado, desconexión, contactos usados en envío, nombre de wallet, bloqueo visual, recuperación ficticia y reinicio.
+- Sin solicitudes de red fuera del origen, sin errores JavaScript ni desbordamiento horizontal en los recorridos comprobados. No se escribió localStorage ni se solicitó una frase real.
+- Capturas revisadas: inicio, redes, alta de token, contrato Web3, conexión e intercambio. Archivos locales `tmp/laexwallet-qa/expanded-*.png`.
+- Las limitaciones de emulación y ausencia de criptografía siguen vigentes. Alcance y próximos requisitos en `BLOCKCHAIN-CONNECTION.md`.
