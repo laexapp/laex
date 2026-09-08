@@ -64,11 +64,22 @@ public class WalletLayoutTest {
     @Test @Config(qualifiers="w360dp-h800dp-mdpi") public void narrowScreenAndWelcomeRender()throws Exception{
         MainActivity app=fixture();route(app,"home");View root=root(app);measure(root,360,728);image(root,"home-360");
         set(app,"unlocked",false);route(app,"locked");measure(root,360,728);image(root,"welcome-360");
-        assertNotNull(text(root,"Crear mi wallet de prueba"));
+        assertNotNull(text(root,"Crear mi wallet  →"));
     }
     @Test public void enlargedTextKeepsActionsInScrollableContent()throws Exception{
         RuntimeEnvironment.setFontScale(1.3f);MainActivity app=fixture();route(app,"home");View root=root(app);measure(root,393,780);image(root,"home-large-text");
         assertNotNull(text(root,"Enviar"));assertNotNull(text(root,"Recibir"));assertNotNull(text(root,"Seguridad"));
         route(app,"receive");measure(root,393,780);image(root,"receive-large-text");assertNotNull(text(root,"Copiar mi dirección"));
+    }
+    @Test public void existingAccountKeepsUnlockActionsInOriginWelcome()throws Exception{
+        MainActivity app=fixture();
+        File vault=new File(app.getNoBackupFilesDir(),"wallet-testnet.vault");
+        // Existence-only UI fixture; not a key, phrase, or usable encrypted wallet.
+        try(FileOutputStream output=new FileOutputStream(vault)){output.write("{}".getBytes(java.nio.charset.StandardCharsets.UTF_8));}
+        try{
+            set(app,"unlocked",false);route(app,"locked");View root=root(app);measure(root,393,780);image(root,"welcome-existing-393");
+            assertNotNull(text(root,"Entrar a mi wallet  →"));assertNotNull(text(root,"Usar PIN del teléfono"));
+            assertNull(text(root,"Crear mi wallet  →"));
+        }finally{assertTrue(vault.delete());}
     }
 }

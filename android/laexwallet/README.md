@@ -80,3 +80,17 @@ and enlarged fonts, checks the home fits at 393dp, FLAG_SECURE, address copying,
 and returning home from receive. Screenshots are in app/build/reports/wallet-ui.
 These renders approximate Android; Samsung font/display settings can differ.
 Test dependencies and public fixture values are not part of production app flows.
+
+
+## 0.1.4-testnet / versionCode 5 — Origen
+
+Implements the owner's selected Origen concept: ribbon/pearl welcome illustration,
+deep forest background, white-on-green contour balance card, full action tiles,
+asset row and backup card. UI adapts to existing-account unlock instead of offering
+account creation. The hero is a packaged image; all text and actions are native.
+Existing vault and signing code are unchanged. Source/prompt notes are in
+docs/laexwallet/design-concepts/ORIGEN-IMPLEMENTATION.md.
+
+Validation: 29 JVM/native-layout tests, Android build and lint; previews at
+360/393dp and 1.3 font scale. Includes an existing-account welcome check. No new
+physical-device or mainnet transaction claims are made by this presentation update.

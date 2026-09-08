@@ -41,9 +41,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public final class MainActivity extends Activity {
-    private final int bg=Color.rgb(11,17,23),surface=Color.rgb(21,35,29),mint=Color.rgb(142,228,189),text=Color.rgb(239,247,243),muted=Color.rgb(181,204,191);
+    private final int bg=Color.rgb(5,13,10),surface=Color.rgb(17,27,21),mint=Color.rgb(142,228,189),text=Color.rgb(239,247,243),muted=Color.rgb(181,204,191);
     private LinearLayout root,body;
-    private Bitmap brandBitmap;
+    private Bitmap brandBitmap,originBitmap;
     private LocalVault vault;
     private SharedPreferences prefs;
     private final TestnetRpc rpc=new TestnetRpc();
@@ -63,7 +63,7 @@ public final class MainActivity extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         vault=new LocalVault(this);prefs=getSharedPreferences("testnet-public-data",MODE_PRIVATE);
         address=prefs.getString("address","");
-        root=new LinearLayout(this);root.setOrientation(LinearLayout.VERTICAL);root.setBackground(new GradientDrawable(GradientDrawable.Orientation.TL_BR,new int[]{Color.rgb(10,27,24),bg,bg}));
+        root=new LinearLayout(this);root.setOrientation(LinearLayout.VERTICAL);root.setBackground(new GradientDrawable(GradientDrawable.Orientation.TL_BR,new int[]{Color.rgb(13,26,19),bg,bg}));
         root.setOnApplyWindowInsetsListener((v,insets)->{android.graphics.Insets bars=insets.getInsets(android.view.WindowInsets.Type.systemBars()|android.view.WindowInsets.Type.ime());v.setPadding(bars.left,bars.top,bars.right,bars.bottom);return insets;});
         setContentView(root);locked();
     }
@@ -77,7 +77,7 @@ public final class MainActivity extends Activity {
     @Override public void onDestroy(){authentication.clear();if(authenticationSignal!=null)authenticationSignal.cancel();worker.shutdownNow();wipeImport();super.onDestroy();}
     @Override public void onBackPressed(){if(unlocked){draft=null;backupPhrase="";home();}else super.onBackPressed();}
     private int dp(int value){return Math.round(value*getResources().getDisplayMetrics().density);}
-    private GradientDrawable box(int color){GradientDrawable d=new GradientDrawable();d.setColor(color);d.setCornerRadius(dp(20));d.setStroke(dp(1),Color.rgb(43,65,58));return d;}
+    private GradientDrawable box(int color){GradientDrawable d=new GradientDrawable();d.setColor(color);d.setCornerRadius(dp(16));d.setStroke(dp(1),Color.rgb(65,76,60));return d;}
     private TextView label(String value,int size,int color){TextView t=new TextView(this);t.setText(value);t.setTextColor(color);t.setTextSize(size);t.setLineSpacing(dp(3),1);t.setPadding(0,dp(5),0,dp(5));t.setFontFeatureSettings("kern");return t;}
     private void screen(String title,String subtitle){
         root.removeAllViews();
@@ -85,9 +85,9 @@ public final class MainActivity extends Activity {
         header.addView(new LogoView(),new LinearLayout.LayoutParams(dp(34),dp(34)));
         TextView brand=label("  laexWallet",23,text);
         android.text.SpannableString wordmark=new android.text.SpannableString("  laexWallet");
-        wordmark.setSpan(new android.text.style.ForegroundColorSpan(mint),6,wordmark.length(),0);brand.setText(wordmark);
+        brand.setText(wordmark);
         brand.setTypeface(Typeface.create("sans-serif-medium",Typeface.NORMAL));header.addView(brand,new LinearLayout.LayoutParams(0,-2,1));
-        TextView tag=label("PRUEBAS",10,mint);tag.setLetterSpacing(.10f);tag.setPadding(dp(10),dp(7),dp(10),dp(7));tag.setBackground(box(surface));header.addView(tag);root.addView(header);
+        TextView tag=label("PRUEBAS",10,mint);tag.setLetterSpacing(.10f);tag.setPadding(dp(10),dp(7),dp(10),dp(7));tag.setBackground(box(0xff303621));header.addView(tag);if(unlocked&&!busy){Glyph settings=new Glyph("gear",text);LinearLayout.LayoutParams settingsSize=new LinearLayout.LayoutParams(dp(40),dp(44));settingsSize.leftMargin=dp(6);settings.setPadding(dp(8),dp(10),dp(8),dp(10));header.addView(settings,settingsSize);clickable(settings,"Abrir seguridad",this::security);}root.addView(header);
         TextView banner=label("●  BNB testnet · Sin dinero real",12,muted);banner.setGravity(Gravity.CENTER);root.addView(banner);
         ScrollView scroll=new ScrollView(this);scroll.setFillViewport(true);scroll.setVerticalScrollBarEnabled(false);root.addView(scroll,new LinearLayout.LayoutParams(-1,0,1));
         body=new LinearLayout(this);body.setOrientation(LinearLayout.VERTICAL);body.setPadding(dp(20),dp(12),dp(20),dp(16));scroll.addView(body);
@@ -96,7 +96,7 @@ public final class MainActivity extends Activity {
         if(unlocked&&!busy&&!title.isEmpty())navigation(title);
     }
     private void navigation(String title){
-        LinearLayout nav=new LinearLayout(this);nav.setGravity(Gravity.CENTER);nav.setPadding(dp(12),dp(6),dp(12),dp(5));nav.setBackgroundColor(Color.rgb(12,23,22));
+        LinearLayout nav=new LinearLayout(this);nav.setGravity(Gravity.CENTER);nav.setPadding(dp(12),dp(6),dp(12),dp(5));nav.setBackgroundColor(Color.rgb(8,19,14));
         navItem(nav,"Inicio","wallet",title.equals("Mi wallet"),this::home);
         navItem(nav,"Actividad","activity",title.startsWith("Actividad"),this::history);
         navItem(nav,"Seguridad","shield",title.startsWith("Tu seguridad"),this::security);
@@ -113,11 +113,10 @@ public final class MainActivity extends Activity {
         view.setAccessibilityDelegate(new View.AccessibilityDelegate(){@Override public void onInitializeAccessibilityNodeInfo(View host,android.view.accessibility.AccessibilityNodeInfo info){super.onInitializeAccessibilityNodeInfo(host,info);info.setClassName("android.widget.Button");}});
     }
     private void actionItem(LinearLayout row,String title,String icon,boolean primary,Runnable action){
-        LinearLayout item=new LinearLayout(this);item.setOrientation(LinearLayout.VERTICAL);item.setGravity(Gravity.CENTER);item.setMinimumHeight(dp(86));
-        android.widget.FrameLayout tile=new android.widget.FrameLayout(this);tile.setBackground(box(primary?mint:surface));
-        android.widget.FrameLayout.LayoutParams glyphSize=new android.widget.FrameLayout.LayoutParams(dp(25),dp(25),Gravity.CENTER);tile.addView(new Glyph(icon,primary?bg:mint),glyphSize);
-        item.addView(tile,new LinearLayout.LayoutParams(dp(52),dp(52)));TextView name=label(title,14,text);name.setGravity(Gravity.CENTER);item.addView(name);
-        row.addView(item,new LinearLayout.LayoutParams(0,-2,1));clickable(item,title,action);
+        LinearLayout item=new LinearLayout(this);item.setOrientation(LinearLayout.VERTICAL);item.setGravity(Gravity.CENTER);item.setPadding(dp(4),dp(16),dp(4),dp(9));item.setMinimumHeight(dp(100));item.setBackground(box(primary?mint:surface));
+        item.addView(new Glyph(icon,primary?bg:text),new LinearLayout.LayoutParams(dp(30),dp(30)));
+        TextView name=label(title,15,primary?bg:text);name.setGravity(Gravity.CENTER);item.addView(name);
+        LinearLayout.LayoutParams size=new LinearLayout.LayoutParams(0,-2,1);size.setMargins(dp(3),0,dp(3),0);row.addView(item,size);clickable(item,title,action);
     }
     private void space(int size){body.addView(new View(this),new LinearLayout.LayoutParams(1,dp(size)));}
     private void note(String value){TextView t=label(value,15,muted);t.setBackground(box(surface));t.setPadding(dp(14),dp(10),dp(14),dp(10));LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(-1,-2);lp.setMargins(0,dp(10),0,dp(6));body.addView(t,lp);}
@@ -176,16 +175,18 @@ public final class MainActivity extends Activity {
         });
     }
     private void locked(){
-        screen("","");
-        body.addView(new OrbitArt(),new LinearLayout.LayoutParams(-1,dp(154)));
-        TextView eyebrow=label("HECHA PARA TI",11,mint);eyebrow.setLetterSpacing(.22f);eyebrow.setGravity(Gravity.CENTER);body.addView(eyebrow);
-        TextView title=label(vault.exists()?"Tu mundo.\nBajo tu control.":"Tu próxima wallet.\nTu propio camino.",34,text);title.setGravity(Gravity.CENTER);title.setTypeface(Typeface.create("sans-serif-medium",Typeface.NORMAL));title.setLetterSpacing(-.04f);body.addView(title);
-        TextView copy=label(vault.exists()?"Tus claves se protegen en este teléfono. Entra con tu huella o tu PIN.":"Una forma sencilla de empezar. Crea tu cuenta y aprende con monedas de prueba.",16,muted);copy.setGravity(Gravity.CENTER);body.addView(copy);space(6);
+        screen("","");root.getChildAt(0).setVisibility(View.GONE);root.getChildAt(1).setVisibility(View.GONE);
+        LinearLayout.LayoutParams markSize=new LinearLayout.LayoutParams(dp(49),dp(49));markSize.gravity=Gravity.CENTER;body.addView(new LogoView(),markSize);
+        TextView brand=label("laexWallet",27,text);brand.setTypeface(Typeface.create("sans-serif-medium",Typeface.NORMAL));brand.setGravity(Gravity.CENTER);body.addView(brand);
+        int artHeight=Math.max(175,Math.min(260,getResources().getConfiguration().screenHeightDp-510));
+        body.addView(new OriginArt(),new LinearLayout.LayoutParams(-1,dp(artHeight)));
+        TextView title=label("Tu mundo.\nBajo tu control.",31,text);title.setGravity(Gravity.CENTER);title.setTypeface(Typeface.create("sans-serif-medium",Typeface.NORMAL));title.setLetterSpacing(-.025f);body.addView(title);
+        TextView copy=label("Una wallet sencilla,\nhecha para acompañarte.",17,muted);copy.setGravity(Gravity.CENTER);body.addView(copy);space(8);
         if(vault.exists()){
-            button("Entrar con huella o PIN",()->authorize(this::unlock),true);
-            button("Usar solo PIN del teléfono",()->authorize(this::unlock,true),false);
-        }else {button("Crear mi wallet de prueba",()->authorize(this::create),true);button("Ya tengo un respaldo de prueba",()->authorize(this::restore),false);}
-        note("Solo BNB testnet. Sin dinero real. OMDB, OMD, intercambios y Web3 todavía no están habilitados en esta app.");
+            button("Entrar a mi wallet  →",()->authorize(this::unlock),true);
+            button("Usar PIN del teléfono",()->authorize(this::unlock,true),false);
+        }else {button("Crear mi wallet  →",()->authorize(this::create),true);button("Ya tengo una wallet de prueba",()->authorize(this::restore),false);}
+        TextView testnet=label("PRUEBAS · BNB testnet · Sin dinero real",12,mint);testnet.setGravity(Gravity.CENTER);body.addView(testnet);
     }
     private void unlock(){task("Abriendo tu wallet",()->{byte[] entropy=vault.read();try{return WalletCore.address(entropy);}finally{Arrays.fill(entropy,(byte)0);}},value->{address=value;prefs.edit().putString("address",address).commit();home();});}
     private void create(){task("Creando tu cuenta",()->{byte[] entropy=WalletCore.newEntropy();try{String value=WalletCore.address(entropy);vault.save(entropy);return value;}finally{Arrays.fill(entropy,(byte)0);}},value->{address=value;prefs.edit().putString("address",value).putBoolean("backup",false).commit();showBackup();});}
@@ -214,21 +215,21 @@ public final class MainActivity extends Activity {
     private void refreshBalance(){task("Actualizando saldo",()->rpc.balance(address),value->{balance=value;home();});}
     private void startSend(){if(!prefs.getBoolean("backup",false)){failure("Primero anota y verifica tu respaldo.");return;}if(!prefs.getString("pending","").isEmpty()){history();return;}send();}
     private void home(){
-        if(!unlocked){locked();return;}backupPhrase="";screen("Mi wallet","");space(8);
-        LinearLayout card=new LinearLayout(this);card.setOrientation(LinearLayout.VERTICAL);card.setBackground(new BalanceSurface());card.setPadding(dp(20),dp(15),dp(20),dp(13));
-        card.addView(label("TU SALDO EN LA RED",11,Color.rgb(42,79,63)));
-        TextView value=label(balance==null?"—":WalletCore.format(balance),42,Color.rgb(14,47,35));value.setTypeface(Typeface.create("sans-serif-medium",Typeface.NORMAL));value.setLetterSpacing(-.04f);value.setMaxLines(2);value.setAutoSizeTextTypeUniformWithConfiguration(22,42,1,android.util.TypedValue.COMPLEX_UNIT_SP);card.addView(value,new LinearLayout.LayoutParams(-1,dp(64)));
-        card.addView(label(balance==null?"tBNB · Toca Actualizar para consultar":"tBNB · Monedas sin valor económico",13,Color.rgb(42,79,63)));
-        View line=new View(this);line.setBackgroundColor(0x3340634e);LinearLayout.LayoutParams lineSize=new LinearLayout.LayoutParams(-1,dp(1));lineSize.setMargins(0,dp(9),0,dp(5));card.addView(line,lineSize);
-        card.addView(label("BNB Smart Chain     /     TESTNET 97",12,Color.rgb(24,64,47)));body.addView(card);space(14);
+        if(!unlocked){locked();return;}backupPhrase="";screen("Mi wallet","");body.removeAllViews();
+        LinearLayout card=new LinearLayout(this);card.setOrientation(LinearLayout.VERTICAL);card.setBackground(new BalanceSurface());card.setPadding(dp(20),dp(14),dp(20),dp(11));
+        card.addView(label("Mi wallet",19,text));
+        TextView value=label(balance==null?"— tBNB":WalletCore.format(balance)+" tBNB",40,text);value.setTypeface(Typeface.create("sans-serif-medium",Typeface.NORMAL));value.setLetterSpacing(-.035f);value.setMaxLines(2);value.setAutoSizeTextTypeUniformWithConfiguration(22,40,1,android.util.TypedValue.COMPLEX_UNIT_SP);card.addView(value,new LinearLayout.LayoutParams(-1,dp(62)));
+        card.addView(label(balance==null?"Toca Actualizar para consultar":"Monedas de prueba · Sin dinero real",14,0xffe0ebda));
+        View line=new View(this);line.setBackgroundColor(0x40799570);LinearLayout.LayoutParams lineSize=new LinearLayout.LayoutParams(-1,dp(1));lineSize.setMargins(0,dp(10),0,dp(4));card.addView(line,lineSize);
+        LinearLayout network=new LinearLayout(this);network.setGravity(Gravity.CENTER_VERTICAL);network.addView(new Glyph("coin",0xffe6ca71),new LinearLayout.LayoutParams(dp(27),dp(27)));TextView networkName=label("  BNB testnet",14,text);network.addView(networkName);card.addView(network);body.addView(card);space(16);
         LinearLayout actions=new LinearLayout(this);actionItem(actions,"Enviar","send",false,this::startSend);actionItem(actions,"Recibir","receive",true,this::receive);actionItem(actions,"Actualizar","refresh",false,this::refreshBalance);body.addView(actions);
-        if(!prefs.getBoolean("backup",false))button("Completar mi respaldo  →",()->authorize(this::showBackup),true);
-        space(12);TextView section=label("Mis monedas",18,text);section.setTypeface(Typeface.create("sans-serif-medium",Typeface.NORMAL));body.addView(section);
-        LinearLayout asset=new LinearLayout(this);asset.setGravity(Gravity.CENTER_VERTICAL);asset.setPadding(dp(14),dp(12),dp(14),dp(12));asset.setBackground(box(surface));
-        Glyph coin=new Glyph("coin",Color.rgb(230,205,124));asset.addView(coin,new LinearLayout.LayoutParams(dp(38),dp(38)));
-        LinearLayout names=new LinearLayout(this);names.setOrientation(LinearLayout.VERTICAL);names.setPadding(dp(12),0,dp(6),0);names.addView(label("BNB de prueba",16,text));names.addView(label("tBNB · Red de pruebas",12,muted));asset.addView(names,new LinearLayout.LayoutParams(0,-2,1));
-        asset.addView(new Glyph("receive",mint),new LinearLayout.LayoutParams(dp(20),dp(20)));clickable(asset,"BNB de prueba: recibir tBNB",this::receive);body.addView(asset);
-        TextView hint=label("Tu cuenta. Tus claves. Tu control.",12,muted);hint.setGravity(Gravity.CENTER);body.addView(hint);
+        space(18);TextView section=label("Mis monedas",18,text);section.setTypeface(Typeface.create("sans-serif-medium",Typeface.NORMAL));body.addView(section);space(4);
+        LinearLayout asset=new LinearLayout(this);asset.setGravity(Gravity.CENTER_VERTICAL);asset.setPadding(dp(14),dp(10),dp(14),dp(10));asset.setBackground(box(surface));
+        Glyph coin=new Glyph("coin",0xffe6ca71);asset.addView(coin,new LinearLayout.LayoutParams(dp(37),dp(37)));
+        LinearLayout names=new LinearLayout(this);names.setOrientation(LinearLayout.VERTICAL);names.setPadding(dp(12),0,dp(6),0);names.addView(label("BNB de prueba",16,text));names.addView(label("tBNB",13,muted));asset.addView(names,new LinearLayout.LayoutParams(0,-2,1));
+        TextView amount=label(balance==null?"—":WalletCore.format(balance),14,text);amount.setMaxWidth(dp(86));amount.setMaxLines(2);asset.addView(amount);asset.addView(new Glyph("chevron",text),new LinearLayout.LayoutParams(dp(18),dp(18)));clickable(asset,"BNB de prueba: recibir tBNB",this::receive);body.addView(asset);space(14);
+        LinearLayout backup=new LinearLayout(this);backup.setGravity(Gravity.CENTER_VERTICAL);backup.setPadding(dp(16),dp(12),dp(12),dp(12));backup.setBackground(box(0xff1b2416));backup.addView(new Glyph("shield",text),new LinearLayout.LayoutParams(dp(32),dp(32)));
+        LinearLayout backupText=new LinearLayout(this);backupText.setOrientation(LinearLayout.VERTICAL);backupText.setPadding(dp(16),0,0,0);backupText.addView(label("Tu respaldo",16,text));backupText.addView(label(prefs.getBoolean("backup",false)?"Tus claves, bajo tu control.":"Completa tu comprobación",13,muted));backup.addView(backupText,new LinearLayout.LayoutParams(0,-2,1));backup.addView(new Glyph("chevron",text),new LinearLayout.LayoutParams(dp(18),dp(18)));clickable(backup,"Tu respaldo",()->{if(prefs.getBoolean("backup",false))security();else authorize(this::showBackup);});body.addView(backup);
     }
     private void receive(){
         screen("Recibir tBNB","Solo BNB testnet (97), sin dinero real. Comprueba siempre la red.");space(10);
@@ -264,7 +265,7 @@ public final class MainActivity extends Activity {
         try{JSONArray entries=new JSONArray(prefs.getString("history","[]"));if(entries.length()==0)note("Todavía no hay envíos desde esta aplicación. Los depósitos externos se reflejan al actualizar el saldo; el explorador muestra el historial completo.");for(int i=0;i<entries.length();i++){JSONObject item=entries.getJSONObject(i);String hash=item.getString("hash");note(item.getString("value")+" tBNB\nPara: "+item.getString("to")+"\n"+item.getString("status")+"\n"+hash);button("Consultar estado "+(i+1),()->task("Consultando el recibo",()->rpc.status(hash),status->{JSONArray current=new JSONArray(prefs.getString("history","[]"));for(int j=0;j<current.length();j++)if(current.getJSONObject(j).getString("hash").equals(hash))current.getJSONObject(j).put("status",status);SharedPreferences.Editor editor=prefs.edit().putString("history",current.toString());if(hash.equals(prefs.getString("pending",""))&&(status.startsWith("Confirmada")||status.startsWith("Fallida")))editor.remove("pending");editor.commit();history();}),false);button("Ver transacción "+(i+1),()->open(WalletCore.EXPLORER+"/tx/"+hash),false);}}catch(Exception e){note("No se pudo leer el historial local. No repitas un envío sin comprobarlo en el explorador.");}
         button("Ver cuenta en explorador testnet",()->open(WalletCore.EXPLORER+"/address/"+address),false);button("Volver a mi wallet",this::home,true);
     }
-    private void security(){screen("Tu seguridad, primero","Versión 0.1.3-testnet · Piloto sin auditoría independiente.");note("• Entropía cifrada con AES-GCM y Android Keystore.\n• El desbloqueo utiliza biometría fuerte (como la huella) o el PIN, patrón o contraseña del teléfono.\n• La app se bloquea al pasar a segundo plano.\n• Copias del sistema y capturas desactivadas.\n• Solo firma para Chain ID 97.\n• No hay analítica ni envío de frases a servidores LAEX.");button("Ver respaldo de prueba",()->authorize(this::showBackup),false);note("El RPC puede observar tu IP y las direcciones consultadas. El respaldo se deriva mediante BIP39/BIP44, ruta m/44'/60'/0'/0/0, sin contraseña adicional BIP39. Nunca uses aquí una frase con fondos reales.");button("Bloquear ahora",()->{unlocked=false;draft=null;backupPhrase="";locked();},true);button("Volver",this::home,false);}
+    private void security(){screen("Tu seguridad, primero","Versión 0.1.4-testnet · Origen · Piloto sin auditoría independiente.");note("• Entropía cifrada con AES-GCM y Android Keystore.\n• El desbloqueo utiliza biometría fuerte (como la huella) o el PIN, patrón o contraseña del teléfono.\n• La app se bloquea al pasar a segundo plano.\n• Copias del sistema y capturas desactivadas.\n• Solo firma para Chain ID 97.\n• No hay analítica ni envío de frases a servidores LAEX.");button("Ver respaldo de prueba",()->authorize(this::showBackup),false);note("El RPC puede observar tu IP y las direcciones consultadas. El respaldo se deriva mediante BIP39/BIP44, ruta m/44'/60'/0'/0/0, sin contraseña adicional BIP39. Nunca uses aquí una frase con fondos reales.");button("Bloquear ahora",()->{unlocked=false;draft=null;backupPhrase="";locked();},true);button("Volver",this::home,false);}
     private void open(String url){try{startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(url)));}catch(Exception e){failure("No se encontró un navegador para abrir el enlace.");}}
     private Bitmap logoBitmap(){if(brandBitmap==null)brandBitmap=BitmapFactory.decodeResource(getResources(),R.drawable.wallet_logo);return brandBitmap;}
     private void drawLogo(Canvas canvas,RectF destination){Bitmap bitmap=logoBitmap();if(bitmap!=null)canvas.drawBitmap(bitmap,new Rect((int)(bitmap.getWidth()*.24),(int)(bitmap.getHeight()*.145),(int)(bitmap.getWidth()*.75),(int)(bitmap.getHeight()*.66)),destination,new android.graphics.Paint(3));}
@@ -273,21 +274,23 @@ public final class MainActivity extends Activity {
         @Override protected void onDraw(Canvas canvas){super.onDraw(canvas);drawLogo(canvas,new RectF(0,0,getWidth(),getHeight()));}
     }
     private final class BalanceSurface extends GradientDrawable{
-        BalanceSurface(){super(Orientation.TL_BR,new int[]{0xff9ee9c5,0xffc5dbb3});setCornerRadius(dp(24));}
-        @Override public void draw(Canvas canvas){super.draw(canvas);int save=canvas.save();android.graphics.Path clip=new android.graphics.Path();clip.addRoundRect(new RectF(getBounds()),dp(24),dp(24),android.graphics.Path.Direction.CW);canvas.clipPath(clip);android.graphics.Paint p=new android.graphics.Paint(3);p.setStyle(android.graphics.Paint.Style.STROKE);p.setStrokeWidth(dp(1));p.setColor(0x24436850);for(int r=65;r<180;r+=24)canvas.drawCircle(getBounds().right+dp(30),getBounds().top+dp(72),dp(r),p);canvas.restoreToCount(save);}
+        BalanceSurface(){super(Orientation.TL_BR,new int[]{0xff4d785b,0xff264b37,0xff10281f});setCornerRadius(dp(19));setStroke(dp(1),0xff719275);}
+        @Override public void draw(Canvas canvas){super.draw(canvas);int save=canvas.save();android.graphics.Path clip=new android.graphics.Path();clip.addRoundRect(new RectF(getBounds()),dp(19),dp(19),android.graphics.Path.Direction.CW);canvas.clipPath(clip);android.graphics.Paint p=new android.graphics.Paint(3);p.setStyle(android.graphics.Paint.Style.STROKE);p.setStrokeWidth(dp(1));p.setColor(0x306fa078);float x=getBounds().right,y=getBounds().top;for(int i=0;i<9;i++){float offset=dp(i*12);android.graphics.Path path=new android.graphics.Path();path.moveTo(x-dp(140)+offset,y-dp(20));path.cubicTo(x-dp(70)+offset,y+dp(75),x+dp(30)-offset,y+dp(25),x-dp(20)-offset,y+dp(120));path.cubicTo(x-dp(70)-offset,y+dp(185),x+dp(15)-offset,y+dp(185),x+dp(30),y+dp(280));canvas.drawPath(path,p);}canvas.restoreToCount(save);}
     }
-    private final class OrbitArt extends View{
-        OrbitArt(){super(MainActivity.this);setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);}
-        @Override protected void onDraw(Canvas canvas){super.onDraw(canvas);float x=getWidth()/2f,y=getHeight()/2f;android.graphics.Paint p=new android.graphics.Paint(3);p.setStyle(android.graphics.Paint.Style.STROKE);p.setStrokeWidth(dp(1));p.setColor(0xff355649);canvas.drawOval(x-dp(128),y-dp(49),x+dp(128),y+dp(49),p);p.setColor(0xff213b32);canvas.drawOval(x-dp(150),y-dp(65),x+dp(150),y+dp(65),p);p.setStyle(android.graphics.Paint.Style.FILL);p.setColor(0xff132e24);canvas.drawRoundRect(x-dp(55),y-dp(55),x+dp(55),y+dp(55),dp(29),dp(29),p);drawLogo(canvas,new RectF(x-dp(38),y-dp(38),x+dp(38),y+dp(38)));p.setColor(mint);canvas.drawCircle(x+dp(120),y-dp(16),dp(3),p);canvas.drawCircle(x-dp(98),y+dp(31),dp(2),p);}
+    private final class OriginArt extends View{
+        OriginArt(){super(MainActivity.this);setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);if(originBitmap==null)originBitmap=BitmapFactory.decodeResource(getResources(),R.drawable.origin_hero);}
+        @Override protected void onDraw(Canvas canvas){super.onDraw(canvas);if(originBitmap==null)return;android.graphics.Paint paint=new android.graphics.Paint(3);float scale=Math.max((float)getWidth()/originBitmap.getWidth(),(float)getHeight()/originBitmap.getHeight());float w=originBitmap.getWidth()*scale,h=originBitmap.getHeight()*scale;canvas.drawBitmap(originBitmap,null,new RectF((getWidth()-w)/2,(getHeight()-h)/2,(getWidth()+w)/2,(getHeight()+h)/2),paint);paint.setShader(new android.graphics.LinearGradient(0,0,0,getHeight(),new int[]{0xff0d1a13,0x000d1a13,0x00050d0a,0xff050d0a},new float[]{0,.10f,.82f,1},android.graphics.Shader.TileMode.CLAMP));canvas.drawRect(0,0,getWidth(),getHeight(),paint);}
     }
     private final class Glyph extends View{
         private final String kind;private final int color;
         Glyph(String kind,int color){super(MainActivity.this);this.kind=kind;this.color=color;setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);}
         @Override protected void onDraw(Canvas canvas){super.onDraw(canvas);int save=canvas.save();canvas.scale(getWidth()/24f,getHeight()/24f);android.graphics.Paint p=new android.graphics.Paint(3);p.setColor(color);p.setStrokeWidth(1.7f);p.setStyle(android.graphics.Paint.Style.STROKE);p.setStrokeCap(android.graphics.Paint.Cap.ROUND);p.setStrokeJoin(android.graphics.Paint.Join.ROUND);android.graphics.Path path=new android.graphics.Path();
             switch(kind){
-                case "send":canvas.drawLine(5,19,19,5,p);path.moveTo(7,5);path.lineTo(19,5);path.lineTo(19,17);canvas.drawPath(path,p);break;
-                case "receive":canvas.drawLine(19,5,5,19,p);path.moveTo(5,7);path.lineTo(5,19);path.lineTo(17,19);canvas.drawPath(path,p);break;
+                case "send":path.moveTo(3,10);path.lineTo(22,3);path.lineTo(15,22);path.lineTo(11,13);path.close();canvas.drawPath(path,p);canvas.drawLine(11,13,22,3,p);break;
+                case "receive":canvas.drawLine(12,3,12,21,p);path.moveTo(5,14);path.lineTo(12,21);path.lineTo(19,14);canvas.drawPath(path,p);break;
                 case "refresh":canvas.drawArc(4,4,20,20,40,285,false,p);path.moveTo(20,3);path.lineTo(20,9);path.lineTo(14,9);canvas.drawPath(path,p);break;
+                case "chevron":path.moveTo(9,5);path.lineTo(16,12);path.lineTo(9,19);canvas.drawPath(path,p);break;
+                case "gear":canvas.drawCircle(12,12,5,p);canvas.drawCircle(12,12,2,p);for(int i=0;i<8;i++){double a=i*Math.PI/4;canvas.drawLine(12+(float)Math.cos(a)*5,12+(float)Math.sin(a)*5,12+(float)Math.cos(a)*7,12+(float)Math.sin(a)*7,p);}break;
                 case "wallet":canvas.drawRoundRect(3,5,21,20,3,3,p);canvas.drawLine(4,9,20,9,p);canvas.drawRoundRect(14,12,22,17,2,2,p);break;
                 case "activity":canvas.drawCircle(12,12,9,p);canvas.drawLine(12,6,12,12,p);canvas.drawLine(12,12,16,14,p);break;
                 case "shield":path.moveTo(12,2);path.lineTo(21,6);path.lineTo(20,14);path.quadTo(18,20,12,23);path.quadTo(6,20,4,14);path.lineTo(3,6);path.close();canvas.drawPath(path,p);path.reset();path.moveTo(8,12);path.lineTo(11,15);path.lineTo(16,9);canvas.drawPath(path,p);break;
