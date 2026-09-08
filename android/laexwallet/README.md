@@ -66,3 +66,17 @@ Owner checks: finish recording the test backup, install the update in place,
 unlock once with PIN, then lock and unlock with fingerprint, confirm the same
 public address and finish backup verification. Also cancel authentication and
 confirm the wallet remains locked. Never share recovery words or PINs.
+
+## 0.1.3-testnet / versionCode 4
+
+Native presentation updated to the approved demo's dark/mint palette: geometric
+brand welcome, gradient balance card, icon actions, bottom navigation and a
+compact receive card. Backup words use a two-column layout. The existing vault,
+authentication policies, address derivation and transaction signer are unchanged.
+
+UI verification uses Robolectric 4.14.1 native graphics, API 35, public fixture
+addresses and no vault authentication. It renders native layouts at 360/393dp
+and enlarged fonts, checks the home fits at 393dp, FLAG_SECURE, address copying,
+and returning home from receive. Screenshots are in app/build/reports/wallet-ui.
+These renders approximate Android; Samsung font/display settings can differ.
+Test dependencies and public fixture values are not part of production app flows.
