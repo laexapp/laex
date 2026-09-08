@@ -3,6 +3,9 @@ package com.laexwallet.testnet;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.KeyguardManager;
+import android.hardware.biometrics.BiometricManager;
+import android.hardware.biometrics.BiometricPrompt;
+import android.os.CancellationSignal;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
@@ -46,8 +49,9 @@ public final class MainActivity extends Activity {
     private final ExecutorService worker=Executors.newSingleThreadExecutor();
     private volatile long epoch=0;
     private volatile boolean visible=false;
-    private boolean unlocked=false,authenticating=false,busy=false,authenticationAccepted=false;
-    private Runnable afterAuthentication;
+    private boolean unlocked=false,busy=false,resumed=false;
+    private final AuthenticationFlow authentication=new AuthenticationFlow();
+    private CancellationSignal authenticationSignal;
     private byte[] importEntropy;
     private String address="",backupPhrase="";
     private WalletCore.Draft draft;
@@ -65,10 +69,11 @@ public final class MainActivity extends Activity {
     @Override public void onStart(){super.onStart();visible=true;}
     @Override public void onStop(){
         visible=false;epoch++;unlocked=false;busy=false;backupPhrase="";balance=null;
-        if(!authenticating){draft=null;wipeImport();}
+        if(!authentication.isPending()){draft=null;wipeImport();}
         locked();super.onStop();
     }
-    @Override public void onDestroy(){worker.shutdownNow();wipeImport();super.onDestroy();}
+    @Override public void onPause(){resumed=false;super.onPause();}
+    @Override public void onDestroy(){authentication.clear();if(authenticationSignal!=null)authenticationSignal.cancel();worker.shutdownNow();wipeImport();super.onDestroy();}
     @Override public void onBackPressed(){if(unlocked){draft=null;backupPhrase="";home();}else super.onBackPressed();}
     private int dp(int value){return Math.round(value*getResources().getDisplayMetrics().density);}
     private GradientDrawable box(int color){GradientDrawable d=new GradientDrawable();d.setColor(color);d.setCornerRadius(dp(17));return d;}
@@ -89,25 +94,40 @@ public final class MainActivity extends Activity {
     private Button button(String title,Runnable action,boolean primary){Button b=new Button(this);b.setText(title);b.setTextSize(16);b.setAllCaps(false);b.setTypeface(null,Typeface.BOLD);b.setTextColor(primary?bg:text);b.setBackground(box(primary?mint:surface));b.setPadding(dp(12),dp(12),dp(12),dp(12));b.setMinHeight(dp(54));LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(-1,-2);lp.setMargins(0,dp(13),0,0);body.addView(b,lp);b.setOnClickListener(v->{if(!busy)action.run();});return b;}
     private EditText field(String title,int input){body.addView(label(title,16,text));EditText e=new EditText(this);e.setTextSize(17);e.setTextColor(text);e.setHintTextColor(muted);e.setBackground(box(surface));e.setPadding(dp(14),dp(12),dp(14),dp(12));e.setInputType(input);e.setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS);e.setSaveEnabled(false);body.addView(e,new LinearLayout.LayoutParams(-1,-2));return e;}
     private void failure(String message){if(!visible)return;AlertDialog.Builder dialog=new AlertDialog.Builder(this).setTitle("Revisa este paso").setMessage(message).setPositiveButton("Entendido",null);if(message.contains("LW-101"))dialog.setNeutralButton("Copiar código",(d,w)->getSystemService(ClipboardManager.class).setPrimaryClip(ClipData.newPlainText("Diagnóstico laexWallet",message.substring(message.indexOf("LW-101")))));dialog.show();}
-    private String safeError(Throwable error){if(error instanceof LinkageError)return "La app encontró una incompatibilidad al preparar la cuenta. No uses Recuperar para crear una cuenta nueva. Comparte solo este código de diagnóstico:\n\n"+OperationResult.diagnostic(error);if(error instanceof IllegalArgumentException||error instanceof IllegalStateException)return error.getMessage();if(error instanceof android.security.keystore.UserNotAuthenticatedException)return "Vuelve a desbloquear con el PIN del teléfono e inténtalo de nuevo.";return "No se pudo completar el paso. Comprueba tu conexión y el bloqueo de pantalla. Si ya intentaste enviar, revisa el historial antes de repetir.";}
-    private void authorize(Runnable action){
+    private String safeError(Throwable error){if(error instanceof LinkageError)return "La app encontró una incompatibilidad al preparar la cuenta. No uses Recuperar para crear una cuenta nueva. Comparte solo este código de diagnóstico:\n\n"+OperationResult.diagnostic(error);if(error instanceof IllegalArgumentException||error instanceof IllegalStateException)return error.getMessage();if(error instanceof android.security.keystore.UserNotAuthenticatedException)return "La autorización caducó. Vuelve a confirmar con tu huella o el PIN del teléfono.";return "No se pudo completar el paso. Comprueba tu conexión y el bloqueo de pantalla. Si ya intentaste enviar, revisa el historial antes de repetir.";}
+    private void authorize(Runnable action){authorize(action,false);}
+    private void authorize(Runnable action,boolean pinOnly){
+        if(authentication.isPending())return;
         KeyguardManager keyguard=getSystemService(KeyguardManager.class);
-        if(!keyguard.isDeviceSecure()){failure("Configura primero un PIN, patrón o contraseña de bloqueo en los ajustes de tu Samsung. La wallet lo necesita para proteger el acceso.");return;}
-        afterAuthentication=action;authenticating=true;
-        Intent intent=keyguard.createConfirmDeviceCredentialIntent("laexWallet · Pruebas","Confirma tu identidad con el bloqueo de tu teléfono.");
-        if(intent==null){authenticating=false;afterAuthentication=null;failure("No se pudo abrir la comprobación del teléfono.");return;}
-        startActivityForResult(intent,97);
+        if(!keyguard.isDeviceSecure()){failure("Configura primero un PIN, patrón o contraseña de bloqueo en los ajustes de tu Samsung.");return;}
+        task("Preparando acceso seguro",vault::prepareAuthentication,legacy->{
+            Runnable next=legacy?()->task("Habilitando huella y PIN",()->{vault.migrateAfterPin();return true;},ignored->action.run()):action;
+            long request=authentication.begin(next);
+            authenticationSignal=new CancellationSignal();
+            int allowed=BiometricManager.Authenticators.DEVICE_CREDENTIAL;
+            if(!legacy&&!pinOnly)allowed|=BiometricManager.Authenticators.BIOMETRIC_STRONG;
+            String subtitle=legacy?"Usa tu PIN una vez para habilitar la huella en tu cuenta existente.":pinOnly?"Confirma con el PIN, patrón o contraseña de tu teléfono.":"Usa tu huella o el PIN de tu teléfono.";
+            try{
+                new BiometricPrompt.Builder(this).setTitle("laexWallet · Pruebas")
+                    .setSubtitle(subtitle).setAllowedAuthenticators(allowed).build()
+                    .authenticate(authenticationSignal,getMainExecutor(),new BiometricPrompt.AuthenticationCallback(){
+                        @Override public void onAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result){
+                            if(!authentication.isCurrent(request))return;
+                            authenticationSignal=null;authentication.accept(request);continueAuthenticated();
+                        }
+                        @Override public void onAuthenticationError(int code,CharSequence message){
+                            if(!authentication.cancel(request))return;
+                            authenticationSignal=null;unlocked=false;draft=null;wipeImport();locked();
+                            if(code!=BiometricPrompt.BIOMETRIC_ERROR_CANCELED&&code!=BiometricPrompt.BIOMETRIC_ERROR_USER_CANCELED)
+                                failure("No se pudo completar la autenticación. Puedes usar la opción de PIN del teléfono.");
+                        }
+                    });
+            }catch(Exception error){authentication.cancel(request);authenticationSignal=null;throw error;}
+        });
     }
-    @Override protected void onActivityResult(int request,int result,Intent data){
-        super.onActivityResult(request,result,data);if(request!=97)return;
-        authenticationAccepted=result==RESULT_OK&&afterAuthentication!=null;
-        if(!authenticationAccepted){authenticating=false;afterAuthentication=null;draft=null;wipeImport();locked();}
-    }
-    @Override protected void onPostResume(){
-        super.onPostResume();visible=true;
-        if(!authenticationAccepted)return;
-        authenticationAccepted=false;authenticating=false;
-        Runnable action=afterAuthentication;afterAuthentication=null;
+    @Override protected void onPostResume(){super.onPostResume();visible=true;resumed=true;continueAuthenticated();}
+    private void continueAuthenticated(){
+        Runnable action=authentication.consume(resumed&&visible);
         if(action!=null){unlocked=true;OperationResult<Void> result=OperationResult.run(()->{action.run();return null;});if(result.error!=null){locked();failure(safeError(result.error));}}
     }
     private void wipeImport(){if(importEntropy!=null){Arrays.fill(importEntropy,(byte)0);importEntropy=null;}}
@@ -126,13 +146,35 @@ public final class MainActivity extends Activity {
         });
     }
     private void locked(){screen(vault.exists()?"Tu wallet, en privado":"Tu wallet. Tu control.","Primera versión Android de pruebas. Usa solo cuentas y monedas de testnet, nunca un respaldo con fondos reales.");
-        if(vault.exists())button("Desbloquear wallet",()->authorize(()->task("Abriendo tu wallet",()->{byte[] entropy=vault.read();try{return WalletCore.address(entropy);}finally{Arrays.fill(entropy,(byte)0);}},value->{address=value;prefs.edit().putString("address",address).commit();home();})),true);
-        else {button("Crear wallet de prueba",()->authorize(this::create),true);button("Recuperar wallet de prueba",()->authorize(this::restore),false);}
+        if(vault.exists()){
+            button("Desbloquear con huella o PIN",()->authorize(this::unlock),true);
+            button("Usar solo PIN del teléfono",()->authorize(this::unlock,true),false);
+        }else {button("Crear wallet de prueba",()->authorize(this::create),true);button("Recuperar wallet de prueba",()->authorize(this::restore),false);}
         note("Este APK solo firma para BNB testnet (97). OMDB, OMD, intercambios y Web3 no están habilitados aquí. No envíes fondos reales.");
     }
+    private void unlock(){task("Abriendo tu wallet",()->{byte[] entropy=vault.read();try{return WalletCore.address(entropy);}finally{Arrays.fill(entropy,(byte)0);}},value->{address=value;prefs.edit().putString("address",address).commit();home();});}
     private void create(){task("Creando tu cuenta",()->{byte[] entropy=WalletCore.newEntropy();try{String value=WalletCore.address(entropy);vault.save(entropy);return value;}finally{Arrays.fill(entropy,(byte)0);}},value->{address=value;prefs.edit().putString("address",value).putBoolean("backup",false).commit();showBackup();});}
     private void showBackup(){task("Preparando tu respaldo",()->{byte[] entropy=vault.read();try{return WalletCore.words(entropy);}finally{Arrays.fill(entropy,(byte)0);}},phrase->{backupPhrase=phrase;screen("Anota tus 12 palabras","Son el respaldo de esta cuenta de prueba. Escríbelas en papel y conserva su orden. Nunca las compartas, ni con LAEX.");String[] words=phrase.split(" ");for(int i=0;i<words.length;i++)body.addView(label(String.format(java.util.Locale.ROOT,"%02d   %s",i+1,words[i]),19,mint));note("No hay botón de copiar. Las capturas están bloqueadas. Este respaldo corresponde solo a tu cuenta de pruebas.");button("Ya las anoté: comprobar",this::checkBackup,true);button("Guardar para después",()->{backupPhrase="";home();},false);});}
-    private void checkBackup(){String[] words=backupPhrase.split(" ");if(words.length!=12){home();return;}screen("Comprueba tu respaldo","Escribe las palabras indicadas mirando tu papel.");EditText a=field("Palabra 1",InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS),b=field("Palabra 6",InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS),c=field("Palabra 12",InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);button("Verificar respaldo",()->{if(!a.getText().toString().trim().equals(words[0])||!b.getText().toString().trim().equals(words[5])||!c.getText().toString().trim().equals(words[11])){failure("Las palabras no coinciden. Revisa tu papel y su orden.");return;}prefs.edit().putBoolean("backup",true).commit();backupPhrase="";home();},true);}
+    private void checkBackup(){
+        final String phrase=backupPhrase;
+        if(phrase.split(" ").length!=12){home();return;}
+        screen("Comprueba tu respaldo","Busca en tu papel las palabras número 1, 6 y 12. Escribe solo cada palabra, sin su número. Se aceptan mayúsculas y espacios al principio o al final.");
+        int input=InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD|InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS;
+        EditText a=field("Palabra número 1",input),b=field("Palabra número 6",input),c=field("Palabra número 12",input);
+        a.setSingleLine(true);b.setSingleLine(true);c.setSingleLine(true);
+        button("Verificar respaldo",()->{
+            a.setError(null);b.setError(null);c.setError(null);
+            int[] wrong=BackupCheck.incorrect(phrase,a.getText().toString(),b.getText().toString(),c.getText().toString());
+            if(wrong.length>0){
+                for(int position:wrong){EditText field=position==1?a:position==6?b:c;field.setError("Revisa la palabra número "+position+" de tu papel");}
+                (wrong[0]==1?a:wrong[0]==6?b:c).requestFocus();
+                failure("Revisa "+(wrong.length==1?"la palabra número ":"las palabras número ")+java.util.Arrays.toString(wrong).replace("[","").replace("]","")+". No escribas el número ni traduzcas la palabra. Si necesitas verla de nuevo, toca Volver a ver mis palabras.");return;
+            }
+            if(!prefs.edit().putBoolean("backup",true).commit()){failure("No se pudo guardar la comprobación. Inténtalo de nuevo.");return;}
+            backupPhrase="";home();
+        },true);
+        button("Volver a ver mis palabras",()->authorize(this::showBackup),false);
+    }
     private void restore(){screen("Recuperar cuenta de prueba","Usa únicamente una frase creada para pruebas. Nunca introduzcas aquí la frase de una wallet con dinero real.");EditText phrase=field("Tus 12 palabras de prueba",InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD|InputType.TYPE_TEXT_FLAG_MULTI_LINE|InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);phrase.setMinLines(3);CheckBox check=new CheckBox(this);check.setText("Confirmo que este respaldo es solo de pruebas");check.setTextColor(text);check.setTextSize(16);body.addView(check);button("Recuperar en este teléfono",()->{if(!check.isChecked()){failure("Confirma que usarás un respaldo de pruebas.");return;}try{importEntropy=WalletCore.entropy(phrase.getText().toString());phrase.setText("");authorize(()->task("Recuperando tu cuenta",()->{try{String value=WalletCore.address(importEntropy);vault.save(importEntropy);return value;}finally{wipeImport();}},value->{address=value;prefs.edit().putString("address",value).putBoolean("backup",true).commit();home();}));}catch(Exception e){wipeImport();failure(safeError(e));}},true);button("Volver",this::locked,false);}
     private void home(){if(!unlocked){locked();return;}screen("Mi wallet de prueba","BNB Smart Chain · Testnet 97");
         LinearLayout card=new LinearLayout(this);card.setOrientation(LinearLayout.VERTICAL);card.setBackground(box(mint));card.setPadding(dp(18),dp(13),dp(18),dp(13));card.addView(label("Saldo consultado en la red",14,bg));card.addView(label(balance==null?"Sin consultar":WalletCore.format(balance)+" tBNB",29,bg));card.addView(label("Sin valor económico",13,bg));body.addView(card);
@@ -165,7 +207,7 @@ public final class MainActivity extends Activity {
         try{JSONArray entries=new JSONArray(prefs.getString("history","[]"));if(entries.length()==0)note("Todavía no hay envíos desde esta aplicación. Los depósitos externos se reflejan al actualizar el saldo; el explorador muestra el historial completo.");for(int i=0;i<entries.length();i++){JSONObject item=entries.getJSONObject(i);String hash=item.getString("hash");note(item.getString("value")+" tBNB\nPara: "+item.getString("to")+"\n"+item.getString("status")+"\n"+hash);button("Consultar estado "+(i+1),()->task("Consultando el recibo",()->rpc.status(hash),status->{JSONArray current=new JSONArray(prefs.getString("history","[]"));for(int j=0;j<current.length();j++)if(current.getJSONObject(j).getString("hash").equals(hash))current.getJSONObject(j).put("status",status);SharedPreferences.Editor editor=prefs.edit().putString("history",current.toString());if(hash.equals(prefs.getString("pending",""))&&(status.startsWith("Confirmada")||status.startsWith("Fallida")))editor.remove("pending");editor.commit();history();}),false);button("Ver transacción "+(i+1),()->open(WalletCore.EXPLORER+"/tx/"+hash),false);}}catch(Exception e){note("No se pudo leer el historial local. No repitas un envío sin comprobarlo en el explorador.");}
         button("Ver cuenta en explorador testnet",()->open(WalletCore.EXPLORER+"/address/"+address),false);button("Volver a mi wallet",this::home,true);
     }
-    private void security(){screen("Tu seguridad, primero","Versión 0.1.1-testnet · Piloto sin auditoría independiente.");note("• Entropía cifrada con AES-GCM y Android Keystore.\n• El desbloqueo utiliza el PIN, patrón o contraseña del teléfono.\n• La app se bloquea al pasar a segundo plano.\n• Copias del sistema y capturas desactivadas.\n• Solo firma para Chain ID 97.\n• No hay analítica ni envío de frases a servidores LAEX.");button("Ver respaldo de prueba",()->authorize(this::showBackup),false);note("El RPC puede observar tu IP y las direcciones consultadas. El respaldo se deriva mediante BIP39/BIP44, ruta m/44'/60'/0'/0/0, sin contraseña adicional BIP39. Nunca uses aquí una frase con fondos reales.");button("Bloquear ahora",()->{unlocked=false;draft=null;backupPhrase="";locked();},true);button("Volver",this::home,false);}
+    private void security(){screen("Tu seguridad, primero","Versión 0.1.2-testnet · Piloto sin auditoría independiente.");note("• Entropía cifrada con AES-GCM y Android Keystore.\n• El desbloqueo utiliza biometría fuerte (como la huella) o el PIN, patrón o contraseña del teléfono.\n• La app se bloquea al pasar a segundo plano.\n• Copias del sistema y capturas desactivadas.\n• Solo firma para Chain ID 97.\n• No hay analítica ni envío de frases a servidores LAEX.");button("Ver respaldo de prueba",()->authorize(this::showBackup),false);note("El RPC puede observar tu IP y las direcciones consultadas. El respaldo se deriva mediante BIP39/BIP44, ruta m/44'/60'/0'/0/0, sin contraseña adicional BIP39. Nunca uses aquí una frase con fondos reales.");button("Bloquear ahora",()->{unlocked=false;draft=null;backupPhrase="";locked();},true);button("Volver",this::home,false);}
     private void open(String url){try{startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(url)));}catch(Exception e){failure("No se encontró un navegador para abrir el enlace.");}}
     private final class LogoView extends View{
         private final Bitmap bitmap;

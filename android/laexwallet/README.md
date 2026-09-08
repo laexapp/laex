@@ -34,3 +34,35 @@ gradle :app:assembleDebug :app:testDebugUnitTest :app:lintDebug
 
 The downloadable pilot is debug-signed for private-device testing and has no
 mainnet signing path. Do not use its debug signing key for a production release.
+
+## 0.1.2-testnet / versionCode 3
+
+The owner confirmed that account creation works with the device PIN; the earlier
+failure occurred when the legacy credential UI accepted a fingerprint while the
+Keystore key permitted only device credentials.
+
+- Native BiometricPrompt now explicitly requests BIOMETRIC_STRONG or
+  DEVICE_CREDENTIAL, matching the new AES key policy. USE_BIOMETRIC is declared.
+- Existing v1 wallets request device credentials once. Their original entropy is
+  decrypted with the existing key, encrypted with a separate v2 key, verified by
+  authenticated decryption, then committed with AtomicFile. Original key aliases
+  are never overwritten/deleted. Words, derivation path, address and preferences
+  are preserved. A failed migration leaves the original envelope recoverable.
+- New key generation happens before authentication. Timed Keystore authorization
+  remains 30 seconds. A dedicated PIN-only unlock option is available.
+- Authentication callbacks are consumed only once and only while resumed. Cancelled
+  or superseded callbacks cannot authorize later actions.
+- Backup verification accepts casing and surrounding Unicode whitespace, reports
+  the incorrect positions (1, 6, 12), and offers re-authenticated viewing of the
+  existing words. Spelling mistakes, extra words and numbered answers still fail.
+
+Validation: 25 JVM tests cover cryptography/RPC, diagnostics, callback ordering,
+backup input, encrypted migration, wrong keys, tampering and failed commits.
+Android build and lint are required before publication. Hardware fingerprint and
+Keystore migration still require acceptance testing on the owner's Galaxy A55;
+no claim of independent security audit or real-funds readiness is made.
+
+Owner checks: finish recording the test backup, install the update in place,
+unlock once with PIN, then lock and unlock with fingerprint, confirm the same
+public address and finish backup verification. Also cancel authentication and
+confirm the wallet remains locked. Never share recovery words or PINs.
