@@ -1,0 +1,39 @@
+{
+  "kind": "Read-only public RPC. No signing, broadcast or physical evidence.",
+  "utc": "2026-09-10T12:58:10.946716+00:00",
+  "rpc": "https://polygon-amoy.drpc.org",
+  "contract": "0x41E94Eb019C0762f9Bfcf9Fb1E58725BfB0e7582",
+  "results": {
+    "eth_chainId": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": "0x13882"
+    },
+    "eth_blockNumber": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": "0x2d090a1"
+    },
+    "eth_gasPrice": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": "0xd3487e540"
+    },
+    "eth_getCode": {
+      "codeBytes": 1798,
+      "nonempty": true
+    },
+    "eth_call": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": "0x0000000000000000000000000000000000000000000000000000000000000006"
+    },
+    "eth_getBlockByNumber": {
+      "result": {
+        "number": "0x2d090a2",
+        "hash": "0xdd24f07a792bd1b1810f3a8a5866f9b0dc3f12238b71f4bbfe91070e9a54d1d6",
+        "baseFeePerGas": "0x3f"
+      }
+    }
+  }
+}
