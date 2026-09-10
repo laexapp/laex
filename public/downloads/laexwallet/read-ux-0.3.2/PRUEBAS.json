@@ -1,0 +1,117 @@
+{
+  "candidate": "0.3.2-testnet",
+  "uniquePassed": 22,
+  "new": 13,
+  "affectedExisting": 9,
+  "build": "assemblePilot PASS",
+  "lint": "lintPilot PASS",
+  "tests": {
+    "com.laexwallet.testnet.ReadUxTest.processRecreationRestoresOnlyPublicContextAndForm": {
+      "result": "PASS",
+      "seconds": "11.12"
+    },
+    "com.laexwallet.testnet.AmoyRecoveryTest.activityUsesSameThresholdTokenEvidenceAndNoDuplicate": {
+      "result": "PASS",
+      "seconds": "0.408"
+    },
+    "com.laexwallet.testnet.ReadUxTest.foregroundRefreshUpdatesConfirmedHistoryWithoutReleasingPending": {
+      "result": "PASS",
+      "seconds": "10.643"
+    },
+    "com.laexwallet.testnet.ReadUxTest.confirmedNotificationsRequireReceiptIdentityNotBalanceDelta": {
+      "result": "PASS",
+      "seconds": "0.048"
+    },
+    "com.laexwallet.testnet.ReadUxTest.networkReadSelectionDoesNotAuthenticateAndPreservesContext": {
+      "result": "PASS",
+      "seconds": "0.499"
+    },
+    "com.laexwallet.testnet.ReadUxTest.budgetCoalescesEventsAndStopsRetries": {
+      "result": "PASS",
+      "seconds": "0.024"
+    },
+    "com.laexwallet.testnet.ReadUxTest.offlineDoesNotReadAndConnectivityRestorationTriggersRead": {
+      "result": "PASS",
+      "seconds": "0.484"
+    },
+    "com.laexwallet.testnet.ReadUxTest.homeAutomaticallyReadsAndPersistsWithoutAccessingVault": {
+      "result": "PASS",
+      "seconds": "0.374"
+    },
+    "com.laexwallet.testnet.ReadUxTest.reviewRestoresAsUnsignedEditAndCannotReuseAuthorization": {
+      "result": "PASS",
+      "seconds": "0.36"
+    },
+    "com.laexwallet.testnet.ReadUxTest.stopAndResumeRestoreFieldsWithoutReopeningSecrets": {
+      "result": "PASS",
+      "seconds": "0.336"
+    },
+    "com.laexwallet.testnet.ReadUxTest.malformedFormNeverPersistsWordsPrivateKeyOrUnknownAsset": {
+      "result": "PASS",
+      "seconds": "0.152"
+    },
+    "com.laexwallet.testnet.ReadUxTest.persistedBroadcastRoutesToActivityInsteadOfRestoringPayment": {
+      "result": "PASS",
+      "seconds": "0.17"
+    },
+    "com.laexwallet.testnet.ReadUxTest.readCacheIsScopedAndFailureDoesNotInventZero": {
+      "result": "PASS",
+      "seconds": "0.315"
+    },
+    "com.laexwallet.testnet.ReadUxTest.backgroundResponseCannotOverwriteAnotherNetwork": {
+      "result": "PASS",
+      "seconds": "0.22"
+    },
+    "com.laexwallet.testnet.ScreenCapturePolicyTest.operationalScreensAllowCapturesAfterPublicFrame": {
+      "result": "PASS",
+      "seconds": "3.062"
+    },
+    "com.laexwallet.testnet.ScreenCapturePolicyTest.recoveryInputAndBackupCheckRemainProtectedIncludingErrors": {
+      "result": "PASS",
+      "seconds": "0.404"
+    },
+    "com.laexwallet.testnet.ScreenCapturePolicyTest.sensitiveToPublicKeepsProtectionUntilNewFrameIsDrawn": {
+      "result": "PASS",
+      "seconds": "0.307"
+    },
+    "com.laexwallet.testnet.ScreenCapturePolicyTest.queuedPublicReleaseCannotExposeNewSensitiveScreen": {
+      "result": "PASS",
+      "seconds": "0.35"
+    },
+    "com.laexwallet.testnet.ScreenCapturePolicyTest.explicitSecretDisplayIsProtectedBeforeAddingContent": {
+      "result": "PASS",
+      "seconds": "0.142"
+    },
+    "com.laexwallet.testnet.ScreenCapturePolicyTest.authenticationProtectsWindowAndCancellationReturnsToPublic": {
+      "result": "PASS",
+      "seconds": "0.207"
+    },
+    "com.laexwallet.testnet.SendFormTest.changedFieldsDiscardLateResponses": {
+      "result": "PASS",
+      "seconds": "0.064"
+    },
+    "com.laexwallet.testnet.SendFormTest.expiryCannotProceedAndDisposedViewIgnoresResponse": {
+      "result": "PASS",
+      "seconds": "0.079"
+    }
+  },
+  "unchangedCoreComparedWith031": {
+    "LocalVault": true,
+    "VaultEnvelope": true,
+    "VaultUpgrade": true,
+    "WalletCore": true,
+    "AssetEngine": true,
+    "AssetCodec": true,
+    "NetworkCatalog": true,
+    "AccountScope": true,
+    "AccountDirectory": true,
+    "PendingStore": true,
+    "PendingOperation": true,
+    "PendingRecovery": true,
+    "TestnetRpc": true,
+    "TransactionPresentation": true,
+    "AuthenticationFlow": true,
+    "ScreenCapturePolicy": true
+  },
+  "physicalRegression": "PENDING CEO/Arquitectura"
+}
