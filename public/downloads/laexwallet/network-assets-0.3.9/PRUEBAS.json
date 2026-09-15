@@ -1,0 +1,246 @@
+{
+  "passed": 20,
+  "new": 12,
+  "affected": 8,
+  "cases": {
+    "com.laexwallet.testnet.AmoyEngineTest.nativeQuoteAndSignatureAreAmoyBound": "PASS",
+    "com.laexwallet.testnet.AmoyEngineTest.onlyApprovedNetworksAndContractReachRpc": "PASS",
+    "com.laexwallet.testnet.AmoyEngineTest.revalidationRejectsNonceFeesBalancesAndContextChanges": "PASS",
+    "com.laexwallet.testnet.AmoyEngineTest.serializedIdentityCannotChangeTokenOrNetwork": "PASS",
+    "com.laexwallet.testnet.AmoyEngineTest.tokenQuoteSeparatesDecimalsValueAndGasAndSignsExactCall": "PASS",
+    "com.laexwallet.testnet.MultiWalletTest.switchingAccountSeparatesBalancesHistoryPendingAndDraft": "PASS",
+    "com.laexwallet.testnet.NetworkAssetTest.incorrectMetadataAndRpcFailureNeverAdmitToken": "PASS",
+    "com.laexwallet.testnet.NetworkAssetTest.networkCatalogKeepsOnlyApprovedTestnetsOperational": "PASS",
+    "com.laexwallet.testnet.NetworkAssetTest.tokenReadFallbackRestartsValidationOnOneProvider": "PASS",
+    "com.laexwallet.testnet.NetworkAssetTest.contractsAreRejectedBeforeAnyRpc": "PASS",
+    "com.laexwallet.testnet.NetworkAssetTest.symbolEncodingIsBoundedAndExact": "PASS",
+    "com.laexwallet.testnet.NetworkAssetTest.admissionVerifiesSymbolDecimalsChainAndCodeWithoutSigning": "PASS",
+    "com.laexwallet.testnet.NetworkAssetUiTest.verifiedTokenCannotBeAppliedAfterLeavingItsScreen": "PASS",
+    "com.laexwallet.testnet.NetworkAssetUiTest.unavailableNetworksAndUnauthenticatedRoutesStayGuarded": "PASS",
+    "com.laexwallet.testnet.NetworkAssetUiTest.lateTokenResultCannotChangeAnotherContext": "PASS",
+    "com.laexwallet.testnet.NetworkAssetUiTest.existingPreferencesPersistAndRemainScoped": "PASS",
+    "com.laexwallet.testnet.NetworkAssetUiTest.tokenValidationRequiresExplicitVisibilityConfirmation": "PASS",
+    "com.laexwallet.testnet.NetworkAssetUiTest.networkDetailsAndHomeKeepApprovedPresentation": "PASS",
+    "com.laexwallet.testnet.ReliableRpcTest.endpointsRemainStrictlyTestnet": "PASS",
+    "com.laexwallet.testnet.WalletArchitectureTest.futureIntegrationsCannotBeEnabled": "PASS"
+  },
+  "unchangedComparedWith038": {
+    "WalletCore": true,
+    "LocalVault": true,
+    "VaultEnvelope": true,
+    "VaultUpgrade": true,
+    "RecoveryInput": true,
+    "BackupCheck": true,
+    "SecretInput": true,
+    "ScreenCapturePolicy": true,
+    "AccessSession": true,
+    "AuthenticationFlow": true,
+    "AccountDirectory": true,
+    "AccountScope": true,
+    "AssetEngine": true,
+    "AssetCodec": true,
+    "PendingRecovery": true,
+    "PendingOperation": true,
+    "PendingStore": true,
+    "PublicViewStore": true,
+    "SendForm": true,
+    "SendQuote": true,
+    "LaexTheme": true
+  },
+  "lintIssues": [
+    {
+      "id": "ApplySharedPref",
+      "severity": "Warning"
+    },
+    {
+      "id": "ApplySharedPref",
+      "severity": "Warning"
+    },
+    {
+      "id": "ApplySharedPref",
+      "severity": "Warning"
+    },
+    {
+      "id": "ApplySharedPref",
+      "severity": "Warning"
+    },
+    {
+      "id": "ApplySharedPref",
+      "severity": "Warning"
+    },
+    {
+      "id": "ApplySharedPref",
+      "severity": "Warning"
+    },
+    {
+      "id": "ApplySharedPref",
+      "severity": "Warning"
+    },
+    {
+      "id": "ApplySharedPref",
+      "severity": "Warning"
+    },
+    {
+      "id": "ApplySharedPref",
+      "severity": "Warning"
+    },
+    {
+      "id": "LockedOrientationActivity",
+      "severity": "Warning"
+    },
+    {
+      "id": "SwitchIntDef",
+      "severity": "Warning"
+    },
+    {
+      "id": "DiscouragedApi",
+      "severity": "Warning"
+    },
+    {
+      "id": "DrawAllocation",
+      "severity": "Warning"
+    },
+    {
+      "id": "DrawAllocation",
+      "severity": "Warning"
+    },
+    {
+      "id": "DrawAllocation",
+      "severity": "Warning"
+    },
+    {
+      "id": "DrawAllocation",
+      "severity": "Warning"
+    },
+    {
+      "id": "DrawAllocation",
+      "severity": "Warning"
+    },
+    {
+      "id": "DrawAllocation",
+      "severity": "Warning"
+    },
+    {
+      "id": "DrawAllocation",
+      "severity": "Warning"
+    },
+    {
+      "id": "DrawAllocation",
+      "severity": "Warning"
+    },
+    {
+      "id": "DrawAllocation",
+      "severity": "Warning"
+    },
+    {
+      "id": "DrawAllocation",
+      "severity": "Warning"
+    },
+    {
+      "id": "DrawAllocation",
+      "severity": "Warning"
+    },
+    {
+      "id": "DrawAllocation",
+      "severity": "Warning"
+    },
+    {
+      "id": "DrawAllocation",
+      "severity": "Warning"
+    },
+    {
+      "id": "DrawAllocation",
+      "severity": "Warning"
+    },
+    {
+      "id": "ObsoleteSdkInt",
+      "severity": "Warning"
+    },
+    {
+      "id": "UnusedResources",
+      "severity": "Warning"
+    },
+    {
+      "id": "MonochromeLauncherIcon",
+      "severity": "Warning"
+    },
+    {
+      "id": "IconLocation",
+      "severity": "Warning"
+    },
+    {
+      "id": "ViewConstructor",
+      "severity": "Warning"
+    },
+    {
+      "id": "ViewConstructor",
+      "severity": "Warning"
+    },
+    {
+      "id": "SetTextI18n",
+      "severity": "Warning"
+    },
+    {
+      "id": "SetTextI18n",
+      "severity": "Warning"
+    },
+    {
+      "id": "SetTextI18n",
+      "severity": "Warning"
+    },
+    {
+      "id": "SetTextI18n",
+      "severity": "Warning"
+    },
+    {
+      "id": "SetTextI18n",
+      "severity": "Warning"
+    },
+    {
+      "id": "SetTextI18n",
+      "severity": "Warning"
+    },
+    {
+      "id": "SetTextI18n",
+      "severity": "Warning"
+    },
+    {
+      "id": "SetTextI18n",
+      "severity": "Warning"
+    },
+    {
+      "id": "SetTextI18n",
+      "severity": "Warning"
+    },
+    {
+      "id": "SetTextI18n",
+      "severity": "Warning"
+    },
+    {
+      "id": "SetTextI18n",
+      "severity": "Warning"
+    },
+    {
+      "id": "SetTextI18n",
+      "severity": "Warning"
+    },
+    {
+      "id": "SetTextI18n",
+      "severity": "Warning"
+    },
+    {
+      "id": "SetTextI18n",
+      "severity": "Warning"
+    }
+  ],
+  "liveRead": {
+    "chain": 80002,
+    "contract": "0x41E94Eb019C0762f9Bfcf9Fb1E58725BfB0e7582",
+    "codeBytes": 1798,
+    "symbol": "USDC",
+    "decimals": 6,
+    "batchAttempt": "HTTP 500",
+    "individualRequests": "PASS"
+  },
+  "physical": "PENDING CEO"
+}
