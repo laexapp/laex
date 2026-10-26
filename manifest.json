@@ -1,0 +1,14 @@
+{
+  "versionName": "0.1.1-demo",
+  "versionCode": 2,
+  "applicationId": "com.laex.investoptnd.demo",
+  "apk": "laex-investoptnd-0.1.1-demo.apk",
+  "sha256": "7ea06830df260f83725fdf358469d8a40950488cc3705adc634b5052ddf0126b",
+  "certificateSha256": "98a25fd7b79e312cdc110149c842128825765d457dac063b5819e6dae2c62a9f",
+  "distribution": "DEMO review only",
+  "realPayments": false,
+  "physicalSamsungValidation": "Pending CEO/Architecture",
+  "unitTests": 16,
+  "nativeSessionChecks": 6,
+  "uiChecks": 23
+}

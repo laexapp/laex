@@ -1,0 +1,4 @@
+7ea06830df260f83725fdf358469d8a40950488cc3705adc634b5052ddf0126b  laex-investoptnd-0.1.1-demo.apk
+7be9468034d591bd0a213d6fcc96963d4b349e5b674cbfd58d793a5f5ad7692f  INFORME.md
+924c4a6f0c5f71a4a17d84b4acffebd7ce61984780be9bae6e4c18ea81863bed  evidencia-0.1.1-demo.zip
+59952a0fc87fccefadd5bcd48462dcddac736d4d6e0a2b695f9cb7a865bee2cd  manifest.json
