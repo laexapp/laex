@@ -1,0 +1,17 @@
+{
+    "versionName":  "0.1.4-demo",
+    "versionCode":  5,
+    "package":  "com.laex.investoptnd.demo",
+    "sameDemoCertificate":  true,
+    "realPayments":  false,
+    "files":  {
+                  "laex-investoptnd-0.1.4-demo.apk":  "fe907ac5b8057a3fc193edd5b4263b660d62881847b68fe0b48449e869da9375"
+              },
+    "validation":  {
+                       "apkV2Signature":  "verified",
+                       "engineTests":  "10 passed",
+                       "lintReview":  "passed",
+                       "physicalSamsungInstall":  "pending",
+                       "assembleReview":  "passed"
+                   }
+}
