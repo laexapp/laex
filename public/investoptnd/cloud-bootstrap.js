@@ -1,12 +1,8 @@
 (function(){
  'use strict';
  window.InvestCloudReady=(async function(){
-  const base='https://www.gstatic.com/firebasejs/13.1.0/';
-  const [appSdk,authSdk,dbSdk]=await Promise.all([
-   import(base+'firebase-app.js'),
-   import(base+'firebase-auth.js'),
-   import(base+'firebase-firestore.js')
-  ]);
+  const appSdk=window.FirebaseAppSDK,authSdk=window.FirebaseAuthSDK,dbSdk=window.FirebaseFirestoreSDK;
+  if(!appSdk||!authSdk||!dbSdk)throw Error('No se pudo cargar el SDK seguro de Firebase.');
   const config={
    apiKey:'AIzaSyAocwP2y0L100ms2Rh8KXhIo6L8Lt4QqiLE',
    authDomain:'ojo-de-halcon-investoptnd.firebaseapp.com',
