@@ -1,4 +1,4 @@
-export type ResetGuide = { title: string; steps: string[]; demoOnly: boolean };
+﻿export type ResetGuide = { title: string; steps: string[]; demoOnly: boolean };
 
 export type ResetModel = {
   slug: string;
@@ -15,29 +15,33 @@ export type ResetModel = {
 };
 
 const demoGuide: ResetGuide = {
-  title: "Ejemplo de guía de diagnóstico (DEMO)",
+  title: "Guía inicial segura · DEMO",
   demoOnly: true,
   steps: [
     "Confirma el modelo completo en la etiqueta del equipo y selecciona esa misma variante.",
     "Anota el mensaje exacto o el patrón de luces antes de iniciar cualquier mantenimiento.",
-    "Revisa la guía oficial del fabricante y comprueba que no haya papel u objetos atascados.",
-    "Si el equipo indica que una almohadilla llegó al fin de su vida útil, solicita servicio técnico antes de reiniciar un contador.",
+    "Revisa el manual oficial del fabricante y comprueba si hay papel u objetos atascados.",
+    "Si la impresora informa que una almohadilla llegó al fin de su vida útil, solicita servicio técnico antes de reiniciar un contador.",
   ],
 };
 
-// Las fichas de ejemplo son demostrativas. Solo los registros verificados pueden publicar descargas.
+const summary = "La foto del modelo está preparada. Su procedimiento, herramienta gratuita y enlace de descarga siguen en revisión técnica.";
+const issue = "Diagnóstico y mantenimiento · guía y herramienta por verificar";
+const photo = (filename: string) => "/assets/lf-printer/official/printers/" + filename + "-hero.webp";
+
+// Los modelos corresponden a medios publicados en el registro oficial LF-PRINTER.
+// Las imágenes no implican que haya una herramienta de reset validada o disponible.
 export const resetModels: ResetModel[] = [
-  { slug: "epson-l3210", model: "Epson L3210", brand: "Epson", family: "L-Series", status: "review", demoOnly: true, issue: "Diagnóstico y mantenimiento", summary: "Ejemplo de ficha. La guía y cualquier herramienta específica están pendientes de validación para esta variante.", guide: demoGuide },
-  { slug: "epson-l3250", model: "Epson L3250", brand: "Epson", family: "L-Series", status: "review", demoOnly: true, image: "/assets/lf-printer/official/printers/l3250-hero.webp", issue: "Diagnóstico y mantenimiento", summary: "Ejemplo de ficha. Procedimientos y herramientas por verificar." },
-  { slug: "epson-l4260", model: "Epson L4260", brand: "Epson", family: "L-Series", status: "review", demoOnly: true, issue: "Diagnóstico y mantenimiento", summary: "Ejemplo de ficha. Procedimientos y herramientas por verificar." },
-  { slug: "epson-l8050", model: "Epson L8050", brand: "Epson", family: "L-Series", status: "review", demoOnly: true, issue: "Diagnóstico y mantenimiento", summary: "Ejemplo de ficha. Procedimientos y herramientas por verificar." },
-  { slug: "epson-wf-4830", model: "Epson WF-4830", brand: "Epson", family: "WF-Series", status: "review", demoOnly: true, image: "/assets/lf-printer/official/printers/wf-4830-hero.webp", issue: "Diagnóstico y mantenimiento", summary: "Ejemplo de ficha. La referencia a esta carpeta de firmware aún no se ha inspeccionado ni validado." },
-  { slug: "epson-wf-3820", model: "Epson WF-3820", brand: "Epson", family: "WF-Series", status: "review", demoOnly: true, issue: "Diagnóstico y mantenimiento", summary: "Ejemplo de ficha. Procedimientos y herramientas por verificar." },
-  { slug: "epson-et-2720", model: "Epson ET-2720", brand: "Epson", family: "ET-Series", status: "review", demoOnly: true, issue: "Diagnóstico y mantenimiento", summary: "Ejemplo de ficha. Procedimientos y herramientas por verificar." },
-  { slug: "epson-xp-5100", model: "Epson XP-5100", brand: "Epson", family: "XP-Series", status: "review", demoOnly: true, issue: "Diagnóstico y mantenimiento", summary: "Ejemplo de ficha. Procedimientos y herramientas por verificar." },
-  { slug: "canon-g6010", model: "Canon G6010", brand: "Canon", family: "Canon", status: "review", demoOnly: true, issue: "Diagnóstico y mantenimiento", summary: "Ejemplo de ficha. Procedimientos y herramientas por verificar." },
-  { slug: "hp-smart-tank", model: "HP Smart Tank", brand: "HP", family: "HP", status: "review", demoOnly: true, issue: "Identificación de modelo", summary: "Ejemplo de categoría. Se requiere el modelo completo para preparar una ficha compatible." },
+  { slug: "epson-l1250", model: "Epson L1250", brand: "Epson", family: "L-Series", status: "review", demoOnly: true, image: photo("l1250"), issue, summary, guide: demoGuide },
+  { slug: "epson-l3250", model: "Epson L3250", brand: "Epson", family: "L-Series", status: "review", demoOnly: true, image: photo("l3250"), issue, summary, guide: demoGuide },
+  { slug: "epson-wf-c4810", model: "Epson WF-C4810", brand: "Epson", family: "WF-C Series", status: "review", demoOnly: true, image: photo("wf-c4810"), issue, summary, guide: demoGuide },
+  { slug: "epson-wf-4830", model: "Epson WF-4830", brand: "Epson", family: "WF-Series", status: "review", demoOnly: true, image: photo("wf-4830"), issue, summary, guide: demoGuide },
+  { slug: "epson-wf-4834", model: "Epson WF-4834", brand: "Epson", family: "WF-Series", status: "review", demoOnly: true, image: photo("wf-4834"), issue, summary, guide: demoGuide },
+  { slug: "epson-wf-7820", model: "Epson WF-7820", brand: "Epson", family: "WF-Series", status: "review", demoOnly: true, image: photo("wf-7820"), issue, summary, guide: demoGuide },
+  { slug: "epson-wf-7840", model: "Epson WF-7840", brand: "Epson", family: "WF-Series", status: "review", demoOnly: true, image: photo("wf-7840"), issue, summary, guide: demoGuide },
+  { slug: "epson-xp-4105", model: "Epson XP-4105", brand: "Epson", family: "XP-Series", status: "review", demoOnly: true, image: photo("xp-4105"), issue, summary, guide: demoGuide },
+  { slug: "epson-xp-4205", model: "Epson XP-4205", brand: "Epson", family: "XP-Series", status: "review", demoOnly: true, image: photo("xp-4205"), issue, summary, guide: demoGuide },
 ];
 
-export const resetFamilies = ["Todos", "L-Series", "ET-Series", "WF-Series", "XP-Series", "Canon", "HP", "Otras marcas"];
+export const resetFamilies = ["Todos", "L-Series", "WF-Series", "WF-C Series", "XP-Series"];
 export const getResetModel = (slug: string) => resetModels.find((entry) => entry.slug === slug);

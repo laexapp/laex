@@ -1,4 +1,4 @@
-export type FirmwareListing = {
+﻿export type FirmwareListing = {
   slug: string;
   title: string;
   brand: string;
@@ -12,7 +12,7 @@ export type FirmwareListing = {
   demoOnly: boolean;
 };
 
-// Datos ficticios de interfaz. El CEO ha mencionado una carpeta, pero no se ha inspeccionado su archivo.
+// La ficha es demostrativa hasta revisar el archivo, los requisitos y su compatibilidad.
 export const firmwareListings: FirmwareListing[] = [
   {
     slug: "epson-wf-4830-firmware",
@@ -21,8 +21,8 @@ export const firmwareListings: FirmwareListing[] = [
     models: ["WF-4830"],
     category: "Firmware de impresora",
     image: "/assets/lf-printer/official/printers/wf-4830-hero.webp",
-    description: "Ejemplo de ficha comercial. El archivo, sus requisitos y su compatibilidad deben revisarse antes de anunciar disponibilidad.",
-    technicalNotes: ["Versión: pendiente de inspección", "Requisitos: pendientes de validación", "Entrega: privada después de confirmar el pago"],
+    description: "Ejemplo de ficha comercial. El archivo, sus requisitos y compatibilidad deben revisarse antes de anunciar disponibilidad.",
+    technicalNotes: ["Versión: pendiente de inspección", "Requisitos: pendientes de validación", "Entrega privada después de confirmar el pago"],
     priceLabel: "DEMO · precio por configurar",
     availabilityLabel: "Revisión pendiente",
     demoOnly: true,
