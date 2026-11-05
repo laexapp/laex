@@ -9,7 +9,8 @@ export const requestHost = (headers: Headers) => cleanHost(headers.get("x-forwar
 
 export const isAllowedProductionHost = (host: string) => {
   if (!host || host === "localhost" || host === "127.0.0.1" || host.endsWith(".localhost")) return true;
-  return new Set([PUBLIC_HOSTS.laex, PUBLIC_HOSTS.lfPrinter, `www.${PUBLIC_HOSTS.laex}`, `www.${PUBLIC_HOSTS.lfPrinter}`, ...splitHosts(process.env.LAEX_ADDITIONAL_ALLOWED_HOSTS)]).has(host);
+  const exactVercelPreviewHost = process.env.VERCEL_ENV === "preview" ? cleanHost(process.env.VERCEL_URL ?? null) : "";
+  return host === exactVercelPreviewHost || new Set([PUBLIC_HOSTS.laex, PUBLIC_HOSTS.lfPrinter, `www.${PUBLIC_HOSTS.laex}`, `www.${PUBLIC_HOSTS.lfPrinter}`, ...splitHosts(process.env.LAEX_ADDITIONAL_ALLOWED_HOSTS)]).has(host);
 };
 
 export const isLfPrinterHost = (host: string) => host === PUBLIC_HOSTS.lfPrinter || host === `www.${PUBLIC_HOSTS.lfPrinter}`;
@@ -33,6 +34,7 @@ export const lfPrinterDestination = (pathname: string) => {
   if (pathname === "/productos") return "/proyectos/lf-printer#catalogo";
   if (pathname.startsWith("/productos/")) return `/proyectos/lf-printer${pathname}`;
   if (pathname === "/seguimiento") return "/proyectos/lf-printer/seguimiento";
+  if (pathname === "/tu-reset-gratis" || pathname.startsWith("/tu-reset-gratis/")) return `/proyectos/lf-printer${pathname}`;
   return null;
 };
 
