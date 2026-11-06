@@ -1,7 +1,7 @@
 ﻿export type ResetGuide = { title: string; steps: string[]; demoOnly: boolean };
 export type ModelStatus = "identified" | "pending_identification";
 export type ResourceStatus = "pending_verification" | "available";
-export type ResetCatalogSource = "public_title_candidate" | "lf_printer_media";
+export type ResetCatalogSource = "public_title_candidate" | "lf_printer_media" | "official_current_product";
 
 export type ResetModel = {
   slug: string;
@@ -39,6 +39,10 @@ const identifiedCodes = [
   "B1100", "B42WD", "G2100", "G2110", "G2160", "G6010", "G7010", "IP2700", "IP2770",
 ] as const;
 
+// Product existence is confirmed from Epson Dominican Republic's current product pages.
+// This does not assert reset compatibility or resource availability.
+const currentRegionalCodes = ["L1350", "L3350", "L4360", "L5590", "L6370", "WF-C5890", "WF-M5899", "EM-C8100"] as const;
+
 // These short codes were extracted from titles but need exact model identification.
 const pendingCodes = ["XP20", "XP30", "XP33", "XP36"] as const;
 
@@ -64,10 +68,12 @@ const formatModel = (brand: string, code: string) => {
   return brand + " " + code;
 };
 const familyFor = (brand: string, code: string) => {
+  if (code.replace(/[^A-Z0-9]/g, "").startsWith("EMC")) return "EM-C Series";
   if (code.startsWith("ET")) return "ET-Series";
   if (code.startsWith("L")) return "L-Series";
   if (code.startsWith("XP")) return "XP-Series";
   if (code.replace(/[^A-Z0-9]/g, "").startsWith("WFC")) return "WF-C Series";
+  if (code.replace(/[^A-Z0-9]/g, "").startsWith("WFM")) return "WF-M Series";
   if (code.startsWith("WF")) return "WF-Series";
   if (code.startsWith("B")) return "B-Series";
   if (code.startsWith("IP")) return "Canon iP-Series";
@@ -83,6 +89,8 @@ function makeModel(code: string, modelStatus: ModelStatus, source: ResetCatalogS
   const ambiguous = modelStatus === "pending_identification";
   const summary = source === "lf_printer_media"
     ? "Modelo con imagen registrada en los medios LF-PRINTER. No hay un recurso de reset verificado para publicar."
+    : source === "official_current_product"
+      ? "Modelo listado actualmente por Epson República Dominicana. Esto confirma su presencia en el catálogo regional, no la compatibilidad de un reset ni la disponibilidad de una herramienta."
     : ambiguous
       ? "El codigo aparece incompleto o ambiguo en el titulo consultado. El modelo exacto y cualquier compatibilidad siguen pendientes de identificacion."
       : "Codigo de modelo identificado en un titulo de referencia publica. LF-PRINTER aun no ha validado compatibilidad, version, licencia ni recurso de reset.";
@@ -100,6 +108,7 @@ const allCandidates = [
   ...identifiedCodes.map((code) => makeModel(code, "identified", "public_title_candidate", imageByCode.get(codeKey(code)))),
   ...pendingCodes.map((code) => makeModel(code, "pending_identification", "public_title_candidate", imageByCode.get(codeKey(code)))),
   ...localMediaModels.map(({ code, image }) => makeModel(code, "identified", "lf_printer_media", image)),
+  ...currentRegionalCodes.map((code) => makeModel(code, "identified", "official_current_product")),
 ];
 
 const unique = new Map<string, ResetModel>();
