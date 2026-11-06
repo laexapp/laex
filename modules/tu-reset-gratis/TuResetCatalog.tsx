@@ -22,9 +22,10 @@ export function TuResetCatalog() {
           <span className="rounded-full border border-[#00bbfc]/30 px-3 py-1 text-[10px] font-bold uppercase tracking-[.18em] text-[#73d9ff]">Centro de soporte LF-PRINTER</span>
         </header>
 
-        <nav aria-label="Secciones de Tu Reset Gratis" className="mt-5 grid grid-cols-2 gap-2 rounded-2xl border border-white/10 bg-white/[.035] p-2">
-          <Link aria-current="page" href="/tu-reset-gratis" className="rounded-xl bg-[#00bbfc] px-3 py-3 text-center text-xs font-black text-slate-950 sm:text-sm">Resets Gratis</Link>
-          <Link href="/tu-reset-gratis/firmwares" className="rounded-xl px-3 py-3 text-center text-xs font-bold text-white/75 transition hover:bg-white/10 hover:text-white sm:text-sm">Firmwares LF-PRINTER</Link>
+        <nav aria-label="Secciones de Tu Reset Gratis" className="mt-5 grid grid-cols-3 gap-2 rounded-2xl border border-white/10 bg-white/[.035] p-2">
+          <Link aria-current="page" href="/tu-reset-gratis" className="rounded-xl bg-[#00bbfc] px-2 py-3 text-center text-[11px] font-black text-slate-950 sm:text-sm">Resets Gratis</Link>
+          <Link href="/tu-reset-gratis/resets-comerciales" className="rounded-xl px-2 py-3 text-center text-[11px] font-bold text-white/75 transition hover:bg-white/10 hover:text-white sm:text-sm">Resets Comerciales</Link>
+          <Link href="/tu-reset-gratis/firmwares" className="rounded-xl px-2 py-3 text-center text-[11px] font-bold text-white/75 transition hover:bg-white/10 hover:text-white sm:text-sm">Firmwares LF-PRINTER</Link>
         </nav>
 
         <section className="relative isolate overflow-hidden py-10 sm:py-12">

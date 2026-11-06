@@ -1,4 +1,4 @@
-﻿export type FirmwareListing = {
+export type FirmwareListing = {
   slug: string;
   title: string;
   brand: string;
@@ -33,5 +33,6 @@ export const getFirmwareListing = (slug: string) => firmwareListings.find((item)
 
 export function buildFirmwareWhatsAppUrl(item: FirmwareListing) {
   const message = `Hola, LF-PRINTER. Estoy interesado en consultar el firmware para la impresora ${item.brand} ${item.models.join(" / ")}. Quisiera conocer el precio, la disponibilidad y cómo realizar el pago. Estoy revisando la versión DEMO; entiendo que la entrega se hace en privado después de confirmar el pago.`;
-  return `https://wa.me/18493581132?text=${encodeURIComponent(message)}`;
+  return `https://wa.me/${LF_PRINTER_CONTACT.whatsappNumber}?text=${encodeURIComponent(message)}`;
 }
+import { LF_PRINTER_CONTACT } from "@/modules/lf-printer/config/quick-actions";
